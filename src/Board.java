@@ -74,7 +74,7 @@ public void setcurrentColumn(int newColumn)
 }
 
 /** Print the game board */
-public static void printBoard() {
+public void printBoard() {
    for (int row = 0; row < ROWS; ++row) {
       for (int col = 0; col < COLUMNS; ++col) {
          printCell(board[row][col]); // print each of the cells
@@ -91,7 +91,7 @@ public static void printBoard() {
 }
 
 /** Print a cell with the specified "content" */
-public static void printCell(int content) {
+public void printCell(int content) {
    if(content == EMPTY )
      System.out.print("   "); 
    else if( content == NOUGHT)
@@ -100,4 +100,88 @@ public static void printCell(int content) {
       System.out.print(" X "); 
    }
 
+
+
+
+/** Return true if it is a draw (no more empty cell) */
+// TODO: Shall declare draw if no player can "possibly" win
+public boolean isDraw() {
+   for (int row = 0; row < ROWS; ++row) {
+      for (int col = 0; col < COLUMNS; ++col) {
+         if (board[row][col] == EMPTY) {
+            return false;  // an empty cell found, not draw, exit
+         }
+      }
+   }
+   return true;  // no empty cell, it's a draw
 }
+
+/** Return true if the player with "theMove" has won after placing at
+    (currentRow, currentCol) */
+public static boolean hasWon(int theMove, int currentRow, int currentCol) {
+  if(isVertical(theMove, currentRow, currentCol))
+      return true;
+  else if(isHorizontal(theMove, currentRow, currentCol))
+      return true;
+  else if (isDiagonal(theMove, currentRow, currentCol))
+      return true;
+  else 
+      return false;
+}
+
+public static boolean isVertical(int theMove, int currentRow, int currentCol) {
+    if(board[0][currentCol] == theMove  && board[1][currentCol] == theMove && board[2][currentCol] == theMove)
+     return true;
+     else
+     return false;
+ }
+ 
+  public static boolean isHorizontal(int theMove, int currentRow, int currentCol) {
+   if( board[currentRow][0] == theMove  && board[currentRow][1] == theMove && board[currentRow][2] == theMove)
+     return true;
+   else
+     return false;
+ }
+ 
+ public static boolean isDiagonal(int theMove, int currentRow, int currentCol) {
+   if( currentRow == currentCol  && board[0][0] == theMove && board[1][1] == theMove && board[2][2] == theMove)
+     return true;
+   else if (currentRow + currentCol == 2 && board[0][2] == theMove && board[1][1] == theMove && board[2][0] == theMove)
+     return true;
+   else
+     return false;
+ }
+ 
+ /** Update the "currentState" after the player with "theMove" has placed on
+ (currentRow, currentCol). */
+ public void updateGame(int theMove, int currentRow, int currentCol) {
+ if (hasWon(theMove, currentRow, currentCol)) {  // check if winning move
+    if(theMove == CROSS)
+    currentState = CROSS_WON;
+    else
+     currentState = NOUGHT_WON;
+ } else if (isDraw()) {  // check for draw
+   currentState = DRAW;
+ }
+ // Otherwise, no change to currentState (still PLAYING).
+}
+ 
+ public int getMoveOnBoard(int r, int c)
+ {
+	 return board[r][c];
+
+ }
+ 
+ public void setMoveOnBoard(int r, int c, int theMove)
+ {
+	 
+	 board[r][c] = theMove;
+	 
+	 
+ }
+ 
+
+ }
+
+
+
