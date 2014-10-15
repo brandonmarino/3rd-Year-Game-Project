@@ -1,8 +1,8 @@
 
 public class Game {
 	public static final int EMPTY = 0;
-	public static final int CROSS = 'X';
-	public static final int NOUGHT = 'O';
+	public static final int CROSS = 1;
+	public static final int NOUGHT = 2;
 		 
 		   // Name-constants to represent the various states of the game
 	public static final int PLAYING = 0;
@@ -25,31 +25,50 @@ public class Game {
 			int col=0;
 			boolean state = true;
 		// Play the game once
-		      while(boardGame.getCurrentState() == PLAYING){
-		       while(state)
-		    	{//System.out.println("the row is" + row);
-		    	   row =  move.playerMoveRow(); // update currentRow and currentCol
-		    	  // System.out.println("the row is" + row);
-		    	  // System.out.println("the columns is" + col);
-		    	   col =  move.playerMoveColumn();
-		    	   //System.out.println("the columns is" + col);
-		    	   if(boardGame.getMoveOnBoard(row,col)==0)
-		    	   {
-		    		  boardGame.setMoveOnBoard(row, col, boardGame.getcurrentPlayer() );
-		    		  //state = false;
-		    		  if(boardGame.isDraw())
-		    			  state = false;
-		    		  //System.out.println("im in the if statement");
-		    	   }
-		    	   //System.out.println("im outside the if statement");
-		        }
-		       
-
-
-	        boardGame.printBoard();
+		      while(boardGame.getCurrentState() == PLAYING)
+		      {
+		    	  state = true;
+		    	  while(state)
+		    	  {
+		    		  row =  move.playerMoveRow();  
+		    		  col =  move.playerMoveColumn();
+		    	
+		    		  if(boardGame.getMoveOnBoard(row,col)==0)
+		    		  {
+		    			  System.out.println(boardGame.getMoveOnBoard(row,col));
+		    			  System.out.println(boardGame.getMoveOnBoard(row,col)==0);
+		    			  boardGame.setMoveOnBoard(row, col, boardGame.getcurrentPlayer() ); 		  
+		    			  //boardGame.printBoard();
+		    			  //state = false;
+		    			  
+		    				  state= false;
+		    		  }
+		    	  	}
+		    	  boardGame.updateGame(boardGame.getcurrentPlayer(), boardGame.getcurrentRow(), boardGame.getcurrentColumn()); // update currentState
+		    	  	boardGame.printBoard();
+		      
+		    	  	if (boardGame.getCurrentState() == CROSS_WON) 
+		    	  	{
+			         System.out.println("'X' won!");
+			      } 
+			      else if (boardGame.getCurrentState() == NOUGHT_WON) 
+			      {
+			         System.out.println("'O' won!");
+			      } 
+			      else if (boardGame.getCurrentState() == DRAW) 
+			      {
+			         System.out.println("It's a Draw!");
+			      }
+			         
+		    	  	if(boardGame.getcurrentPlayer() == CROSS)
+	 		        	 boardGame.setcurrentPlayer(NOUGHT);
+	 			      else
+	 		        	 boardGame.setcurrentPlayer(CROSS);
+			      
+			 }  // repeat if not game-over
+	        
 	       // break;
-	   }
 	   
+}  
 	
-}
 }

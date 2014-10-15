@@ -2,8 +2,8 @@ public class Board {
 	
 	
 public static final int EMPTY = 0;
-public static final int CROSS = 'X';
-public static final int NOUGHT = 'O';
+public static final int CROSS = 1;
+public static final int NOUGHT = 2;
 	 
 	   // Name-constants to represent the various states of the game
 public static final int PLAYING = 0;
@@ -118,7 +118,7 @@ public boolean isDraw() {
 
 /** Return true if the player with "theMove" has won after placing at
     (currentRow, currentCol) */
-public static boolean hasWon(int theMove, int currentRow, int currentCol) {
+public boolean hasWon(int theMove, int currentRow, int currentCol) {
   if(isVertical(theMove, currentRow, currentCol))
       return true;
   else if(isHorizontal(theMove, currentRow, currentCol))
@@ -146,7 +146,7 @@ public static boolean isVertical(int theMove, int currentRow, int currentCol) {
  public static boolean isDiagonal(int theMove, int currentRow, int currentCol) {
    if( currentRow == currentCol  && board[0][0] == theMove && board[1][1] == theMove && board[2][2] == theMove)
      return true;
-   else if (currentRow + currentCol == 2 && board[0][2] == theMove && board[1][1] == theMove && board[2][0] == theMove)
+   else if (/*currentRow + currentCol == 2 &&*/ board[0][2] == theMove && board[1][1] == theMove && board[2][0] == theMove)
      return true;
    else
      return false;
