@@ -1,51 +1,55 @@
+/***********************************************************************************************************************************************************
+ * 											Move Class Generates Random Indexes for Row and Column to be Used in Board Class
+ ***********************************************************************************************************************************************************/
 import java.util.Random;
-public class Move extends Board{
-	public static final int ROWS = 3, COLUMNS = 3; 
+
+public class Move extends Board
+{
+	private final int ROWS = 3, COLUMNS = 3; 
 	private int col, row;
-	 /** Player with the "theMove" makes one move, with input validation.
-    Update global variables "currentRow" and "currentCol". */
+	
+	//Constructor to initialize variables
 	public Move()
 	{
 		col =0;
 		row = 0;
-		
 	}
-public int playerMoveColumn() 
-{
-   boolean validInput = false;  // for input validation
-   Random randCol;
-   while(!validInput)
-   { //generate Random Moves
-	   
-      randCol = new Random(); 
-      col = randCol.nextInt(3);
-      if (col >= 0 && col < COLUMNS ) 
-      {
-         validInput = true;  // input okay, exit loop
-      }
-      else
-      System.out.println("The input is outside the range. Please pick from 1 to 3");
-    }
-    return col;
-}
+	
+	//Random Generation of column index
+	public int playerMoveColumn() 
+	{
+		boolean validInput = false;  // for input validation
+		Random randCol;
+		while(!validInput)
+		{ 
+			randCol = new Random(); 
+			col = randCol.nextInt(3);
+			if (col >= 0 && col < COLUMNS ) //Check if it's within the limits of the board
+			{
+				validInput = true;  // if it's within the limit, exit loop
+			}
+			else
+				System.out.println("The input is outside the range. Please pick from 1 to 3");
+		}
+		return col;
+	}
 
-public int playerMoveRow() {
+	//Random Generation of row index
+	public int playerMoveRow() 
+	{
 	   boolean validInput = false;  // for input validation
 	   Random randRow;
 	   while(!validInput)
 	   {
-	         //generate Random Moves
 		  randRow = new Random();  
 	      row = randRow.nextInt(3);
-	      if (row >= 0 && row < ROWS) 
+	      if (row >= 0 && row < ROWS) //Check if it's within the limits of the board
 	      {
-	    	  validInput = true;
+	    	  validInput = true;	//if it's within the limit, exit loop
 	      }
 	      else
 	         System.out.println("The input is outside the range. Please pick from 1 to 3");
-	      }
+	   }
 	   return row;
-	   }  
-	   
-	}
-
+	}  	   
+}

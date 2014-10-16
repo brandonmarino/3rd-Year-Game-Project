@@ -1,74 +1,51 @@
-
-public class Game {
-	public static final int EMPTY = 0;
-	public static final int CROSS = 1;
-	public static final int NOUGHT = 2;
-		 
-		   // Name-constants to represent the various states of the game
-	public static final int PLAYING = 0;
-	public static final int DRAW = 1;
-	public static final int CROSS_WON = 2;
-	public static final int NOUGHT_WON = 3;
-		 
-		   
-	public static final int ROWS = 3, COLUMNS = 3; 
-	public static int[][] board = new int[ROWS][COLUMNS]; 
-	public static int currentState;  
-	public static int currentPlayer; 
-	public static int currentRow, currentColumn;
-
-	 /** The entry main method (the program starts here) */
-	   public static void main(String[] args) {
+/***************************************************************************************************************************************************************
+ * 										Game Class Plays Tic Tac Toe by Implementing Methods from Move and Board Class
+ ***************************************************************************************************************************************************************/
+public class Game 
+{
+	   public static void main(String[] args) 
+	   {
+		   /*Create variables, and initialize them*/
+		  int row =0;
+		  int col=0;
+		  boolean state = true;
 		  Board boardGame = new Board();
 		  Move move = new Move();
-			int row =0;
-			int col=0;
-			boolean state = true;
-		// Play the game once
-		      while(boardGame.getCurrentState() == PLAYING)
-		      {
-		    	  state = true;
-		    	  while(state)
-		    	  {
-		    		  row =  move.playerMoveRow();  
-		    		  col =  move.playerMoveColumn();
+		  
+		  /* Continue Playing Until You're Done*/
+		  while(boardGame.getCurrentState() == boardGame.getPLAYING())
+		  {
+			  state = true;
+			  while(state)
+			  {
+				  row =  move.playerMoveRow();  //get a random index for row
+				  col =  move.playerMoveColumn(); //get a random index for column
 		    	
-		    		  if(boardGame.getMoveOnBoard(row,col)==0)
-		    		  {
-		    			  System.out.println(boardGame.getMoveOnBoard(row,col));
-		    			  System.out.println(boardGame.getMoveOnBoard(row,col)==0);
-		    			  boardGame.setMoveOnBoard(row, col, boardGame.getcurrentPlayer() ); 		  
-		    			  //boardGame.printBoard();
-		    			  //state = false;
-		    			  
-		    				  state= false;
-		    		  }
-		    	  	}
-		    	  boardGame.updateGame(boardGame.getcurrentPlayer(), boardGame.getcurrentRow(), boardGame.getcurrentColumn()); // update currentState
-		    	  	boardGame.printBoard();
+				  if(boardGame.getMoveOnBoard(row,col)==0)//Check if the random index generated has not been used
+				  {
+					  boardGame.setMoveOnBoard(row, col, boardGame.getcurrentPlayer() ); //Mark the random index obtained with current player's mark		  
+					  state= false;//Quit loop 
+				  }
+			  }
+			  //Check if the last game has been played and what is the new status (win, draw, or not done)
+			  boardGame.updateGame(boardGame.getcurrentPlayer(), boardGame.getcurrentRow(), boardGame.getcurrentColumn()); 
+			  boardGame.printBoard();
 		      
-		    	  	if (boardGame.getCurrentState() == CROSS_WON) 
-		    	  	{
-			         System.out.println("'X' won!");
-			      } 
-			      else if (boardGame.getCurrentState() == NOUGHT_WON) 
-			      {
-			         System.out.println("'O' won!");
-			      } 
-			      else if (boardGame.getCurrentState() == DRAW) 
-			      {
-			         System.out.println("It's a Draw!");
-			      }
-			         
-		    	  	if(boardGame.getcurrentPlayer() == CROSS)
-	 		        	 boardGame.setcurrentPlayer(NOUGHT);
-	 			      else
-	 		        	 boardGame.setcurrentPlayer(CROSS);
-			      
-			 }  // repeat if not game-over
-	        
-	       // break;
-	   
-}  
-	
+			  //if the status has been changed from updateGame, check which player won, or is it a draw
+			  if (boardGame.getCurrentState() == boardGame.getCROSSWon()) 
+				  System.out.println("'X' won!");
+			  
+			  else if (boardGame.getCurrentState() == boardGame.getNOUGHTWon()) 
+			      System.out.println("'O' won!");
+			    
+			  else if (boardGame.getCurrentState() == boardGame.getDRAW()) 
+			      System.out.println("It's a Draw!");
+			  
+			  //if no status update, change the player       
+			  if(boardGame.getcurrentPlayer() == boardGame.getCROSS())
+		    	  boardGame.setcurrentPlayer(boardGame.getNOUGHT());
+			  else
+	 			  boardGame.setcurrentPlayer(boardGame.getCROSS());		      
+		  }     
+	   }  
 }
