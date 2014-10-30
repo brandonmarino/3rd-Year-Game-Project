@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+
+-<mxGraphModel math="0" style="default-style2" pageHeight="1169" pageWidth="826" pageScale="1" page="1" fold="1" connect="1" tooltips="1" guides="1" gridSize="10" grid="1" dy="1596" dx="1120">
+
+
+-<root>
+
+<mxCell id="0"/>
+
+<mxCell id="1" parent="0"/>
+
+
+-<mxCell style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1" id="121" parent="1" vertex="1" value="<p style="margin: 0px ; margin-top: 4px ; text-align: center"><b>Board</b></p><hr><p style="margin: 0px ; margin-left: 4px"># GAME_STATE: enum</p><p style="margin: 0px ; margin-left: 4px"># PLAYER: enum</p><p style="margin: 0px ; margin-left: 4px">- ROWS, COLUMNS: int</p><p style="margin: 0px ; margin-left: 4px">- board: PLAYER[][]</p><p style="margin: 0px ; margin-left: 4px">- currentState: GAME_STATE</p><p style="margin: 0px ; margin-left: 4px">- currentPlayer: PLAYER</p><p style="margin: 0px ; margin-left: 4px">- currentRow, currentColumn: int</p><p style="margin: 0px ; margin-left: 4px">- DISCS: int</p><p style="margin: 0px ; margin-left: 4px">- blackDiscs, whiteDiscs: int</p><p style="margin: 0px ; margin-left: 4px">- blackCanMove, whiteCanMove: boolean</p><hr><p style="margin: 0px ; margin-left: 4px">+ getCurrentState(): GAME_STATE</p><p style="margin: 0px ; margin-left: 4px">+ getCurrentPlayer(): PLAYER</p><p style="margin: 0px ; margin-left: 4px">+ getplayerCanMove(thePlayer: PLAYER): boolean</p><p style="margin: 0px ; margin-left: 4px">+ getEmptySpaces(): ArrayList&lt;Integer[]&gt;</p><p style="margin: 0px ; margin-left: 4px">+ setCurrentPlayer(newPlayer: PLAYER): void</p><p style="margin: 0px ; margin-left: 4px">+ setplayerCanMove(thePlayer: PLAYER, canMove: boolean): void</p><p style="margin: 0px ; margin-left: 4px"><br></p><p style="margin: 0px ; margin-left: 4px">+ printBoard(): void</p><p style="margin: 0px ; margin-left: 4px">+ printCell(content: PLAYER): void</p><p style="margin: 0px ; margin-left: 4px">+ hasBeenWon(): PLAYER</p><p style="margin: 0px ; margin-left: 4px">- &nbsp;countWinner(): PLAYER</p><p style="margin: 0px ; margin-left: 4px"><br></p><p style="margin: 0px ; margin-left: 4px">+ makeMove(thePlayer: PLAYER, originalRow: int, originalColumn: int): boolean</p><p style="margin: 0px ; margin-left: 4px">- &nbsp;flipChain(thePlayer: PLAYER, enemy: PLAYER,&nbsp;<span style="line-height: 15.1199998855591px ; background-color: rgb(255 , 255 , 255)">originalRow: int,</span></p><p style="margin: 0px ; margin-left: 4px"><span style="line-height: 15.1199998855591px ; background-color: rgb(255 , 255 , 255)">&nbsp; &nbsp;originalColumn: int, slopeRow: int, slopeColumn: int): boolean</span></p><p style="margin: 0px ; margin-left: 4px"><span style="line-height: 15.1199998855591px ; background-color: rgb(255 , 255 , 255)">- &nbsp;isChain</span><span style="line-height: 15.1199998855591px ; background-color: rgb(255 , 255 , 255)">(thePlayer: PLAYER, enemy: PLAYER,&nbsp;</span><span style="line-height: 15.1199998855591px ; background-color: rgb(255 , 255 , 255)">originalRow: int, originalColumn:</span></p><p style="margin: 0px ; margin-left: 4px"><span style="line-height: 15.1199998855591px ; background-color: rgb(255 , 255 , 255)">&nbsp; &nbsp;int, slopeRow: int, slopeColumn: int): Integer</span></p><p style="margin: 0px ; margin-left: 4px"><span style="line-height: 15.1199998855591px ; background-color: rgb(255 , 255 , 255)">- &nbsp;findadjacentEnemies(enemy: PLAYER, originalRow: int, originalColumn: int):</span></p><p style="margin: 0px ; margin-left: 4px"><span style="line-height: 15.1199998855591px ; background-color: rgb(255 , 255 , 255)">&nbsp; &nbsp;ArrayList&lt;Integer[]&gt;</span></p><p style="margin: 0px ; margin-left: 4px"><span style="line-height: 15.1199998855591px ; background-color: rgb(255 , 255 , 255)">- &nbsp;userhasDiscs(thePlayer: PLAYER): boolean</span></p><p style="margin: 0px ; margin-left: 4px"><span style="line-height: 15.1199998855591px ; background-color: rgb(255 , 255 , 255)">- &nbsp;decrementdiscCount(thePlayer: PLAYER): void</span></p><p style="margin: 0px ; margin-left: 4px"><span style="line-height: 15.1199998855591px ; background-color: rgb(255 , 255 , 255)">- &nbsp;isWithinBounds(row: int, column: int): boolean</span></p><p style="margin: 0px ; margin-left: 4px"><span style="line-height: 15.1199998855591px ; background-color: rgb(255 , 255 , 255)">- &nbsp;theEnemy(thePlayer: PLAYER): PLAYER</span></p><p style="margin: 0px ; margin-left: 4px"><br></p><p style="margin: 0px ; margin-left: 4px">+ updateGame(theState: PLAYER, currentRow: int, currentColumn: int) void</p>">
+
+<mxGeometry as="geometry" height="580" width="440" y="-260" x="110"/>
+
+</mxCell>
+
+
+-<mxCell style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1" id="124" parent="1" vertex="1" value="<p style="margin: 0px ; margin-top: 4px ; text-align: center"><b>Move</b></p><hr><p style="line-height: 15.1199998855591px ; margin: 0px 0px 0px 4px">- &nbsp;availableMoves: ArrayList&lt;Integer&gt;</p><p style="line-height: 15.1199998855591px ; margin: 0px 0px 0px 4px">- &nbsp;randVal: Random</p><hr><p style="margin: 0px ; margin-left: 4px">+ setAvailableMoves(availableMoves: ArrayList&lt;Integer[]&gt;): void</p><p style="margin: 0px ; margin-left: 4px">+ getMove(): Integer[]</p>">
+
+<mxGeometry as="geometry" height="120" width="350" y="460" x="70"/>
+
+</mxCell>
+
+
+-<mxCell style="arrow;entryX=0.5;entryY=1;exitX=0.5;exitY=0" id="125" parent="1" value="" target="121" source="124" edge="1">
+
+
+-<mxGeometry as="geometry" height="100" width="100" relative="1">
+
+<mxPoint as="sourcePoint" y="430" x="10"/>
+
+<mxPoint as="targetPoint" y="330" x="110"/>
+
+</mxGeometry>
+
+</mxCell>
+
+
+-<mxCell style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1" id="126" parent="1" vertex="1" value="<p style="margin: 0px ; margin-top: 4px ; text-align: center"><b>Game</b></p><hr><p style="margin: 0px ; margin-left: 4px"><br></p><hr><p style="margin: 0px ; margin-left: 4px">+ main(args: String[]): void</p>">
+
+<mxGeometry as="geometry" height="95" width="220" y="425" x="560"/>
+
+</mxCell>
+
+
+-<mxCell style="edgeStyle=none;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5" id="128" parent="1" value="" target="124" source="126" edge="1">
+
+
+-<mxGeometry as="geometry" height="100" width="100" relative="1">
+
+<mxPoint as="sourcePoint" y="320" x="260"/>
+
+<mxPoint as="targetPoint" y="220" x="360"/>
+
+</mxGeometry>
+
+</mxCell>
+
+
+-<mxCell style="endArrow=open;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;exitX=0;exitY=0.053;exitPerimeter=0" id="129" parent="1" value="1" source="126" edge="1">
+
+
+-<mxGeometry as="geometry" y="41" x="-0.6361" relative="1">
+
+<mxPoint as="sourcePoint" y="425" x="625"/>
+
+<mxPoint as="targetPoint" y="320" x="450"/>
+
+
+-<Array as="points">
+
+<mxPoint y="390" x="560"/>
+
+<mxPoint y="390" x="451"/>
+
+<mxPoint y="340" x="451"/>
+
+<mxPoint y="340" x="450"/>
+
+</Array>
+
+<mxPoint as="offset" y="-1" x="10"/>
+
+</mxGeometry>
+
+</mxCell>
+
+</root>
+
+</mxGraphModel>
