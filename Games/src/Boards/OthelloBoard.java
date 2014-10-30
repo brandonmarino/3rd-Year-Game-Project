@@ -43,24 +43,6 @@ public class OthelloBoard extends Board {
         return getEmptySpaces();
     }
 
-    /**
-     * Will scan the current board and find all of the current empty places
-     *
-     * @return a list of all empty spaces on the board
-     */
-    private ArrayList<Integer[]> getEmptySpaces() {
-        ArrayList<Integer[]> emptySpaces = new ArrayList<Integer[]>();
-        for (int currentRow = 0; currentRow < ROWS(); currentRow++) {
-            for (int currentColumn = 0; currentColumn < ROWS(); currentColumn++) {
-                if (getBoard()[currentRow][currentColumn] == PLAYER.EMPTY) {
-                    Integer[] ret = {currentRow, currentColumn};
-                    emptySpaces.add(ret);
-                }
-            }
-        }
-        return emptySpaces;
-    }
-
     private int getPlayerDiscCount(){
         switch (getcurrentPlayer()) {
             case PLAYER1:
