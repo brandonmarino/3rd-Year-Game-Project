@@ -3,7 +3,18 @@ package Boards;
 import java.util.ArrayList;
 
 /**
- * Created by Brandon on 10/29/14.
+ * *********************************************************************************************************************************************************
+ * Board Class Sets Up the board, Checks Winning Conditions, And Updates Status of a Generic Game
+ * ***********************************************************************************************************************************************************
+ * <p/>
+ * *
+ * Adapted from Board source of TIC TAC TOE Authored by Lina in Milestone 1
+ * Milestone 2, Adapting Author: Brandon Marino
+ * <p/>
+ * Implemented Sub/Superclass inheritance model in order to merge TicTacToe and Othello and reduce code replication
+ *
+ * This Class is of a Generic of a size provided by a programmer/the user and will provide all of the functions required
+ * of some generic board game
  */
 
 public abstract class Board {
@@ -33,11 +44,14 @@ public abstract class Board {
         this.COLUMNS = COLUMNS;
         board = new PLAYER[ROWS][COLUMNS];
         for (int row = 0; row < ROWS; row++)
+        {
             for (int col = 0; col < COLUMNS; col++)
+            {
                 board[row][col] = PLAYER.EMPTY;     // all cells empty
-
+            }
+        }
         currentState = GAME_STATE.PLAYING; // ready to play
-        currentPlayer = PLAYER.PLAYER1;  // black  plays first
+        currentPlayer = PLAYER.PLAYER1;    // player1  plays first
     }
 
     /******************************************************************************************************************************************************************
@@ -105,6 +119,24 @@ public abstract class Board {
      */
     public abstract ArrayList<Integer[]> getPossibleMoves();
 
+    /**
+     * Will scan the current board and find all of the current empty places
+     *
+     * @return a list of all empty spaces on the board
+     */
+    protected ArrayList<Integer[]> getEmptySpaces() {
+        ArrayList<Integer[]> emptySpaces = new ArrayList<Integer[]>();
+        for (int currentRow = 0; currentRow < ROWS(); currentRow++) {
+            for (int currentColumn = 0; currentColumn < ROWS(); currentColumn++) {
+                if (getBoard()[currentRow][currentColumn] == PLAYER.EMPTY) {
+                    Integer[] ret = {currentRow, currentColumn};
+                    emptySpaces.add(ret);
+                }
+            }
+        }
+        return emptySpaces;
+    }
+
     /******************************************************************************************************************************************************************
      * 												Setter Methods for variables and constants defined above
      * ****************************************************************************************************************************************************************/
@@ -166,7 +198,7 @@ public abstract class Board {
      * ****************************************************************************************************************************************************************/
 
     /**
-     * Will print the board in the
+     * Will print the entire board of any square bound game given
      */
     public void printBoard() {
         for (int row = 0; row < ROWS(); ++row) {

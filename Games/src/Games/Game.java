@@ -6,14 +6,13 @@ import Moves.Move;
 /**
  * Created by Brandon on 10/29/14.
  */
-public class Game {
-
+public abstract class Game {
 
     // Fields that are constant across all possible games
     private Board boardGame;
     private Move move;
-    private String player1;
-    private String player2;
+    private String player1 = "Player 1";
+    private String player2 = "Player 2";
 
     public Game(Board boardGame, Move move){
         this.boardGame = boardGame;
@@ -45,6 +44,13 @@ public class Game {
         return player2;
     }
 
+    /**
+     * Will return the move class that is currently being implemented
+     * @return some move class
+     */
+    protected Move getActiveMove(){
+        return move;
+    }
     /******************************************************************************************************************************************************************
      * 							Functions to set fields
      * ****************************************************************************************************************************************************************/
@@ -70,14 +76,21 @@ public class Game {
             checkIfWon();
         }
     }
-    private Boolean takeTurn(){
-        Boolean state = true;
-        Boolean turnTaken = false;
+    /**
+     * Take a turn
+     * @return if a turn was successfully completed
+     */
+    protected boolean takeTurn(){
+        boolean state = true;
+        boolean turnTaken = false;
         while(state){
             Integer[] playerMove = move.getMove();
-            if (playerMove == null){       //All moves have been exhausted
+            if (playerMove == null){
+                //All moves have been exhausted
                 state = false;//Quit loop
-            }else{      //some moves were available
+            }
+            else {
+                //some moves were available
                 if (boardGame.attemptMove(playerMove[0], playerMove[1])){  //try to make the move
                     turnTaken = true;
                     state = false;//Quit loop
@@ -86,10 +99,11 @@ public class Game {
         }
         return turnTaken;
     }
+
     private void update(boolean turnTaken){
         //Check if the last game has been played and what is the new status (win, draw, or not done)
         boardGame.updateGame();
-        //if a move was made
+        //if a move was made print the resulting board
         if (turnTaken)
             boardGame.printBoard();
     }

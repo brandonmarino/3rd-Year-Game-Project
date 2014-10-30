@@ -27,7 +27,7 @@ public class Othello extends Game
      */
     public Othello(){
         super(new OthelloBoard(), new RandomMove());
-        /*Create variables, and initialize them*/
+        //Create variables, and initialize them
         setPlayers("Black", "White");
         play();
     }
