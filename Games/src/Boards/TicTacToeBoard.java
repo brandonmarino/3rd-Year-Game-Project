@@ -10,7 +10,11 @@ public class TicTacToeBoard extends Board
 {
     private int currentRow;
     private int currentCol;
-	public TicTacToeBoard()
+
+    /**
+     * Define the parameters of the Tic Tac Toe board
+     */
+    public TicTacToeBoard()
 	{
         super(3,3);
         setPlayerTiles('X', 'O');
@@ -24,7 +28,7 @@ public class TicTacToeBoard extends Board
 
     /**
      * Return all possible moves of the othello board
-     * @return
+     * @return all empty space on the board
      */
     public ArrayList<Integer[]> getPossibleMoves(){
         return getEmptySpaces();
@@ -35,14 +39,11 @@ public class TicTacToeBoard extends Board
 	 * ****************************************************************************************************************************************************************/
 
     /**
-     * Check if the game resulted in a draw
-     * @return
+     * Try a move in tic tac toe
+     * @param currentRow some row
+     * @param currentCol some column
+     * @return if the move worked
      */
-	public boolean isDraw() 
-	{
-        return getEmptySpaces().isEmpty(); // no empty cells, it's a draw
-	}
-
 	public boolean attemptMove(int currentRow, int currentCol)
 	{
         this.currentRow = currentRow;
@@ -51,17 +52,38 @@ public class TicTacToeBoard extends Board
         return true;
 	}
 
-	public boolean isVertical()
+    /**
+     * Check if the game resulted in a draw
+     * @return if the game ended in a draw
+     */
+    private boolean isDraw()
+    {
+        return getEmptySpaces().isEmpty(); // no empty cells, it's a draw
+    }
+
+    /**
+     * Find if vertical match can be found
+     * @return if that vertical was found
+     */
+	private boolean isVertical()
 	{
 		return (getCell(0,currentCol) == getcurrentPlayer()  && getCell(1,currentCol) == getcurrentPlayer() && getCell(2, currentCol) == getcurrentPlayer());
 	}
- 
-	public boolean isHorizontal()
+
+    /**
+     * Find if horizontal match can be found
+     * @return if that vertical was found
+     */
+	private boolean isHorizontal()
 	{
 		return ( getCell(currentRow, 0) == getcurrentPlayer()  && getCell(currentRow,1) == getcurrentPlayer() && getCell(currentRow,2) == getcurrentPlayer());
 	}
- 
-	public boolean isDiagonal()
+
+    /**
+     * Find if diagonal match can be found
+     * @return if that diagonal was found
+     */
+	private boolean isDiagonal()
 	{
 		if( currentRow == currentCol  && getCell(0,0) == getcurrentPlayer() && getCell(1,1) == getcurrentPlayer() && getCell(2,2) == getcurrentPlayer())
 			return true;
@@ -70,6 +92,11 @@ public class TicTacToeBoard extends Board
 		else
 			return false;
 	}
+
+    /**
+     * Find if somebody has made a line of three
+     * @return if a line was found
+     */
     protected PLAYER hasBeenWon(){
         if(isVertical())
             return getcurrentPlayer();
@@ -77,27 +104,8 @@ public class TicTacToeBoard extends Board
             return getcurrentPlayer();
         else if (isDiagonal())
             return getcurrentPlayer();
-        else
-            return null;
+        else if (isDraw())
+            return PLAYER.EMPTY;
+        return null;
     }
- 
-	/******************************************************************************************************************************************************************
-	 * 												Update Method To Change State of Game to Win or Draw
-	 * ****************************************************************************************************************************************************************/
-	public void updateGame()
-	{
-        PLAYER winner = hasBeenWon();
-		if (winner != null)
-		{
-			if(winner == PLAYER.PLAYER1)
-				setCurrentState(GAME_STATE.PLAYER1_WON);
-			else
-                setCurrentState(GAME_STATE.PLAYER2_WON);
-		}
-		else if (isDraw())
-		{
-            setCurrentState(GAME_STATE.DRAW);
-		}
- 
-	}
  }

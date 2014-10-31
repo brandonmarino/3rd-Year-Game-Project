@@ -40,11 +40,26 @@ public class OthelloBoard extends Board {
      * ****************************************************************************************************************************************************************/
 
     /**
-     * Return all possible moves of the othello board
+     * Return all legal moves that this player could make on this othello board
      * @return a list of possible moves
      */
     public ArrayList<Integer[]> getPossibleMoves(){
-        return getEmptySpaces();
+        ArrayList<Integer[]> legalMoves = new ArrayList<Integer[]>();
+        boolean isLegal = false;
+        for (Integer[] possibleMove: getEmptySpaces()){
+            ArrayList<Integer[]> adjEnemies = findadjacentEnemies(possibleMove[0], possibleMove[1]);
+            isLegal = false;
+            for (Integer[] ret : adjEnemies){
+                if (canFlank(possibleMove[0], possibleMove[1], ret[0] - possibleMove[0], ret[1] - possibleMove[1]) > 0){
+                    isLegal = true;
+                }
+
+            }
+            if (isLegal)
+                legalMoves.add(possibleMove);
+        }
+        return legalMoves;
+
     }
 
     /**
@@ -65,7 +80,7 @@ public class OthelloBoard extends Board {
      *             Setter Methods for variables and constants defined above
      *****************************************************************************************************************************************************************/
 
-    private void setMoved(Boolean set){
+    public void setMoved(Boolean set){
         switch(getcurrentPlayer()){
             case PLAYER1:
                 blackMoved = set;
@@ -143,25 +158,19 @@ public class OthelloBoard extends Board {
      * @return
      */
     public boolean attemptMove(int row, int column){
-
         if (getPlayerDiscs() <=0)
             return false;
-
         ArrayList<Integer[]> adjEnemies = findadjacentEnemies(row, column);
         boolean madeMove = false;
-        for (Integer[] ret : adjEnemies){     //for all adjacent enemies
+        for (Integer[] ret : adjEnemies){       //for all adjacent enemies
             int chainLength = canFlank(row, column, ret[0] - row, ret[1] - column);
             if (chainLength != 0){
-                madeMove = true;       //if any chain is found, this move was made
+                madeMove = true;                //if any chain is found, this move was made
                 flankChain(chainLength, row, column, ret[0] - row, ret[1] - column);
             }
         }
-
-        setMoved(madeMove);     //save if this player was successful in their move
-
         if (madeMove)
             decrementDiscs();   //remove a disc from player's pile
-
         return madeMove;    //if a move was successfully made, it will be reported
     }
 
@@ -240,7 +249,7 @@ public class OthelloBoard extends Board {
     /**
      * lower the current player's disk count by 1
      */
-    public void decrementDiscs() {
+    private void decrementDiscs() {
         if (getcurrentPlayer() == PLAYER.PLAYER1)
             blackDiscs--;
         else if (getcurrentPlayer() == PLAYER.PLAYER2)

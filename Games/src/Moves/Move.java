@@ -1,13 +1,14 @@
 package Moves;
 /***********************************************************************************************************************************************************
- * 											RandomMove Class Generates Random Indexes for Row and Column to be Used in Board Class
+ * 											Move Class Generates Random Indexes for Row and Column to be Used in Board Class
  ***********************************************************************************************************************************************************
 
- ** Adapted from RandomMove source of TIC TAC TOE Authored by Lina
- * Milestone 1, Adapting Author: Brandon Marino
+ ** Adapted from Move source of TIC TAC TOE Authored by Lina
  *
- * Much of the code is similar however i've changed the method to use implicit enum values opposed to constants which were set to an interger value
- * Also changed the intended game to Othello, not tic tac toe
+ * Milestone 1, Adapting Author: Brandon Marino
+ * Changed to pick from a list of predefined spaces, instead of getting a bunch of random values and looking for an empty space (Othello Game)
+ * Milestone 2, Adapting Author: Brandon Marino
+ * Changed both games to use the method Othello used, then made this a superclass of all move types
  */
 import java.util.ArrayList;
 public abstract class Move

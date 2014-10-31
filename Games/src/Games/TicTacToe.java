@@ -18,7 +18,8 @@ public class TicTacToe extends Game{
     public TicTacToe(){
         super(new TicTacToeBoard(), new RandomMove());
         //Create variables, and initialize them
-        setPlayers("Player X", "Player O");
+        player1 = "Player X";
+        player2 = "Player O";
         play();
     }
 }

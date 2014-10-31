@@ -281,14 +281,14 @@ public abstract class Board {
      */
     public void updateGame() {
         PLAYER winner = hasBeenWon();
-        if (winner != null){
+        if (winner != null)
+        {
             if (winner == PLAYER.PLAYER1)
                 setCurrentState(GAME_STATE.PLAYER1_WON);
             else if (winner == PLAYER.PLAYER2)
                 setCurrentState(GAME_STATE.PLAYER2_WON);
             else
                 setCurrentState(GAME_STATE.DRAW);
-        }else
-            setCurrentState(GAME_STATE.PLAYING);
+        }
     }
 }

@@ -4,16 +4,12 @@ import Boards.Board;
 import Boards.OthelloBoard;
 import Moves.RandomMove;
 
-/***************************************************************************************************************************************************************
- * 										Othello Class Plays Tic Tac Toe by Implementing Methods from RandomMove and OthelloBoard Class
- ***************************************************************************************************************************************************************
-
- ** Adapted from Othello source of TIC TAC TOE Authored by Lina
- * Milestone 1, Adapting Author: Brandon Marino
- *
- * Much of the code is similar however i've changed the method to use implicit enum values opposed to constants which were set to an interger value
- * Also changed the intended game to Othello, not tic tac toe
+/**
+ * ************************************************************************************************************************************************************
+ * Game Class Plays Othello by Implementing Methods from Move and Board Class
+ * *************************************************************************************************************************************************************
  */
+//setMoved(boolean)
 public class Othello extends Game
 {
     /**
@@ -29,12 +25,25 @@ public class Othello extends Game
     public Othello(){
         super(new OthelloBoard(), new RandomMove());
         //Create variables, and initialize them
-        setPlayers("Black", "White");
+        player1 = "Black";
+        player2 = "White";
         play();
     }
+
+    /**
+     * Take a turn
+     * @return if a turn was successfully completed
+     */
+    protected boolean takeTurn(){
+        boolean takeTurn = super.takeTurn();
+        ((OthelloBoard)boardGame).setMoved(takeTurn);
+        return takeTurn;
+    }
+
+    /**
+     * Othello specific win check
+     */
     protected void checkIfWon(){
-        String player1 = getPlayer1();
-        String player2 = getPlayer2();
 
         //if no status update, change the player
         if(boardGame.getcurrentPlayer() == Board.PLAYER.PLAYER1)
