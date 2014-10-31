@@ -13,6 +13,15 @@ import java.util.ArrayList;
  */
 public class PlayerMove extends Move{
 
+    /**
+     * Get the move the user wants to do
+     * Steps:
+     *  1 - Print moves to screen
+     *  2 - Prompt user for choice
+     *  3 - Choice validity check (by exception)
+     *  4 - Provide move choice to Board and Game
+     * @return the user's choice
+     */
     public Integer[] getMove(){
         ArrayList<Integer[]> moves = getAvailableMoves();
         int choice = 0;
@@ -29,6 +38,11 @@ public class PlayerMove extends Move{
         }
         return popMove(choice);
     }
+
+    /**
+     * Print the available legal moves and provide a numerical choice for each move
+     * @param moves a list of available moves
+     */
     private void printMoves(ArrayList<Integer[]> moves){
         System.out.println("Currently Available Moves: ");
         int choice = 0;
@@ -37,6 +51,13 @@ public class PlayerMove extends Move{
         System.out.println(choice + ": Row " + move[0]+1 +", Column "+ move[1]+1);
     }
 }
+
+    /**
+     * Prompt the user for a choice, if the input is not valid, throw an exception
+     * @param options the number of options that the user has
+     * @return the option chosen
+     * @throws Exception
+     */
     private int getChoice(int options) throws Exception{
         System.out.println("Please choose one of the options above by number:");
         int choice = 0;
