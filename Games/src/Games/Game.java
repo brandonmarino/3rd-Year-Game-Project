@@ -22,8 +22,8 @@ public abstract class Game {
     protected Move[] moves = new Move[2];
 
     /**
-     * Create some Game
-     * @param boardGame
+     * Create some non-generic Game
+     * @param boardGame the board of the non generic game
      */
     public Game(Board boardGame){
         this.boardGame = boardGame;
@@ -35,6 +35,9 @@ public abstract class Game {
      * 												Functions to Play a Generic Game
      * ****************************************************************************************************************************************************************/
 
+    /**
+     * Play a game
+     */
     protected void play(){
         // Continue Playing Until You're Done
         while (boardGame.getCurrentState() == Board.GAME_STATE.PLAYING) {
@@ -50,6 +53,9 @@ public abstract class Game {
         }
     }
 
+    /**
+     * Prompt user for the player info, names and the player type be-it human or computer
+     */
     protected void getPlayerInfo(){
         int choice;
         for(int playernum = 0; playernum < moves.length; playernum++){
@@ -114,6 +120,10 @@ public abstract class Game {
             boardGame.printBoard();
         }
     }
+
+    /**
+     * Check if the game has been won by either player
+     */
     protected void checkIfWon(){
         //if the status has been changed from updateGame, check which player won, or is it a draw
         if (boardGame.getCurrentState() == Board.GAME_STATE.PLAYER1_WON)

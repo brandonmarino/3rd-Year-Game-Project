@@ -15,6 +15,10 @@ public class PlayerMove extends Move{
 
     private String name = "";
 
+    /**
+     * Create a human player
+     * @param name the name of the human..
+     */
     public PlayerMove(String name){
         this.name = name;
     }

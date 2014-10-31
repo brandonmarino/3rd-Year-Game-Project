@@ -22,6 +22,9 @@ public class TicTacToe extends Game{
         game.play();
     }
 
+    /**
+     * Play a game of Tic Tac Toe
+     */
     public TicTacToe(){
         super(new TicTacToeBoard());
     }
