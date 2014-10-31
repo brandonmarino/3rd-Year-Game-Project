@@ -2,6 +2,11 @@ package Games;
 
 import Boards.Board;
 import Moves.Move;
+import Moves.PlayerMove;
+import Moves.RandomMove;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /***************************************************************************************************************************************************************
  * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomMove and OthelloBoard Class
@@ -13,18 +18,17 @@ import Moves.Move;
 public abstract class Game {
     // Fields that are constant across all possible games
     protected Board boardGame;
-    private Move move;
-    protected String player1 = "Player 1";
-    protected String player2 = "Player 2";
+    protected String[] names = new String[]{"Player 1", "Player 2"};
+    protected Move[] moves = new Move[2];
 
     /**
      * Create some Game
      * @param boardGame
-     * @param move
      */
-    public Game(Board boardGame, Move move){
+    public Game(Board boardGame){
         this.boardGame = boardGame;
-        this.move = move;
+        getPlayerInfo();
+        boardGame.printBoard(); //print initial board
     }
 
     /******************************************************************************************************************************************************************
@@ -34,16 +38,51 @@ public abstract class Game {
     protected void play(){
         // Continue Playing Until You're Done
         while (boardGame.getCurrentState() == Board.GAME_STATE.PLAYING) {
-            update(takeTurn());
+            boolean moveMade = false;
+            //allow turns of different player types
+            if (boardGame.getcurrentPlayer() == Board.PLAYER.PLAYER1)
+                moveMade = takeTurn(moves[0]);
+            else if (boardGame.getcurrentPlayer() == Board.PLAYER.PLAYER2)
+                moveMade = takeTurn(moves[1]);
+
+            update(moveMade);
             checkIfWon();
         }
     }
 
+    protected void getPlayerInfo(){
+        int choice;
+        for(int playernum = 0; playernum < moves.length; playernum++){
+            System.out.println("\nPlayer types:\n1: Human\n2: Computer- Random\n3: Computer- MiniMax");
+            while(true){
+                try{
+                    Scanner user_input  = new Scanner(System.in);
+                    System.out.println("Please choose a player type from the options for "+ names[playernum] + " by number:");
+                    choice = user_input.nextInt();
+                    if (choice == 1){
+                        System.out.println("Please enter Player "+(playernum+1)+"'s name:");
+                        user_input = new Scanner(System.in);
+                        names[playernum] = user_input.nextLine();
+                        moves[playernum] = new PlayerMove(names[playernum]);
+                    }
+                    else if (choice == 2)
+                        moves[playernum] = new RandomMove();
+                    else if (choice == 3)
+                        moves[playernum] = new PlayerMove("Some Player");  //change this to MinMaxMove!
+                    else
+                        throw new InputMismatchException(); //Alert user that THAT IS NOT VALID
+                    break;
+                }catch(InputMismatchException e){
+                    System.out.println("Not a valid option, try again!");
+                }
+            }
+        }
+    }
     /**
      * Take a turn
      * @return if a turn was successfully completed
      */
-    protected boolean takeTurn(){
+    protected boolean takeTurn(Move move){
         boolean state = true;
         boolean turnTaken = false;
         move.setAvailableMoves(boardGame.getPossibleMoves());       //give all available moves from board
@@ -78,9 +117,9 @@ public abstract class Game {
     protected void checkIfWon(){
         //if the status has been changed from updateGame, check which player won, or is it a draw
         if (boardGame.getCurrentState() == Board.GAME_STATE.PLAYER1_WON)
-            System.out.println( player1 + " won!");
+            System.out.println( names[0] + " won!");
         else if (boardGame.getCurrentState() == Board.GAME_STATE.PLAYER2_WON)
-            System.out.println( player2 + " won!");
+            System.out.println( names[1] + " won!");
         else if (boardGame.getCurrentState() == Board.GAME_STATE.DRAW)
             System.out.println("It's a Draw!");
 

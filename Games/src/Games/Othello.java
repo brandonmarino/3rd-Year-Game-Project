@@ -1,9 +1,7 @@
 package Games;
 
-import Boards.Board;
 import Boards.OthelloBoard;
-import Moves.RandomMove;
-
+import Moves.Move;
 /***************************************************************************************************************************************************************
  * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomMove and OthelloBoard Class
  ***************************************************************************************************************************************************************
@@ -24,25 +22,22 @@ public class Othello extends Game
      */
     public static void main(String[] args) {
         Othello game = new Othello();
+        game.play();
     }
 
     /**
      * Play a game of othello
      */
     public Othello(){
-        super(new OthelloBoard(), new RandomMove());
-        //Create variables, and initialize them
-        player1 = "Black";
-        player2 = "White";
-        play();
+        super(new OthelloBoard());
     }
 
     /**
      * Take a turn
      * @return if a turn was successfully completed
      */
-    protected boolean takeTurn(){
-        boolean takeTurn = super.takeTurn();
+    protected boolean takeTurn(Move move){
+        boolean takeTurn = super.takeTurn(move);
         ((OthelloBoard)boardGame).setMoved(takeTurn);
         return takeTurn;
     }

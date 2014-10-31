@@ -105,13 +105,6 @@ public class OthelloBoard extends Board {
      * Print Othello Board
      */
     public void printBoard() {
-        switch(getcurrentPlayer()){
-            case PLAYER1:
-                System.out.println("BLACK'S TURN");
-                break;
-            case PLAYER2:
-                System.out.println("WHITE'S TURN");
-        }
         super.printBoard();
         System.out.print("Black Discs Left: " + blackDiscs + "\nWhite Discs Left: " + whiteDiscs + "\n\n");
     }

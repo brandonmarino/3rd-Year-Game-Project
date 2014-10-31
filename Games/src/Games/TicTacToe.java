@@ -1,7 +1,6 @@
 package Games;
 
 import Boards.TicTacToeBoard;
-import Moves.RandomMove;
 
 /***************************************************************************************************************************************************************
  * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomMove and OthelloBoard Class
@@ -20,13 +19,10 @@ public class TicTacToe extends Game{
 
     public static void main(String[] args) {
         TicTacToe game = new TicTacToe();
+        game.play();
     }
 
     public TicTacToe(){
-        super(new TicTacToeBoard(), new RandomMove());
-        //Create variables, and initialize them
-        player1 = "Player X";
-        player2 = "Player O";
-        play();
+        super(new TicTacToeBoard());
     }
 }

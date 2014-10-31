@@ -13,6 +13,11 @@ import java.util.ArrayList;
  */
 public class PlayerMove extends Move{
 
+    private String name = "";
+
+    public PlayerMove(String name){
+        this.name = name;
+    }
     /**
      * Get the move the user wants to do
      * Steps:
@@ -24,18 +29,13 @@ public class PlayerMove extends Move{
      */
     public Integer[] getMove(){
         ArrayList<Integer[]> moves = getAvailableMoves();
-        int choice = 0;
-        while(true){
-            //loop until some valid move is picked by the user
-            //once one has been chosen, an exception won't be thrown by getChoice() and the loop will be broken
-            try{
-                printMoves(moves);
-                choice = getChoice(moves.size());
-                break;
-            }catch(Exception e){
-                System.out.println("\nTHAT WAS NOT A VALID OPTION! Try again!");
-            }
-        }
+
+        if (moves.isEmpty())   //player cannot move
+            return null;
+
+        System.out.println(name.toUpperCase()+"'S TURN");
+        printMoves(moves);
+        int choice = getChoice(moves.size());
         return popMove(choice);
     }
 
@@ -48,7 +48,7 @@ public class PlayerMove extends Move{
         int choice = 0;
         for(Integer[] move: moves){
             choice++;
-        System.out.println(choice + ": Row " + move[0]+1 +", Column "+ move[1]+1);
+        System.out.println(choice + ": Row " + (move[0]+1) +", Column "+ (move[1]+1) );
     }
 }
 
@@ -58,14 +58,21 @@ public class PlayerMove extends Move{
      * @return the option chosen
      * @throws Exception
      */
-    private int getChoice(int options) throws Exception{
-        System.out.println("Please choose one of the options above by number:");
+    private int getChoice(int options){
         int choice = 0;
-        Scanner user_choice = new Scanner(System.in);
-            String input = user_choice.next();
-            choice = Integer.parseInt(input);
-            if (choice > options)
-                throw new Exception();
+        while(true){
+            try{
+                System.out.println("Please choose one of the options by number:");
+                Scanner user_choice = new Scanner(System.in);
+                String input = user_choice.next();
+                choice = Integer.parseInt(input);
+                if (choice > options)
+                    throw new NumberFormatException();
+                break;
+            }catch(NumberFormatException e){
+                System.out.println("Not a valid option, try again!");
+            }
+        }
         return choice -1;
     }
 }
