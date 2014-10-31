@@ -1,0 +1,26 @@
+package  Boards;
+import Games.Game;
+
+public class BoardEvaluation
+{
+
+	private boolean stableDirection(Game game, int i, int j, int v, int h) {
+		
+		int BoardDimensions =  game.getBoardGame().COLUMNS() *  game.getBoardGame().ROWS();
+		OthelloBoard player = new  OthelloBoard();
+		player.setcurrentPlayer(game.getBoardGame().getCell(i, j));
+		boolean stable = true;
+		
+		while (i+v < BoardDimensions && j+h < BoardDimensions &&
+			   i+v >= 0 && j+h >= 0 &&
+			   stable) {
+			
+			if (game.getBoardGame().getCell(i+v, j+h) != player.getcurrentPlayer()) {
+				stable = false;
+			}
+			i = i + v;
+			j = j + h;
+		}
+		return stable;
+	}
+}
