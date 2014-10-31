@@ -260,11 +260,10 @@ public abstract class Board {
     /**
      * Return the alternative player
      *
-     * @param thePlayer current player
      * @return the opposite of the current player
      */
-    protected PLAYER theEnemy(PLAYER thePlayer) {
-        switch (thePlayer) {
+    protected PLAYER getEnemy() {
+        switch (currentPlayer) {
             case PLAYER1:
                 return PLAYER.PLAYER2;
             case PLAYER2:
@@ -282,12 +281,14 @@ public abstract class Board {
      */
     public void updateGame() {
         PLAYER winner = hasBeenWon();
-        if (winner != null)
+        if (winner != null){
             if (winner == PLAYER.PLAYER1)
                 setCurrentState(GAME_STATE.PLAYER1_WON);
             else if (winner == PLAYER.PLAYER2)
                 setCurrentState(GAME_STATE.PLAYER2_WON);
             else
                 setCurrentState(GAME_STATE.DRAW);
+        }else
+            setCurrentState(GAME_STATE.PLAYING);
     }
 }
