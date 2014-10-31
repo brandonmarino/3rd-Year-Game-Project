@@ -42,4 +42,91 @@ public class AIPlayer {
 	public void setMaxDepth(int maxDepth) {
 		this.maxDepth = maxDepth;
 	}
+	
+	public int minMaxValue(Game state, AlphaBetaMiniMax ab, int depth, int limitVal)
+	{
+		int v = limitVal;
+		List<Game> successorList;
+		int minimumValueOfSuccessor, maximumValueOfSuccessor;
+		if(terminalTest(state) || depth >= maxDepth)
+		{
+			return computeUtility(state);
+		}
+		else
+		{
+			successorList = getSuccessorStates(state);
+            for(int i = 0; i < successorList.size(); i++) 
+            {
+            	if(v == beta)
+            	{
+            		Game successor = (Game) successorList.get(i);
+            		v= alpha;
+            		if(ab!= null)
+            			minimumValueOfSuccessor = minMaxValue(successor, ab.MakeCopy(), depth ++, v);
+            		else
+            			minimumValueOfSuccessor = minMaxValue(successor, null, depth ++, v);
+            		
+            		if(minimumValueOfSuccessor > v) {
+                            v = minimumValueOfSuccessor;
+                            state.setNextMove(successor.getNextMove());
+                    }
+            		
+                    if(ab != null) {
+                            // use alpha-beta pruning
+                            if(v >= ab.getBeta()) {
+                                    return v;
+                            }
+                            ab.setAlpha(Math.max(ab.getAlpha(), v));
+                    }
+            	}
+            	
+            	if(v == alpha)
+            	{
+            		Game successor = (Game) successorList.get(i);
+            		v= beta;
+            		if(ab!= null)
+                		maximumValueOfSuccessor = minMaxValue(successor, ab.MakeCopy(), depth ++, v);
+                	else
+                		maximumValueOfSuccessor = minMaxValue(successor, null, depth ++, v);
+            		if(maximumValueOfSuccessor < v) {
+                            v = maximumValueOfSuccessor;
+                            state.setNextMove(successor.getNextMove());
+                    }
+                    if(ab != null) {
+                            // use alpha-beta pruning
+                            if(v <= ab.getBeta()) {
+                                    return v;
+                            }
+                            ab.setBeta(Math.min(ab.getBeta(), v));
+                    }
+            	}
+            }
+            return v;
+    }	
+		
+		
+	}
+
+	
+	
+	private int computeUtility(Game state) {
+		BoardEvaluation BE = null;
+		return BE.evaluate (state);
+		
+}
+	
+	 private List<Game> getSuccessorStates(Game state) {
+		 List<GameState> result = new ArrayList<GameState>();
+         
+        ArrayList<Integer[]> moves = state.getCurrentMove().getAvailableMoves();
+         
+         for(Integer[] move : moves) {
+                 Game newState = new Game(state);
+                 newState.move(move);
+                 result.add(newState);
+         }
+         
+         return result;
+ }
+ 
 }
