@@ -3,11 +3,10 @@ package Moves;
  * 											RandomMove Class Generates Random Indexes for Row and Column to be Used in Board Class
  ***********************************************************************************************************************************************************
 
- ** Adapted from RandomMove source of TIC TAC TOE Authored by Lina
- * Milestone 1, Adapting Author: Brandon Marino
- *
- * Much of the code is similar however i've changed the method to use implicit enum values opposed to constants which were set to an interger value
- * Also changed the intended game to Othello, not tic tac toe
+ * Milestone 1, Adapting Author: Lina + Brandon
+ *  - Pick a random move for the player to do
+ * Milestone 2, Author: Brandon Marino
+ *  - Make subclass of Move
  */
 import java.util.Random;
 public class RandomMove extends Move

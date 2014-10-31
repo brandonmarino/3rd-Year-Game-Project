@@ -2,10 +2,20 @@ package Boards;
 
 import java.util.ArrayList;
 
-/************************************************************************************************************************************************************
- * 										Board Class Sets Up the board, Checks Winning Conditions, And Updates Status of Game
- ************************************************************************************************************************************************************/
-
+/**
+ * *********************************************************************************************************************************************************
+ * Board Class Sets Up the board, Checks Winning Conditions, And Updates Status of Othello
+ * ***********************************************************************************************************************************************************
+ *
+ * Milestone 1:
+ *  Adapting Author: Lina
+ *  Original code provided by Lina
+ * Milestone 2:
+ *  Adapting Author: Brandon Marino
+ *  -Made it a subclass of Board
+ *  -removed redundant code
+ *  -cleaned up some code
+ */
 public class TicTacToeBoard extends Board
 {
     private int currentRow;

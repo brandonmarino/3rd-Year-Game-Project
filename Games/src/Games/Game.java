@@ -6,21 +6,22 @@ import Moves.Move;
 /***************************************************************************************************************************************************************
  * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomMove and OthelloBoard Class
  ***************************************************************************************************************************************************************
-
- **
- **
- * Milestone 1: Authored by Lina
+ *
  * Milestone 2: Brandon Marino: Collected general functions from the two current Games will adapt as needed in future iterations
  * By merging Tic Tac Toe and Othello, we were able to significantly decrease redundant code
  */
 public abstract class Game {
-
     // Fields that are constant across all possible games
     protected Board boardGame;
     private Move move;
     protected String player1 = "Player 1";
     protected String player2 = "Player 2";
 
+    /**
+     * Create some Game
+     * @param boardGame
+     * @param move
+     */
     public Game(Board boardGame, Move move){
         this.boardGame = boardGame;
         this.move = move;
@@ -72,11 +73,6 @@ public abstract class Game {
         //if a move was made print the resulting board
         if (turnTaken){
             boardGame.printBoard();
-        }else{
-            if (boardGame.getcurrentPlayer() == Board.PLAYER.PLAYER1)
-                System.out.println(player1 + " couldn't make a move!\n");
-            else
-                System.out.println(player2 + " couldn't make a move!\n");
         }
     }
     protected void checkIfWon(){

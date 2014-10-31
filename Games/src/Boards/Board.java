@@ -6,15 +6,13 @@ import java.util.ArrayList;
  * *********************************************************************************************************************************************************
  * Board Class Sets Up the board, Checks Winning Conditions, And Updates Status of a Generic Game
  * ***********************************************************************************************************************************************************
- * <p/>
- * *
- * Adapted from Board source of TIC TAC TOE Authored by Lina in Milestone 1
- * Milestone 2, Adapting Author: Brandon Marino
- * <p/>
- * Implemented Sub/Superclass inheritance model in order to merge TicTacToe and Othello and reduce code replication
  *
- * This Class is of a Generic of a size provided by a programmer/the user and will provide all of the functions required
- * of some generic board game
+ * Adapted from Board source of TIC TAC TOE Authored by Lina in Milestone 1
+ *
+ * Milestone 2:
+ *  Adapting Author: Brandon Marino
+ *  -Implemented Sub/Superclass inheritance model in order to merge TicTacToe and Othello and reduce code replication
+ *  -This Class is of a Generic of a size provided by a programmer/the user and will provide all of the functions required of some generic board game
  */
 
 public abstract class Board {

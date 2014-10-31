@@ -6,12 +6,18 @@ import java.util.ArrayList;
  * *********************************************************************************************************************************************************
  * Board Class Sets Up the board, Checks Winning Conditions, And Updates Status of Othello
  * ***********************************************************************************************************************************************************
- * <p/>
+ *
  * * Adapted from Board source of TIC TAC TOE Authored by Lina
- * Milestone 1, Adapting Author: Brandon Marino
- * <p/>
+ * Milestone 1:
+ * Adapting Author: Brandon Marino
  * Much of the code is similar however i've changed the method to use implicit enum values opposed to constants which were set to an integer value
  * Also changed the intended game to Othello, not tic tac toe
+ * Milestone 2:
+ * Adapting Author: Brandon Marino
+ * -Made it a subclass of Board
+ * -removed redundant code
+ * -fixed glitches
+ * -cleaned up some code
  */
 public class OthelloBoard extends Board {
     private int blackDiscs;
