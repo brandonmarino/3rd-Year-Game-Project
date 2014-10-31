@@ -1,0 +1,52 @@
+package Games;
+
+import Boards.Board.PLAYER;
+import Boards.OthelloBoard;
+import Moves.RandomMove;
+import Moves.Move;
+
+/***************************************************************************************************************************************************************
+ * 										Othello Class Plays Tic Tac Toe by Implementing Methods from RandomMove and OthelloBoard Class
+ ***************************************************************************************************************************************************************
+ ** Adapted from Othello source of TIC TAC TOE Authored by Lina
+ * Milestone 1, Adapting Author: Brandon Marino
+ *
+ * Much of the code is similar however i've changed the method to use implicit enum values opposed to constants which were set to an interger value
+ * Also changed the intended game to Othello, not tic tac toe
+ */
+public class Othello extends Game
+{
+	private int boardDim = 4;
+	private int totalDiskNum = boardDim * boardDim;
+	
+	
+	/**
+     * Main run function
+     */
+    public static void main(String[] args) {
+        Othello game = new Othello();
+        game.play();
+    }
+    
+    /**
+     * Play a game of othello
+     */
+    public Othello(){
+        super(new OthelloBoard());
+    }
+    
+    public Othello(Othello o){
+        super( o.getBoardGame());
+        //Create variables, and initialize them
+       
+    }
+    
+    /**
+     * Take a turn
+     * @return if a turn was successfully completed
+     */
+    protected boolean takeTurn(Move move){
+        boolean takeTurn = super.takeTurn(move);
+        ((OthelloBoard)boardGame).setMoved(takeTurn);
+        return takeTurn;
+    }
