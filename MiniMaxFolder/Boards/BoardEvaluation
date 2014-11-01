@@ -1,14 +1,59 @@
-package  Boards;
-import Games.Game;
+package Boards;
 
-public class BoardEvaluation
+import Boards.Board.PLAYER;
+import Games.Game;
+import Games.Othello;
+public class BoardEvaluation 
 {
 
-	private boolean stableDirection(Game game, int i, int j, int v, int h) {
+	public int evaluate (Othello game) {
+		int score = 0;
+		int BoardDimension = game.getBoardGame().COLUMNS() * game.getBoardGame().ROWS();
+		if (game.getBoard().hasBeenWon() == PLAYER.PLAYER1 || game.getBoard().hasBeenWon() == PLAYER.PLAYER2) {
+			// disks difference
+			score = game.getBoard().getBlackDiscs() - game.getBoard().getWhiteDiscs();
+		}
+					
+		else {
+			// mobility
+			int darkMobility = game.getOAIM().getLegalMoves(game.getBoard().getBlackDiscs(), game).size();
+			int lightMobility = game.getOAIM().getLegalMoves(game.getBoard().getWhiteDiscs(), game).size();
+			int mobility = darkMobility - lightMobility;
+			// stability
+			int darkStability = 0;
+			int lightStability = 0;
+			for (int i = 0; i < BoardDimension; i++) {
+				for (int j = 0; j < BoardDimension; j++) {
+					if (game.getBoard().getCell(i, j) != PLAYER.EMPTY) {
+						if ( (stableDirection(game, i, j, 1, 0) || stableDirection(game, i, j, -1, 0) ) &&
+							 (stableDirection(game, i, j, 0, 1) || stableDirection(game, i, j, 0, -1) ) &&
+							 (stableDirection(game, i, j, 1, 1) || stableDirection(game, i, j, -1, -1) ) &&
+							 (stableDirection(game, i, j, 1, -1) || stableDirection(game, i, j, -1, 1) ) ) {
+						
+							if (game.getBoard().getCell(i, j) == PLAYER.PLAYER1) {
+								darkStability++;
+							}
+							else {
+								lightStability++;
+							}
+						}
+					}
+				}
+			}
+			int stability = darkStability - lightStability;
+			// disks difference
+			int disksDiff = game.getBoard().getBlackDiscs() - game.getBoard().getWhiteDiscs();
+			// total score
+			score = (100 * mobility) + (10 * stability) + (1 * disksDiff);
+		}
+		return score;
+	}
+	
+	private boolean stableDirection(Othello game, int i, int j, int v, int h) {
 		
-		int BoardDimensions =  game.getBoardGame().COLUMNS() *  game.getBoardGame().ROWS();
+		int BoardDimensions =  game.getBoard().COLUMNS()*  game.getBoard().ROWS();
 		OthelloBoard player = new  OthelloBoard();
-		player.setcurrentPlayer(game.getBoardGame().getCell(i, j));
+		player.setcurrentPlayer(game.getBoard().getCell(i, j));
 		boolean stable = true;
 		
 		while (i+v < BoardDimensions && j+h < BoardDimensions &&
