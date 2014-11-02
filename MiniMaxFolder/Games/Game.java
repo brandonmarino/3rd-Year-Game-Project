@@ -1,15 +1,16 @@
 package Games;
 
-import java.awt.Color;
+import minimax.OthelloAIPlayer;
 
 import Boards.Board;
-import Boards.Board.GAME_STATE;
-import Boards.Board.PLAYER;
 import Moves.Move;
+import Moves.OthelloAIMove;
 import Moves.RandomMove;
 import Moves.PlayerMove;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import minimax.AlphaBetaMiniMax;
 
 /**
  * Created by Brandon on 10/29/14.
@@ -136,6 +137,24 @@ public abstract class Game {
         }
     }
     
+    
+    protected void Smartplay(){
+        // Continue Playing Until You're Done
+        while (boardGame.getCurrentState() == Board.GAME_STATE.PLAYING) {
+            boolean moveMade = false;
+            //allow turns of different player types
+            if (boardGame.getcurrentPlayer() == Board.PLAYER.PLAYER1)
+                moveMade = takeSmartTurn(moves[0], names[0]);
+            else if (boardGame.getcurrentPlayer() == Board.PLAYER.PLAYER2)
+                moveMade = takeSmartTurn(moves[1], names[1]);
+
+            update(moveMade);
+            checkIfWon();
+        }
+    }
+    
+    
+    
     /**
      * Prompt user for the player info, names and the player type be-it human or computer
      */
@@ -155,9 +174,14 @@ public abstract class Game {
                         moves[playernum] = new PlayerMove(names[playernum]);
                     }
                     else if (choice == 2)
+                    
                         moves[playernum] = new RandomMove();
+                    
                     else if (choice == 3)
-                        moves[playernum] = new PlayerMove("Some Player");  //change this to MinMaxMove!
+                    {
+                    	
+                        moves[playernum] = new PlayerMove("Alpha Beta MiniMax");  //change this to MinMaxMove!
+                    }
                     else
                         throw new InputMismatchException(); //Alert user that THAT IS NOT VALID
                     break;
@@ -189,6 +213,39 @@ public abstract class Game {
                     state = false;//Quit loop
                 }
             }
+        }
+        return turnTaken;
+    }
+    
+    protected boolean takeSmartTurn(Move move, String name){
+        boolean state = true;
+        boolean turnTaken = false;
+        move.setAvailableMoves(boardGame.getPossibleMoves());       //give all available moves from board
+        while(state){
+        	if( name.equals("Player 1") || name.equals("Player 2") )
+        	{
+        		AlphaBetaMiniMax ab = new AlphaBetaMiniMax();
+        	OthelloAIPlayer ai = new OthelloAIPlayer((Othello)this, 3,  move);
+        	 int Intmove = ai.minMaxValue((Othello)this, ab,3, Integer.MAX_VALUE);
+        	turnTaken = true;
+            state = false;
+        	}
+        	else
+        	{				/**********************************************************************
+        							Player becomes null after minima's turn
+        					************************************************************************/
+            Integer[] playerMove = move.getMove();
+            if (playerMove == null){
+                //All moves have been exhausted
+                state = false;//Quit loop
+            }else{
+                //some moves were available
+                if (boardGame.attemptMove(playerMove[0], playerMove[1])){  //try to make the move
+                	turnTaken = true;
+                    state = false;//Quit loop
+                }
+            }
+        }
         }
         return turnTaken;
     }
