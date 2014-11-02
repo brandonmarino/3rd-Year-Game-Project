@@ -3,7 +3,7 @@ package Games;
 import Boards.TicTacToeBoard;
 
 /***************************************************************************************************************************************************************
- * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomMove and OthelloBoard Class
+ * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomPlayerType and OthelloBoard Class
  ***************************************************************************************************************************************************************
  *
  * Milestone 1: Authored by Lina

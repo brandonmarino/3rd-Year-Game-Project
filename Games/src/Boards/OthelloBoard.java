@@ -20,8 +20,8 @@ import java.util.ArrayList;
  * -cleaned up some code
  */
 public class OthelloBoard extends Board {
-    private int blackDiscs;
-    private int whiteDiscs;     //othello has discs, one for each space, each player gets two
+    private int player1score;
+    private int player2score;     //othello has discs, one for each space, each player gets two
     private boolean blackMoved; //pay attention to if the black player made a move on their last attempt
     private boolean whiteMoved; // pay attention to if the white player made a move on their last attempt
 
@@ -35,8 +35,8 @@ public class OthelloBoard extends Board {
         setCell(PLAYER.PLAYER1, ROWS() / 2, COLUMNS() / 2 - 1);
         setCell(PLAYER.PLAYER2, ROWS() / 2 - 1, COLUMNS() / 2 - 1);    //place 4 tiles in middle of board
         setCell(PLAYER.PLAYER2, ROWS() / 2, COLUMNS() / 2);
-        blackDiscs = ROWS() * COLUMNS() / 2 - 2;
-        whiteDiscs = ROWS() * COLUMNS() / 2 - 2;
+        player1score = ROWS() * COLUMNS() / 2 - 2;
+        player2score = ROWS() * COLUMNS() / 2 - 2;
         blackMoved = true;
         whiteMoved = true;
     }
@@ -75,9 +75,9 @@ public class OthelloBoard extends Board {
     private int getPlayerDiscs(){
         switch (getcurrentPlayer()) {
             case PLAYER1:
-                return blackDiscs;
+                return player1score;
             case PLAYER2:
-                return whiteDiscs;
+                return player2score;
         }
         return 0;
     }
@@ -106,7 +106,7 @@ public class OthelloBoard extends Board {
      */
     public void printBoard() {
         super.printBoard();
-        System.out.print("Black Discs Left: " + blackDiscs + "\nWhite Discs Left: " + whiteDiscs + "\n\n");
+        System.out.print("Black Discs Left: " + player1score + "\nWhite Discs Left: " + player2score + "\n\n");
     }
 
     /*****************************************************************************************************************************************************************
@@ -118,16 +118,16 @@ public class OthelloBoard extends Board {
      * @return either the winning player or null if no one has won
      */
     public PLAYER hasBeenWon() {
-        if ((blackDiscs <= 0 || !blackMoved) && (whiteDiscs <= 0 || !whiteMoved))      //both players cannot move anymore
+        if ((player1score <= 0 || !blackMoved) && (player2score <= 0 || !whiteMoved))      //both players cannot move anymore
             return countWinner();
         return null;        //equivalent to returning false
     }
 
     /**
      * Method to count the tiles on the board once either both players cannot make a move or the board is full
-     * Player with the most tiles facing their colour wins the game
+     * Players with the most tiles facing their colour wins the game
      * <p/>
-     * Returns: Enum representation of the Player
+     * Returns: Enum representation of the Players
      */
     private PLAYER countWinner() {
         int blackSpaces = 0;
@@ -147,7 +147,7 @@ public class OthelloBoard extends Board {
     }
 
     /*****************************************************************************************************************************************************************
-     *              Methods to Make Moves
+     *              Methods to Make PlayerTypes
      *****************************************************************************************************************************************************************/
     /**
      * Attempt a move in Othello
@@ -250,8 +250,8 @@ public class OthelloBoard extends Board {
      */
     private void decrementDiscs() {
         if (getcurrentPlayer() == PLAYER.PLAYER1)
-            blackDiscs--;
+            player1score--;
         else if (getcurrentPlayer() == PLAYER.PLAYER2)
-            whiteDiscs--;
+            player2score--;
     }
 }

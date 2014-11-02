@@ -1,15 +1,15 @@
 package Games;
 
 import Boards.Board;
-import Moves.Move;
-import Moves.PlayerMove;
-import Moves.RandomMove;
+import PlayerTypes.PlayerType;
+import PlayerTypes.HumanPlayerType;
+import PlayerTypes.RandomPlayerType;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /***************************************************************************************************************************************************************
- * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomMove and OthelloBoard Class
+ * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomPlayerType and OthelloBoard Class
  ***************************************************************************************************************************************************************
  *
  * Milestone 2: Brandon Marino: Collected general functions from the two current Games will adapt as needed in future iterations
@@ -18,8 +18,7 @@ import java.util.Scanner;
 public abstract class Game {
     // Fields that are constant across all possible games
     protected Board boardGame;
-    protected String[] names = new String[]{"Player 1", "Player 2"};
-    protected Move[] moves = new Move[2];
+    protected PlayerType[] players = new PlayerType[2]; //each player has enough dimensions to warrant it's own object
 
     /**
      * Create some non-generic Game
@@ -44,37 +43,34 @@ public abstract class Game {
             boolean moveMade = false;
             //allow turns of different player types
             if (boardGame.getcurrentPlayer() == Board.PLAYER.PLAYER1)
-                moveMade = takeTurn(moves[0]);
+                moveMade = takeTurn(players[0]);
             else if (boardGame.getcurrentPlayer() == Board.PLAYER.PLAYER2)
-                moveMade = takeTurn(moves[1]);
-
+                moveMade = takeTurn(players[1]);
             update(moveMade);
             checkIfWon();
         }
     }
-
     /**
      * Prompt user for the player info, names and the player type be-it human or computer
      */
     protected void getPlayerInfo(){
         int choice;
-        for(int playernum = 0; playernum < moves.length; playernum++){
-            System.out.println("\nPlayer types:\n1: Human\n2: Computer- Random\n3: Computer- MiniMax");
+        for(int playernum = 0; playernum < players.length; playernum++){
+            System.out.println("\nPlayers types:\n1: Human\n2: Computer- Random\n3: Computer- MiniMax");
             while(true){
                 try{
                     Scanner user_input  = new Scanner(System.in);
-                    System.out.println("Please choose a player type from the options for "+ names[playernum] + " by number:");
+                    System.out.println("Please choose a player type from the options for Player "+ (playernum+1) + " by number:");
                     choice = user_input.nextInt();
                     if (choice == 1){
-                        System.out.println("Please enter Player "+(playernum+1)+"'s name:");
+                        System.out.println("Please enter Players "+(playernum+1)+"'s name:");
                         user_input = new Scanner(System.in);
-                        names[playernum] = user_input.nextLine();
-                        moves[playernum] = new PlayerMove(names[playernum]);
+                        players[playernum] = new HumanPlayerType(user_input.next());
                     }
                     else if (choice == 2)
-                        moves[playernum] = new RandomMove();
+                        players[playernum] = new RandomPlayerType();
                     else if (choice == 3)
-                        moves[playernum] = new PlayerMove("Some Player");  //change this to MinMaxMove!
+                        players[playernum] = new RandomPlayerType();  //change this to MinMaxMove!
                     else
                         throw new InputMismatchException(); //Alert user that THAT IS NOT VALID
                     break;
@@ -88,7 +84,7 @@ public abstract class Game {
      * Take a turn
      * @return if a turn was successfully completed
      */
-    protected boolean takeTurn(Move move){
+    protected boolean takeTurn(PlayerType move){
         boolean state = true;
         boolean turnTaken = false;
         move.setAvailableMoves(boardGame.getPossibleMoves());       //give all available moves from board
@@ -127,9 +123,9 @@ public abstract class Game {
     protected void checkIfWon(){
         //if the status has been changed from updateGame, check which player won, or is it a draw
         if (boardGame.getCurrentState() == Board.GAME_STATE.PLAYER1_WON)
-            System.out.println( names[0] + " won!");
+            System.out.println( players[0].getName() + " won!");
         else if (boardGame.getCurrentState() == Board.GAME_STATE.PLAYER2_WON)
-            System.out.println( names[1] + " won!");
+            System.out.println( players[1].getName() + " won!");
         else if (boardGame.getCurrentState() == Board.GAME_STATE.DRAW)
             System.out.println("It's a Draw!");
 
@@ -138,5 +134,28 @@ public abstract class Game {
             boardGame.setcurrentPlayer(Board.PLAYER.PLAYER2);
         else
             boardGame.setcurrentPlayer(Board.PLAYER.PLAYER1);
+    }
+
+    /** Clone the generic board
+     *
+     * @return a generic clone of the current board
+     */
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
+
+    /**
+     * Extend cloning function to both internally handle exceptions and cast Board
+     * @return a cloned generic board
+     */
+    public Board getClone(){
+        Object clone = new Object();
+        try{
+            clone = clone();
+        }catch(CloneNotSupportedException e){
+            System.out.println("Game not cloneable");
+        }
+        return (Board) clone;
     }
 }

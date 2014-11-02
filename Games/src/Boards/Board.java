@@ -15,13 +15,13 @@ import java.util.ArrayList;
  *  -This Class is of a Generic of a size provided by a programmer/the user and will provide all of the functions required of some generic board game
  */
 
-public abstract class Board {
+public abstract class Board implements Cloneable{
     //Fields for generic 2 player board game
     public enum GAME_STATE {PLAYING, DRAW, PLAYER1_WON, PLAYER2_WON}
     public enum PLAYER {EMPTY, PLAYER1, PLAYER2}
 
-    private char player1 = '1';
-    private char player2 = '2';
+    private char chip1 = '1';
+    private char chip2 = '2';
 
     //Max row and columns, must be set be the generic game
     private int ROWS;
@@ -79,7 +79,7 @@ public abstract class Board {
      *
      * @return a board
      */
-    protected PLAYER[][] getBoard() {
+    public PLAYER[][] getBoard() {
         return board;
     }
 
@@ -111,9 +111,13 @@ public abstract class Board {
         return board[row][column];
     }
 
+    public int getDimensions(){
+        return ROWS();
+    }
+
     /**
      * Return all possible moves of the current board
-     * @return
+     * @return return a list of all possible moves
      */
     public abstract ArrayList<Integer[]> getPossibleMoves();
 
@@ -133,6 +137,30 @@ public abstract class Board {
             }
         }
         return emptySpaces;
+    }
+
+    /** Clone the generic board
+     *
+     * @return a generic clone of the current board
+     */
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        Board clone = (Board)super.clone();
+        return clone;
+    }
+
+    /**
+     * Extend cloning function to both internally handle exceptions and cast Board
+     * @return a cloned generic board
+     */
+    public Board getClone(){
+        Object boardClone = new Object();
+        try{
+            boardClone = clone();
+        }catch(CloneNotSupportedException e){
+            System.out.println("Board not cloneable");
+        }
+        return (Board) boardClone;
     }
 
     /******************************************************************************************************************************************************************
@@ -170,17 +198,17 @@ public abstract class Board {
     /**
      * Set the player representations
      *
-     * @param player1 player 1 char representation
-     * @param player2 player 2 char representation
+     * @param chip1 player 1 char representation
+     * @param chip2 player 2 char representation
      */
-    public void setPlayerTiles(char player1, char player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public void setPlayerTiles(char chip1, char chip2) {
+        this.chip1 = chip1;
+        this.chip2 = chip2;
     }
 
     /**
      * ***************************************************************************************************************************************************************
-     * Methods to Make Moves
+     * Methods to Make PlayerTypes
      * ***************************************************************************************************************************************************************
      */
     /**
@@ -223,10 +251,10 @@ public abstract class Board {
             System.out.print("   ");
 
         else if (content == PLAYER.PLAYER1)
-            System.out.print(" " + player1 + " ");            //Black players by a B
+            System.out.print(" " + chip1 + " ");            //Black players by a B
 
         else if (content == PLAYER.PLAYER2)
-            System.out.print(" " + player2 + " ");            //White player will be identified by a W
+            System.out.print(" " + chip2 + " ");            //White player will be identified by a W
 
     }
 

@@ -1,9 +1,10 @@
 package Games;
 
 import Boards.OthelloBoard;
-import Moves.Move;
+import PlayerTypes.PlayerType;
+
 /***************************************************************************************************************************************************************
- * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomMove and OthelloBoard Class
+ * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomPlayerType and OthelloBoard Class
  ***************************************************************************************************************************************************************
  *
  * Milestone 1: A Game of Othello, adapted from code for tic tac toe provided by Lina
@@ -36,7 +37,7 @@ public class Othello extends Game
      * Take a turn
      * @return if a turn was successfully completed
      */
-    protected boolean takeTurn(Move move){
+    protected boolean takeTurn(PlayerType move){
         boolean takeTurn = super.takeTurn(move);
         ((OthelloBoard)boardGame).setMoved(takeTurn);
         return takeTurn;
