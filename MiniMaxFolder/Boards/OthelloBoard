@@ -34,6 +34,19 @@ public class OthelloBoard extends Board {
 	        blackMoved = true;
 	        whiteMoved = true;
 	    }
+	    
+	    public OthelloBoard(OthelloBoard OB) {
+	        super(OB.ROWS(), OB.COLUMNS());    //ask for a 4x4 board
+	        OB.setPlayerTiles('B', 'W');
+	        OB.setCell(PLAYER.PLAYER1, ROWS() / 2 - 1, COLUMNS() / 2);
+	        OB.setCell(PLAYER.PLAYER1, ROWS() / 2, COLUMNS() / 2 - 1);
+	        OB.setCell(PLAYER.PLAYER2, ROWS() / 2 - 1, COLUMNS() / 2 - 1);    //place 4 tiles in middle of board
+	        OB.setCell(PLAYER.PLAYER2, ROWS() / 2, COLUMNS() / 2);
+	        OB.setBlackDiscs(OB.ROWS() * OB.COLUMNS()/ 2 - 2); 
+	        OB.setWhiteDiscs(OB.ROWS() * OB.COLUMNS()/ 2 - 2); 
+	        OB.setBlackMoved(true);
+	        OB.setWhiteMoved(true);
+	    }
 
     /*****************************************************************************************************************************************************************
      *             Getter Methods for variables and constants defined above
@@ -80,6 +93,19 @@ public class OthelloBoard extends Board {
      *             Setter Methods for variables and constants defined above
      *****************************************************************************************************************************************************************/
 
+	    
+	    public void setMoved(Boolean set){
+	        switch(getcurrentPlayer()){
+	            case PLAYER1:
+	                blackMoved = set;
+	                break;
+	            case PLAYER2:
+	                whiteMoved = set;
+	                break;
+	        }
+	    }
+	    
+	    
 	    /**
 	     * Print Othello Board
 	     */
@@ -160,7 +186,7 @@ public class OthelloBoard extends Board {
 	     * @param slopeColumn    the offset of the adjacent enemy to the empty space
 	     * @return if the flip completed properly
 	     */
-	    private void flankChain(int length, int originalRow, int originalColumn, int slopeRow, int slopeColumn) {
+	  private void flankChain(int length, int originalRow, int originalColumn, int slopeRow, int slopeColumn) {
 	        int currentRow;     //first element in the chain
 	        int currentColumn;
 	            //flip chain
@@ -250,4 +276,38 @@ public class OthelloBoard extends Board {
         
         return b;
 }
+
+	public int getBlackDiscs() {
+		return blackDiscs;
+	}
+
+	public void setBlackDiscs(int blackDiscs) {
+		this.blackDiscs = blackDiscs;
+	}
+
+	public int getWhiteDiscs() {
+		return whiteDiscs;
+	}
+
+	public void setWhiteDiscs(int whiteDiscs) {
+		this.whiteDiscs = whiteDiscs;
+	}
+
+	public boolean isBlackMoved() {
+		return blackMoved;
+	}
+
+	public void setBlackMoved(boolean blackMoved) {
+		this.blackMoved = blackMoved;
+	}
+
+	public boolean isWhiteMoved() {
+		return whiteMoved;
+	}
+
+	public void setWhiteMoved(boolean whiteMoved) {
+		this.whiteMoved = whiteMoved;
+	}
+    
+    
 }
