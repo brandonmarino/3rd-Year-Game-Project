@@ -1,14 +1,14 @@
 package Boards;
 
 import Boards.Board.PLAYER;
-import Games.Game;
 import Games.Othello;
 public class BoardEvaluation 
 {
 
+	
 	public int evaluate (Othello game) {
 		int score = 0;
-		int BoardDimension = game.getBoardGame().COLUMNS() * game.getBoardGame().ROWS();
+		int BoardDimension = game.getBoardDim();
 		if (game.getBoard().hasBeenWon() == PLAYER.PLAYER1 || game.getBoard().hasBeenWon() == PLAYER.PLAYER2) {
 			// disks difference
 			score = game.getBoard().getBlackDiscs() - game.getBoard().getWhiteDiscs();
@@ -51,7 +51,7 @@ public class BoardEvaluation
 	
 	private boolean stableDirection(Othello game, int i, int j, int v, int h) {
 		
-		int BoardDimensions =  game.getBoard().COLUMNS()*  game.getBoard().ROWS();
+		int BoardDimensions =  game.getBoardDim();
 		OthelloBoard player = new  OthelloBoard();
 		player.setcurrentPlayer(game.getBoard().getCell(i, j));
 		boolean stable = true;
@@ -65,7 +65,11 @@ public class BoardEvaluation
 			}
 			i = i + v;
 			j = j + h;
+			game.getBoard().attemptMove(i,j);
+			
+				
 		}
 		return stable;
-	}
+	
+}
 }
