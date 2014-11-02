@@ -1,3 +1,7 @@
+
+
+
+
 package Boards;
 
 import java.util.ArrayList;
@@ -67,7 +71,7 @@ public abstract class Board {
      *
      * @return row size
      */
-    protected int ROWS() {
+    public int ROWS() {
         return ROWS;
     }
 
@@ -76,7 +80,7 @@ public abstract class Board {
      *
      * @return column size
      */
-    protected int COLUMNS() {
+    public int COLUMNS() {
         return COLUMNS;
     }
 
@@ -112,8 +116,9 @@ public abstract class Board {
      * @param row of cell
      * @param column of cell
      * @return contents of cell
+     * 
      */
-    protected PLAYER getCell(int row, int column) {
+    public PLAYER getCell(int row, int column) {
         return board[row][column];
     }
 
