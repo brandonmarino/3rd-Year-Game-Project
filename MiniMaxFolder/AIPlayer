@@ -1,12 +1,16 @@
+package minimax;
 import java.util.ArrayList;
 import java.util.List;
 
 
-import Boards.Board;
-import Boards.OthelloBoard;
+
+
+
+
 import Moves.Move;
 import Games.Game;
-public class AIPlayer {
+import Games.GameNotAbs;
+public abstract class AIPlayer {
 	
 	private Game presentState;
 	private int maxDepth;
@@ -109,11 +113,11 @@ public class AIPlayer {
 
 	
 	
-	public int computeUtility(GameNotAbs state) {
+	public abstract int computeUtility(GameNotAbs state);/* {
 		BoardEvaluation BE = null;
 		return BE.evaluate (state);
 		
-}
+}*/
 	
 	 public List<GameNotAbs> getSuccessorStates(GameNotAbs state) {
 		 List<GameNotAbs> result = new ArrayList<GameNotAbs>();
@@ -129,4 +133,18 @@ public class AIPlayer {
          
          return result;
  }
+ 
+ 
+ private boolean terminalTest(Game currentPlay) {
+ 	if(currentPlay.getBoardGame().getcurrentPlayer() == null)
+ 		return true;
+ 	else
+ 		return false;
+         
+ }
+
+ 
+ 
+ 
+	
 }
