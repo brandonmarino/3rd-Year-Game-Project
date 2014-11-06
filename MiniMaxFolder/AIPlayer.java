@@ -1,9 +1,14 @@
+package minimax;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import Boards.Board;
+import Boards.BoardEvaluation;
 import Boards.OthelloBoard;
 import Moves.Move;
 import Games.Game;
+import Games.GameNotAbs;
 public class AIPlayer {
 	
 	private Game presentState;
@@ -109,7 +114,7 @@ public class AIPlayer {
 	
 	public int computeUtility(GameNotAbs state) {
 		BoardEvaluation BE = null;
-		return BE.evaluate (state);
+		return BE.evaluate ((othello)state);
 		
 }
 	
