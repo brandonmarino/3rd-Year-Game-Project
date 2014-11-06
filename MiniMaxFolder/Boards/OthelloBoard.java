@@ -2,6 +2,9 @@ package Boards;
 
 import java.util.ArrayList;
 
+import Boards.Board.PLAYER;
+import Games.Othello;
+
 /**
  * *********************************************************************************************************************************************************
  * Board Class Sets Up the board, Checks Winning Conditions, And Updates Status of Othello
@@ -309,5 +312,8 @@ public class OthelloBoard extends Board {
 		this.whiteMoved = whiteMoved;
 	}
     
-    
+    /***************************************************************************************************************************
+     * 
+     ***************************************************************************************************************************/
+	
 }
