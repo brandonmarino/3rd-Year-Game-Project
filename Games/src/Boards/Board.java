@@ -22,6 +22,7 @@ public abstract class Board implements Cloneable{
 
     private char chip1 = '1';
     private char chip2 = '2';
+    protected int scores[] = new int[]{0,0};
 
     //Max row and columns, must be set be the generic game
     private int ROWS;
@@ -83,6 +84,13 @@ public abstract class Board implements Cloneable{
         return board;
     }
 
+    public int getPlayer1Score(){
+        return scores[0];
+    }
+    public int getPlayer2Score(){
+        return scores[1];
+    }
+
     /**
      * Returns to external caller the person who's turn it is
      *
@@ -107,7 +115,7 @@ public abstract class Board implements Cloneable{
      * @param column of cell
      * @return contents of cell
      */
-    protected PLAYER getCell(int row, int column) {
+    public PLAYER getCell(int row, int column) {
         return board[row][column];
     }
 
@@ -276,7 +284,7 @@ public abstract class Board implements Cloneable{
      * @param column the column of the cell
      * @return if the move is allowed
      */
-    protected boolean isWithinBounds(int row, int column) {
+    public boolean isWithinBounds(int row, int column) {
         if (row >= 0 && column >= 0)
             if (row < ROWS() && column < COLUMNS())
                 return true;

@@ -1,22 +1,22 @@
-package Moves;
+package PlayerTypes;
 /***********************************************************************************************************************************************************
- * 											RandomMove Class Generates Random Indexes for Row and Column to be Used in Board Class
+ * 											RandomPlayerType Class Generates Random Indexes for Row and Column to be Used in Board Class
  ***********************************************************************************************************************************************************
 
  * Milestone 1, Adapting Author: Lina + Brandon
  *  - Pick a random move for the player to do
  * Milestone 2, Author: Brandon Marino
- *  - Make subclass of Move
+ *  - Make subclass of PlayerTypes
  */
 import java.util.Random;
-public class RandomMove extends Move
+public class RandomPlayerType extends PlayerType
 {
     private Random randVal;
 
     /**Constructor
      * Set and seed the random
      */
-    public RandomMove(){
+    public RandomPlayerType(){
         setSeed();
     }
 

@@ -1,20 +1,30 @@
-package Moves;
+package PlayerTypes;
 /***********************************************************************************************************************************************************
- * 											Move Class Generates Random Indexes for Row and Column to be Used in Board Class
+ * 											PlayerTypes Class Generates Random Indexes for Row and Column to be Used in Board Class
  ***********************************************************************************************************************************************************
 
- ** Adapted from Move source of TIC TAC TOE Authored by Lina
+ ** Adapted from PlayerTypes source of TIC TAC TOE Authored by Lina
  *
  * Milestone 1, Adapting Author: Brandon Marino
  * Changed to pick from a list of predefined spaces, instead of getting a bunch of random values and looking for an empty space (Othello Game)
  * Milestone 2, Adapting Author: Brandon Marino
  * Changed both games to use the method Othello used, then made this a superclass of all move types
  */
-import java.util.ArrayList;
-public abstract class Move
-{
-    private ArrayList<Integer[]> availableMoves;
+import com.sun.media.jfxmedia.events.PlayerStateEvent;
 
+import java.util.ArrayList;
+public abstract class PlayerType
+{
+
+    private ArrayList<Integer[]> availableMoves;
+    private String name = "Computer";
+
+    /**
+     * Set the availableMoves arraylist to something to avoid null pointer
+     */
+    public PlayerType(){
+        availableMoves = new ArrayList<>();
+    }
     /**
      * Tell object all of the possible moves that can be made on the board
      * @param availableMoves a list of all of the moves possible on this board by this player
@@ -25,11 +35,27 @@ public abstract class Move
     }
 
     /**
+     * Return the name of this player
+     * @return a name
+     */
+    public void setName(String name){
+        this.name = name;
+    }
+
+    /**
      * Will return the moves that are available to this player at this time
      * @return the current list of available moves for this player
      */
     protected ArrayList<Integer[]> getAvailableMoves(){
         return availableMoves;
+    }
+
+    /**
+     * Return the name of this player
+     * @return a name
+     */
+    public String getName(){
+        return name;
     }
 
     /**

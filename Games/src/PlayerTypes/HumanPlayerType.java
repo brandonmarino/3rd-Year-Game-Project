@@ -1,26 +1,23 @@
-package Moves;
+package PlayerTypes;
 
 import java.util.Scanner;
 import java.util.ArrayList;
 
 /***********************************************************************************************************************************************************
- * 							PlayerMove Class creates Indexes for Row and Column to be Used in Board Classes
+ * 							HumanPlayerType Class creates Indexes for Row and Column to be Used in Board Classes
  ***********************************************************************************************************************************************************
 
  * Milestone 2, Author: Brandon Marino
- *  - Subclass of Move
+ *  - Subclass of PlayerTypes
  *  This will print the available moves to the user and then prompt for the user to choose a move
  */
-public class PlayerMove extends Move{
-
-    private String name = "";
-
+public class HumanPlayerType extends PlayerType {
     /**
      * Create a human player
      * @param name the name of the human..
      */
-    public PlayerMove(String name){
-        this.name = name;
+    public HumanPlayerType(String name){
+        setName(name);
     }
     /**
      * Get the move the user wants to do
@@ -37,7 +34,7 @@ public class PlayerMove extends Move{
         if (moves.isEmpty())   //player cannot move
             return null;
 
-        System.out.println(name.toUpperCase()+"'S TURN");
+        System.out.println(getName().toUpperCase()+"'S TURN");
         printMoves(moves);
         int choice = getChoice(moves.size());
         return popMove(choice);
@@ -48,7 +45,7 @@ public class PlayerMove extends Move{
      * @param moves a list of available moves
      */
     private void printMoves(ArrayList<Integer[]> moves){
-        System.out.println("Currently Available Moves: ");
+        System.out.println("Currently Available PlayerTypes: ");
         int choice = 0;
         for(Integer[] move: moves){
             choice++;

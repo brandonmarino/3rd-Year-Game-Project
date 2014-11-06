@@ -1,9 +1,7 @@
 package Games;
 
 import Boards.Board;
-import PlayerTypes.PlayerType;
-import PlayerTypes.HumanPlayerType;
-import PlayerTypes.RandomPlayerType;
+import PlayerTypes.*;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -19,6 +17,7 @@ public abstract class Game {
     // Fields that are constant across all possible games
     protected Board boardGame;
     protected PlayerType[] players = new PlayerType[2]; //each player has enough dimensions to warrant it's own object
+
 
     /**
      * Create some non-generic Game
@@ -70,7 +69,7 @@ public abstract class Game {
                     else if (choice == 2)
                         players[playernum] = new RandomPlayerType();
                     else if (choice == 3)
-                        players[playernum] = new RandomPlayerType();  //change this to MinMaxMove!
+                        players[playernum] = new AIPlayerType();  //change this to MinMaxMove!
                     else
                         throw new InputMismatchException(); //Alert user that THAT IS NOT VALID
                     break;

@@ -1,3 +1,5 @@
+package Minimax;
+
 /**
  * AlphaBetaMiniMax Class is used to set up all needed functions for Alpha Beta Prunning
  * 
@@ -24,11 +26,9 @@ public class AlphaBetaMiniMax {
          beta = 0;
      }
      
-     
      /**
       * Getter function for Alpha parameter
-      * 
-      * @param  	void   
+      *
       * @return     alpha 
       */
      public int getAlpha() {
@@ -37,8 +37,7 @@ public class AlphaBetaMiniMax {
      
      /**
       * Getter function for Beta parameter
-      * 
-      * @param  	void   
+      *
       * @return     beta 
       */
      public int getBeta() {
@@ -47,8 +46,7 @@ public class AlphaBetaMiniMax {
 
      /**
       * Setter function for Alpha parameter
-      * 
-      * @param  	int alphaParameter   
+      *
       * @return     void 
       */
      public void setAlpha(int alphaParam) {
@@ -57,8 +55,7 @@ public class AlphaBetaMiniMax {
      
      /**
       * Setter function for Beta parameter
-      * 
-      * @param  	int betaParameter   
+      *
       * @return     void 
       */
      public void setBeta(int betaParam) {
@@ -67,11 +64,10 @@ public class AlphaBetaMiniMax {
      
      /**
       * Creates a copy or a clone of current AlphaBetaMiniMax object
-      * 
-      * @param  	void   
+      *
       * @return     AlphaBetaMiniMax 
       */
      public AlphaBetaMiniMax MakeCopy() {
-             return new AlphaBetaMiniMax(alpha, beta);
+        return new AlphaBetaMiniMax(alpha, beta);
      }
 }
