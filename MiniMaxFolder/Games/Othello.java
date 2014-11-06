@@ -13,7 +13,7 @@ import Moves.Move;
  * Much of the code is similar however i've changed the method to use implicit enum values opposed to constants which were set to an interger value
  * Also changed the intended game to Othello, not tic tac toe
  */
-public class Othello extends Game
+public class Othello extends GameNotAbs
 {
 	private int boardDim = 4;
 	private int totalDiskNum = boardDim * boardDim;
@@ -24,7 +24,7 @@ public class Othello extends Game
      * Main run function
      */
     public static void main(String[] args) {
-Othello game = new Othello();
+    	Othello game = new Othello();
         game.Smartplay();
         //game.Smartplay(game, 3, game.getOAIM());
     }
@@ -39,7 +39,7 @@ Othello game = new Othello();
     }
     
     public Othello(Othello o){
-        super( o.getBoardGame());
+        super( o);
         //Create variables, and initialize them
        
     }
