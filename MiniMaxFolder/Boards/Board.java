@@ -1,7 +1,3 @@
-
-
-
-
 package Boards;
 
 import java.util.ArrayList;
