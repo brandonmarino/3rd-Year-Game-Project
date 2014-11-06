@@ -1,9 +1,38 @@
 Phoenix
-Milestone 1
+Milestone 2
 Project Authors: Lina El Sadek, Brandon Marino, Martin Massie, Osama BuHamad
 =======
 
 Two programs have been written to model specific board games.  Both AI implementations randomly find a move to perform.
+
+Design Decision ... 
+Diving the classes the way we did (i.e. board, game, and player) decreasing coupling, inhances readability, easier to debug,
+and results in fewer bugs in general.
+
+
+Imrovements made since Milestone 1....
+1) Reduced code duplications between Othello and TicTacToe by creating 3 main abstract classes called Game, Board, and PlayerType. 
+Classes related to Othello and TicTacToe inherit from the abstract classes and if necessary, implement certain abstract methods
+that are related to specif games.
+
+2) Fixed some bugs already existed.
+
+3) added JUnit testing.
+
+4) Made the games playable against users.
+
+5) Created an AI Playing mode through minimax for Othello.
+
+6) Created a GUI for Othello.
+
+Team Members Responsible for Deliverables....
+1) JUnit - Tic Tac Toe ....... Lina
+2) JUnit - Othello ......... Osama
+3) GUI - Othello ....... Martin
+4) MiniMax - Othello ...... Brandon and Lina
+5) UML Diagrams ..... Lina
+6) Reducing redundancy and fixing bugs from MileStone 1 ..... Brandon
+
 
 Tic-Tac-Toe
   Board game which is played on a board of the size 3 rows by 3 columns.  Two players are involved, an 'X' player
