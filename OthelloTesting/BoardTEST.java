@@ -109,6 +109,17 @@ public class BoardTEST {
 	        assertFalse(board.isWithinBounds(-1, 1));
 	        assertFalse(board.isWithinBounds(1, -1));
 	        assertFalse(board.isWithinBounds(-1, -1));
+	        
+	        // test return false 2
+	        assertFalse(board.isWithinBounds(1, 5));
+	        assertFalse(board.isWithinBounds(5, 2));
+	        assertFalse(board.isWithinBounds(5, 5));
+
+	        // test return true
+	        assertTrue(board.isWithinBounds(0, 0));
+	        assertTrue(board.isWithinBounds(1, 1));
+	        assertTrue(board.isWithinBounds(2, 2));
+	        assertTrue(board.isWithinBounds(3, 3));
 	    }
 
 
