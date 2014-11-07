@@ -118,6 +118,31 @@ public class BoardTEST {
 	 
 	 @Test
 	    public void testUpdateGame() {
+	        // test game is running
+	        board.updateGame();
+	        assertEquals(Board.GAME_STATE.PLAYING, board.getCurrentState());
+
+	        // test for player 1 won
+	        board = new Board(4, 4) {
+
+	            @Override
+	            protected PLAYER hasBeenWon() {
+	                return PLAYER.PLAYER1;
+	            }
+
+	            @Override
+	            public ArrayList<Integer[]> getPossibleMoves() {
+	                return null;
+	            }
+
+	            @Override
+	            public boolean attemptMove(int row, int column) {
+	                return true;
+	            }
+	        };
+	        board.updateGame();
+	        assertEquals(Board.GAME_STATE.PLAYER1_WON, board.getCurrentState());
+
 		 
 	 }
 
