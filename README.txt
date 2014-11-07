@@ -10,8 +10,10 @@ Diving the classes the way we did (i.e. board, game, and player) decreasing coup
 and results in fewer bugs in general.
 
 Minimax Design Decesion....
-In addition to minimax, alpha beta prunning algorithm is used which decreases the number of positions on board that are evaluated
-by the board. This way, the program will have a faster response time and is less error prone.
+In addition to minimax, alpha beta prunning algorithm was used, which decreases the number of positions on board that are evaluated
+by the board. This way, the program will have a faster response time and is less error prone by simplifying decreasing the overall
+calculations the program has to do. In simple terms, alpha beta prunning basically eliminates a position immediately if it finds a 
+a better position on the board.
 
 Imrovements made since Milestone 1....
 1) Reduced code duplications between Othello and TicTacToe by creating 3 main abstract classes called Game, Board, and PlayerType. 
