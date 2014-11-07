@@ -137,13 +137,53 @@ public class BoardTEST {
 
 	            @Override
 	            public boolean attemptMove(int row, int column) {
-	                return true;
+	                return false;
 	            }
 	        };
 	        board.updateGame();
 	        assertEquals(Board.GAME_STATE.PLAYER1_WON, board.getCurrentState());
 
-		 
-	 }
+	     // test for player 2 won
+	        board = new Board(4, 4) {
+
+	            @Override
+	            protected PLAYER hasBeenWon() {
+	                return PLAYER.PLAYER2;
+	            }
+
+	            @Override
+	            public ArrayList<Integer[]> getPossibleMoves() {
+	                return null;
+	            }
+
+	            @Override
+	            public boolean attemptMove(int row, int column) {
+	                return false;
+	            }
+	        };
+	        board.updateGame();
+	        assertEquals(Board.GAME_STATE.PLAYER2_WON, board.getCurrentState());
+
+	        // test for game state is in DRAW
+	        board = new Board(4, 4) {
+
+	            @Override
+	            protected PLAYER hasBeenWon() {
+	                return PLAYER.EMPTY;
+	            }
+
+	            @Override
+	            public ArrayList<Integer[]> getPossibleMoves() {
+	                return null;
+	            }
+
+	            @Override
+	            public boolean attemptMove(int row, int column) {
+	                return false;
+	            }
+	        };
+	        board.updateGame();
+	        assertEquals(Board.GAME_STATE.DRAW, board.getCurrentState());
+	    }
 
 }
