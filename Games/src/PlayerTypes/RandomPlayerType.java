@@ -18,6 +18,7 @@ public class RandomPlayerType extends PlayerType
      */
     public RandomPlayerType(){
         setSeed();
+        setName("Computer-Random");
     }
 
     /**

@@ -18,7 +18,6 @@ public abstract class Game {
     protected Board boardGame;
     protected PlayerType[] players = new PlayerType[2]; //each player has enough dimensions to warrant it's own object
 
-
     /**
      * Create some non-generic Game
      * @param boardGame the board of the non generic game
@@ -41,9 +40,9 @@ public abstract class Game {
         while (boardGame.getCurrentState() == Board.GAME_STATE.PLAYING) {
             boolean moveMade = false;
             //allow turns of different player types
-            if (boardGame.getcurrentPlayer() == Board.PLAYER.PLAYER1)
+            if (boardGame.getCurrentPlayer() == Board.PLAYER.PLAYER1)
                 moveMade = takeTurn(players[0]);
-            else if (boardGame.getcurrentPlayer() == Board.PLAYER.PLAYER2)
+            else if (boardGame.getCurrentPlayer() == Board.PLAYER.PLAYER2)
                 moveMade = takeTurn(players[1]);
             update(moveMade);
             checkIfWon();
@@ -55,7 +54,10 @@ public abstract class Game {
     protected void getPlayerInfo(){
         int choice;
         for(int playernum = 0; playernum < players.length; playernum++){
-            System.out.println("\nPlayers types:\n1: Human\n2: Computer- Random\n3: Computer- MiniMax");
+            System.out.println("\nPlayers types:\n1: Human\n2: Computer- Random");
+            if (this instanceof Othello){
+                System.out.println("3: Computer- MiniMax");
+            }
             while(true){
                 try{
                     Scanner user_input  = new Scanner(System.in);
@@ -68,10 +70,10 @@ public abstract class Game {
                     }
                     else if (choice == 2)
                         players[playernum] = new RandomPlayerType();
-                    else if (choice == 3)
-                        players[playernum] = new AIPlayerType();  //change this to MinMaxMove!
+                    else if ( (choice == 3) && (this instanceof Othello) )
+                        players[playernum] = new MinimaxPlayerType(boardGame);  //change this to MinMaxMove!
                     else
-                        throw new InputMismatchException(); //Alert user that THAT IS NOT VALID
+                        throw new InputMismatchException(); //This should be changed to a custom Exception!
                     break;
                 }catch(InputMismatchException e){
                     System.out.println("Not a valid option, try again!");
@@ -129,7 +131,7 @@ public abstract class Game {
             System.out.println("It's a Draw!");
 
         //if no status update, change the player
-        if(boardGame.getcurrentPlayer() == Board.PLAYER.PLAYER1)
+        if(boardGame.getCurrentPlayer() == Board.PLAYER.PLAYER1)
             boardGame.setcurrentPlayer(Board.PLAYER.PLAYER2);
         else
             boardGame.setcurrentPlayer(Board.PLAYER.PLAYER1);

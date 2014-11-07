@@ -33,7 +33,7 @@ public class TicTacToeBoard extends Board
 	}
 	
 	/******************************************************************************************************************************************************************
-	 * 												Getter Methods for variables and constants defined above
+	 * 												Getter and Setter Methods for variables and constants defined above
 	 * ****************************************************************************************************************************************************************/
 
     /**
@@ -42,6 +42,30 @@ public class TicTacToeBoard extends Board
      */
     public ArrayList<Integer[]> getPossibleMoves(){
         return getEmptySpaces();
+    }
+
+    private int getCurrentRow(){
+        return currentRow;
+    }
+
+    private int getCurrentColumn(){
+        return currentCol;
+    }
+
+    public Board getClone(){
+        TicTacToeBoard clonedBoard = new TicTacToeBoard();
+        clonedBoard = (TicTacToeBoard)super.getClone(clonedBoard);
+        clonedBoard.setCurrentRow( this.getCurrentRow() );
+        clonedBoard.setCurrentColumn( this.getCurrentColumn() );
+        return clonedBoard;
+    }
+
+    protected void setCurrentRow(int currentRow){
+        this.currentRow = currentRow;
+    }
+
+    protected void setCurrentColumn(int currentCol){
+        this.currentCol = currentCol;
     }
 
 	/******************************************************************************************************************************************************************
@@ -58,7 +82,7 @@ public class TicTacToeBoard extends Board
 	{
         this.currentRow = currentRow;
         this.currentCol = currentCol;
-        setCell(getcurrentPlayer(),currentRow,currentCol);
+        setCell(getCurrentPlayer(),currentRow,currentCol);
         return true;
 	}
 
@@ -77,7 +101,7 @@ public class TicTacToeBoard extends Board
      */
 	private boolean isVertical()
 	{
-		return (getCell(0,currentCol) == getcurrentPlayer()  && getCell(1,currentCol) == getcurrentPlayer() && getCell(2, currentCol) == getcurrentPlayer());
+		return (getCell(0,currentCol) == getCurrentPlayer()  && getCell(1,currentCol) == getCurrentPlayer() && getCell(2, currentCol) == getCurrentPlayer());
 	}
 
     /**
@@ -86,7 +110,7 @@ public class TicTacToeBoard extends Board
      */
 	private boolean isHorizontal()
 	{
-		return ( getCell(currentRow, 0) == getcurrentPlayer()  && getCell(currentRow,1) == getcurrentPlayer() && getCell(currentRow,2) == getcurrentPlayer());
+		return ( getCell(currentRow, 0) == getCurrentPlayer()  && getCell(currentRow,1) == getCurrentPlayer() && getCell(currentRow,2) == getCurrentPlayer());
 	}
 
     /**
@@ -95,9 +119,9 @@ public class TicTacToeBoard extends Board
      */
 	private boolean isDiagonal()
 	{
-		if( currentRow == currentCol  && getCell(0,0) == getcurrentPlayer() && getCell(1,1) == getcurrentPlayer() && getCell(2,2) == getcurrentPlayer())
+		if( currentRow == currentCol  && getCell(0,0) == getCurrentPlayer() && getCell(1,1) == getCurrentPlayer() && getCell(2,2) == getCurrentPlayer())
 			return true;
-		else if (currentRow + currentCol == 2 && getCell(0,2) == getcurrentPlayer() && getCell(1,1) == getcurrentPlayer() && getCell(2,0) == getcurrentPlayer())
+		else if (currentRow + currentCol == 2 && getCell(0,2) == getCurrentPlayer() && getCell(1,1) == getCurrentPlayer() && getCell(2,0) == getCurrentPlayer())
 			return true;
 		else
 			return false;
@@ -109,11 +133,11 @@ public class TicTacToeBoard extends Board
      */
     protected PLAYER hasBeenWon(){
         if(isVertical())
-            return getcurrentPlayer();
+            return getCurrentPlayer();
         else if(isHorizontal())
-            return getcurrentPlayer();
+            return getCurrentPlayer();
         else if (isDiagonal())
-            return getcurrentPlayer();
+            return getCurrentPlayer();
         else if (isDraw())
             return PLAYER.EMPTY;
         return null;

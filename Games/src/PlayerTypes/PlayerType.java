@@ -23,7 +23,7 @@ public abstract class PlayerType
      * Set the availableMoves arraylist to something to avoid null pointer
      */
     public PlayerType(){
-        availableMoves = new ArrayList<>();
+        availableMoves = new ArrayList<Integer[]>();
     }
     /**
      * Tell object all of the possible moves that can be made on the board
@@ -56,6 +56,19 @@ public abstract class PlayerType
      */
     public String getName(){
         return name;
+    }
+
+    /**
+     * Will clone a set of moves
+     * @param originalMoves original set of moves
+     * @return the cloned set
+     */
+    public static ArrayList<Integer[]> cloneMoves(ArrayList<Integer[]> originalMoves) {
+        ArrayList<Integer[]> cloneMoves = new ArrayList<Integer[]>();
+        //for(Integer[] move: originalMoves) cloneMoves.add(move.clone());
+        for(Integer[] move: originalMoves) cloneMoves.add(move);
+        //ArrayList<Integer[]> cloneMoves = originalMoves.clone();
+        return cloneMoves;
     }
 
     /**

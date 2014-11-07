@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *  -This Class is of a Generic of a size provided by a programmer/the user and will provide all of the functions required of some generic board game
  */
 
-public abstract class Board implements Cloneable{
+public abstract class Board{
     //Fields for generic 2 player board game
     public enum GAME_STATE {PLAYING, DRAW, PLAYER1_WON, PLAYER2_WON}
     public enum PLAYER {EMPTY, PLAYER1, PLAYER2}
@@ -52,6 +52,12 @@ public abstract class Board implements Cloneable{
         currentState = GAME_STATE.PLAYING; // ready to play
         currentPlayer = PLAYER.PLAYER1;    // player1  plays first
     }
+    /**
+     * Define a Generic Board
+     *
+     * @param ROWS    the amount of rows of this board
+     * @param COLUMNS the amount of columns of this board
+     */
 
     /******************************************************************************************************************************************************************
      * 												Getter Methods for variables and constants defined above
@@ -96,7 +102,7 @@ public abstract class Board implements Cloneable{
      *
      * @return the current player
      */
-    public PLAYER getcurrentPlayer() {
+    public PLAYER getCurrentPlayer() {
         return currentPlayer;
     }
 
@@ -123,6 +129,9 @@ public abstract class Board implements Cloneable{
         return ROWS();
     }
 
+    protected int[] getScores(){
+        return new int[]{scores[0],scores[1]};
+    }
     /**
      * Return all possible moves of the current board
      * @return return a list of all possible moves
@@ -147,29 +156,21 @@ public abstract class Board implements Cloneable{
         return emptySpaces;
     }
 
-    /** Clone the generic board
-     *
-     * @return a generic clone of the current board
-     */
-    @Override
-    public Object clone() throws CloneNotSupportedException{
-        Board clone = (Board)super.clone();
-        return clone;
-    }
-
     /**
      * Extend cloning function to both internally handle exceptions and cast Board
+     * @param clonedBoard provided by as a subclass of board
      * @return a cloned generic board
      */
-    public Board getClone(){
-        Object boardClone = new Object();
-        try{
-            boardClone = clone();
-        }catch(CloneNotSupportedException e){
-            System.out.println("Board not cloneable");
-        }
-        return (Board) boardClone;
+    protected Board getClone(Board clonedBoard){
+        clonedBoard.setBoard(this.getBoard());
+        clonedBoard.setcurrentPlayer(this.getCurrentPlayer());
+        clonedBoard.setCurrentState(this.getCurrentState());
+        clonedBoard.setPlayerTiles(chip1,chip2);
+        clonedBoard.setScores( this.getScores() );
+        return clonedBoard;
     }
+
+    public abstract Board getClone();
 
     /******************************************************************************************************************************************************************
      * 												Setter Methods for variables and constants defined above
@@ -192,6 +193,22 @@ public abstract class Board implements Cloneable{
         currentState = state;
     }
 
+    protected void setScores ( int[] scores){
+        this.scores[0] = scores[0];
+        this.scores[1] = scores[1];
+    }
+    /**
+     * Set the current board (to be used with clone)
+     *
+     */
+    protected void setBoard( PLAYER[][] originalBoard) {
+        PLAYER[][] cloneBoard = new PLAYER[ROWS][COLUMNS];
+        for(int row = 0; row<ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
+                cloneBoard[row][column] = originalBoard[row][column];
+            }
+        }
+    }
     /**
      * Set an individual cell to a value
      *

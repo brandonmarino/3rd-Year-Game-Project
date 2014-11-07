@@ -44,6 +44,22 @@ public class OthelloBoard extends Board {
      * ****************************************************************************************************************************************************************/
 
     /**
+     * get moved state of black player (Player 1)
+     * @return moved state
+     */
+    private boolean getBlackMoved(){
+        return blackMoved;
+    }
+
+    /**
+     * get moved state of white player (Player w)
+     * @return moved state
+     */
+    private boolean getWhiteMoved(){
+        return whiteMoved;
+    }
+
+    /**
      * Return all legal moves that this player could make on this othello board
      * @return a list of possible moves
      */
@@ -63,7 +79,6 @@ public class OthelloBoard extends Board {
                 legalMoves.add(possibleMove);
         }
         return legalMoves;
-
     }
 
     /**
@@ -71,7 +86,7 @@ public class OthelloBoard extends Board {
      * @return the number of discs the current user has
      */
     private int getPlayerDiscs(){
-        switch (getcurrentPlayer()) {
+        switch (getCurrentPlayer()) {
             case PLAYER1:
                 return scores[0];
             case PLAYER2:
@@ -80,12 +95,24 @@ public class OthelloBoard extends Board {
         return 0;
     }
 
+    /**
+     * Create and populate a cloned of the othello board with the current board's values
+     * @return a cloned othello
+     */
+    public Board getClone() {
+        OthelloBoard clonedBoard = new OthelloBoard();
+        clonedBoard = (OthelloBoard)super.getClone(clonedBoard);
+        clonedBoard.setBlackMoved( this.getBlackMoved() );
+        clonedBoard.setWhiteMoved( this.getWhiteMoved() );
+        return clonedBoard;
+    }
+
     /*****************************************************************************************************************************************************************
      *             Setter Methods for variables and constants defined above
      *****************************************************************************************************************************************************************/
 
     public void setMoved(Boolean set){
-        switch(getcurrentPlayer()){
+        switch(getCurrentPlayer()){
             case PLAYER1:
                 blackMoved = set;
                 break;
@@ -93,6 +120,14 @@ public class OthelloBoard extends Board {
                 whiteMoved = set;
                 break;
         }
+    }
+
+    protected void setBlackMoved(boolean set){
+        blackMoved = set;
+    }
+
+    protected void setWhiteMoved(boolean set){
+        whiteMoved = set;
     }
 
     /*****************************************************************************************************************************************************************
@@ -187,7 +222,7 @@ public class OthelloBoard extends Board {
         for (int slopeIncrement = 0; slopeIncrement < length; slopeIncrement++) {  //traverse the chain
             currentRow = originalRow + (slopeRow * slopeIncrement);          //find next item
             currentColumn = originalColumn + (slopeColumn * slopeIncrement); //find next item
-            setCell(getcurrentPlayer(), currentRow, currentColumn);
+            setCell(getCurrentPlayer(), currentRow, currentColumn);
         }
     }
 
@@ -210,7 +245,7 @@ public class OthelloBoard extends Board {
             if (isWithinBounds(currentRow, currentColumn)) {
                 if (getCell(currentRow, currentColumn) == PLAYER.EMPTY || !isWithinBounds(currentRow, currentColumn)) {
                     return 0;
-                } else if (getCell(currentRow, currentColumn) == getcurrentPlayer()) { //found a flank-able trail
+                } else if (getCell(currentRow, currentColumn) == getCurrentPlayer()) { //found a flank-able trail
                     return incrementChain;
                 }
             }
@@ -247,9 +282,9 @@ public class OthelloBoard extends Board {
      * lower the current player's disk count by 1
      */
     private void decrementDiscs() {
-        if (getcurrentPlayer() == PLAYER.PLAYER1)
+        if (getCurrentPlayer() == PLAYER.PLAYER1)
             scores[0]--;
-        else if (getcurrentPlayer() == PLAYER.PLAYER2)
+        else if (getCurrentPlayer() == PLAYER.PLAYER2)
             scores[1]--;
     }
 }
