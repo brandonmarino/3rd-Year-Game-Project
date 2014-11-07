@@ -115,6 +115,34 @@ public class OthelloBoardTEST {
     //TODO complete this test 
     @Test
     public void testHasBeenWon()  {
+	//in this test, we assume PLAYER 1 and PLAYER 2 has been played like
+        /*
+         * 
+         *    W | W | B | W 
+         *   ----------------
+         *    W | B | W | W 
+         *   ----------------
+         *    W | W | W | W 
+         *   ----------------
+         *    W | W | W | W 
+         * 
+         */
+         // PLAYER 1 is 'B', PLAYER 2 is 'W'
+        //set value to all tiles
+        board.setCell(PLAYER.PLAYER1, 0, 2);
+        
+        board.setCell(PLAYER.PLAYER2, 0, 0);
+        board.setCell(PLAYER.PLAYER2, 0, 1);
+        board.setCell(PLAYER.PLAYER2, 0, 2);
+        board.setCell(PLAYER.PLAYER2, 0, 3);
+        board.setCell(PLAYER.PLAYER2, 0, 1);
+        board.setCell(PLAYER.PLAYER2, 2, 1);
+        board.setCell(PLAYER.PLAYER2, 3, 1);
+        board.setCell(PLAYER.PLAYER2, 3, 2);
+        board.setCell(PLAYER.PLAYER2, 0, 3);
+        board.setCell(PLAYER.PLAYER2, 1, 3);
+        board.setCell(PLAYER.PLAYER2, 2, 3);
+        board.setCell(PLAYER.PLAYER2, 3, 3);
     
     }
 }
