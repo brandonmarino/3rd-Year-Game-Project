@@ -40,6 +40,15 @@ public class RandomPlayerTypeTEST {
 	        int move = randomPlayer.getMove()[0];
 	        assertEquals(1, move);
 	        assertTrue(randomPlayer.getAvailableMoves().isEmpty());
+	        
+	        // test another case
+	        availableMoves.add(new Integer[] { 1 });
+	        availableMoves.add(new Integer[] { 2 });
+	        randomPlayer.setAvailableMoves(availableMoves);
+	        randomPlayer.getMove();
+	        assertEquals(1, randomPlayer.getAvailableMoves().size());
+	        randomPlayer.getMove();
+	        assertTrue(randomPlayer.getAvailableMoves().isEmpty());
 	 }
 
 }
