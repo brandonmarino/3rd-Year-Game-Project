@@ -3,13 +3,23 @@ package Boards;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
- 
 import java.util.ArrayList;
-
+import java.lang.reflect.Field;
 import org.junit.Before;
 import org.junit.Test;
 
 import Boards.Board.PLAYER;
+
+
+/**
+ * *********************************************************************************************************************************************************
+ * 									OthelloBoardTest 
+ * ***********************************************************************************************************************************************************
+ *
+ * Author: Osama Buhamad 
+ * -test the methods in the OthelloBoard Class 
+ * 
+ */
 
 public class OthelloBoardTEST {
 
@@ -112,10 +122,9 @@ public class OthelloBoardTEST {
         assertFalse(board.attemptMove(1, 3));
     }
     
-    //TODO complete this test 
     @Test
-    public void testHasBeenWon()  {
-	//in this test, we assume PLAYER 1 and PLAYER 2 has been played like
+    public void testHasBeenWon() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException  {
+    	//in this test, we assume PLAYER 1 and PLAYER 2 has been played like
         /*
          * 
          *    W | W | B | W 
@@ -130,7 +139,6 @@ public class OthelloBoardTEST {
          // PLAYER 1 is 'B', PLAYER 2 is 'W'
         //set value to all tiles
         board.setCell(PLAYER.PLAYER1, 0, 2);
-        
         board.setCell(PLAYER.PLAYER2, 0, 0);
         board.setCell(PLAYER.PLAYER2, 0, 1);
         board.setCell(PLAYER.PLAYER2, 0, 2);
@@ -143,6 +151,25 @@ public class OthelloBoardTEST {
         board.setCell(PLAYER.PLAYER2, 1, 3);
         board.setCell(PLAYER.PLAYER2, 2, 3);
         board.setCell(PLAYER.PLAYER2, 3, 3);
+        
+      
+      //use java reflection to set variables to set end game (to access private fields) 
+        Field blackDiscsField = OthelloBoard.class.getDeclaredField("blackDiscs");
+        blackDiscsField.setAccessible(true); //making private variable accessible using reflection
+        blackDiscsField.setInt(board, 1); //setting the value of the field with this method
+        Field whiteDiscsField = OthelloBoard.class.getDeclaredField("whiteDiscs");
+        whiteDiscsField.setAccessible(true);
+        whiteDiscsField.setInt(board, 0);
+        Field blackMovedField = OthelloBoard.class.getDeclaredField("blackMoved");
+        blackMovedField.setAccessible(true);
+        blackMovedField.setBoolean(board, false);
+        Field whiteMovedField = OthelloBoard.class.getDeclaredField("whiteMoved");
+        whiteMovedField.setAccessible(true);
+        whiteMovedField.setBoolean(board, true);
+        
+        //end game
+        PLAYER playerHasBeenWon = board.hasBeenWon(); //making a PLAYER that is calling hasBeenWon to compare with PLAYER2 
+        assertEquals(PLAYER.PLAYER2, playerHasBeenWon);
     
     }
 }
