@@ -102,6 +102,15 @@ public class BoardTEST {
 	        assertEquals(Board.PLAYER.PLAYER1, board.getCell(1, 1));
 	        assertEquals(Board.PLAYER.PLAYER2, board.getCell(3, 1));
 	    }
+	    
+	    @Test
+	    public void testIsWithInBounds() {
+	        // test return false 1
+	        assertFalse(board.isWithinBounds(-1, 1));
+	        assertFalse(board.isWithinBounds(1, -1));
+	        assertFalse(board.isWithinBounds(-1, -1));
+	    }
+
 
 	 @Test
 	    public void testGetEnemy() {
