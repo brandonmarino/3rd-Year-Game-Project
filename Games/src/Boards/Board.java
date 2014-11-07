@@ -90,13 +90,6 @@ public abstract class Board{
         return board;
     }
 
-    public int getPlayer1Score(){
-        return scores[0];
-    }
-    public int getPlayer2Score(){
-        return scores[1];
-    }
-
     /**
      * Returns to external caller the person who's turn it is
      *

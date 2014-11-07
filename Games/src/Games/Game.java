@@ -69,9 +69,9 @@ public abstract class Game {
                         players[playernum] = new HumanPlayerType(user_input.next());
                     }
                     else if (choice == 2)
-                        players[playernum] = new RandomPlayerType();
+                        players[playernum] = new RandomPlayerType(playernum+1);
                     else if ( (choice == 3) && (this instanceof Othello) )
-                        players[playernum] = new MinimaxPlayerType(boardGame);  //change this to MinMaxMove!
+                        players[playernum] = new MinimaxPlayerType(boardGame,playernum+1);  //change this to MinMaxMove!
                     else
                         throw new InputMismatchException(); //This should be changed to a custom Exception!
                     break;

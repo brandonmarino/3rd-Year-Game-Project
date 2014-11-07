@@ -3,7 +3,7 @@ package Minimax;
 /**
  * Created by Brandon on 11/7/2014.
  */
-public class minimaxWorth {
+public class moveWorth {
 
     private int score;
     private Integer[] move;

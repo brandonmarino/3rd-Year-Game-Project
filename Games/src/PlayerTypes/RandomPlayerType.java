@@ -16,9 +16,9 @@ public class RandomPlayerType extends PlayerType
     /**Constructor
      * Set and seed the random
      */
-    public RandomPlayerType(){
+    public RandomPlayerType(int playernum){
         setSeed();
-        setName("Computer-Random");
+        setName("Computer-Random " + playernum);
     }
 
     /**

@@ -27,7 +27,7 @@ public class OthelloBoard extends Board {
      * Define the parameters of the othello board
      */
     public OthelloBoard() {
-        super(4, 4);    //ask for a 4x4 board
+        super(8, 8);    //ask for a 4x4 board
         setPlayerTiles('B', 'W');
         setCell(PLAYER.PLAYER1, ROWS() / 2 - 1, COLUMNS() / 2);
         setCell(PLAYER.PLAYER1, ROWS() / 2, COLUMNS() / 2 - 1);
@@ -163,20 +163,31 @@ public class OthelloBoard extends Board {
      * Returns: Enum representation of the Players
      */
     private PLAYER countWinner() {
-        int blackSpaces = 0;
-        int whiteSpaces = 0;
-        for (int currentRow = 0; currentRow < ROWS(); currentRow++)
-            for (int currentColumn = 0; currentColumn < ROWS(); currentColumn++)
-                if (getCell(currentRow, currentColumn) == PLAYER.PLAYER1)
-                    blackSpaces++;
-                else if (getCell(currentRow, currentColumn) == PLAYER.PLAYER2)
-                    whiteSpaces++;
+        int blackSpaces = countBlack();
+        int whiteSpaces = countWhite();
+
         if (blackSpaces > whiteSpaces)
             return PLAYER.PLAYER1;
         else if (whiteSpaces > blackSpaces)
             return PLAYER.PLAYER2;
         else
             return PLAYER.EMPTY;
+    }
+    public int countBlack(){
+        int blackSpaces = 0;
+        for (int currentRow = 0; currentRow < ROWS(); currentRow++)
+            for (int currentColumn = 0; currentColumn < ROWS(); currentColumn++)
+                if (getCell(currentRow, currentColumn) == PLAYER.PLAYER1)
+                    blackSpaces++;
+        return blackSpaces;
+    }
+    public int countWhite(){
+        int whiteSpaces = 0;
+        for (int currentRow = 0; currentRow < ROWS(); currentRow++)
+            for (int currentColumn = 0; currentColumn < ROWS(); currentColumn++)
+                if (getCell(currentRow, currentColumn) == PLAYER.PLAYER2)
+                    whiteSpaces++;
+        return whiteSpaces;
     }
 
     /*****************************************************************************************************************************************************************
