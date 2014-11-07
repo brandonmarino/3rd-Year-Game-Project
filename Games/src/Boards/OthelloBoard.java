@@ -27,14 +27,14 @@ public class OthelloBoard extends Board {
      * Define the parameters of the othello board
      */
     public OthelloBoard() {
-        super(8, 8);    //ask for a 4x4 board
+        super(4);    //ask for a 4x4 board
         setPlayerTiles('B', 'W');
-        setCell(PLAYER.PLAYER1, ROWS() / 2 - 1, COLUMNS() / 2);
-        setCell(PLAYER.PLAYER1, ROWS() / 2, COLUMNS() / 2 - 1);
-        setCell(PLAYER.PLAYER2, ROWS() / 2 - 1, COLUMNS() / 2 - 1);    //place 4 tiles in middle of board
-        setCell(PLAYER.PLAYER2, ROWS() / 2, COLUMNS() / 2);
-        scores[0] = ROWS() * COLUMNS() / 2 - 2;
-        scores[1] = ROWS() * COLUMNS() / 2 - 2;
+        setCell(PLAYER.PLAYER1, DIMENSIONS / 2 - 1, DIMENSIONS / 2);
+        setCell(PLAYER.PLAYER1, DIMENSIONS / 2, DIMENSIONS / 2 - 1);
+        setCell(PLAYER.PLAYER2, DIMENSIONS / 2 - 1, DIMENSIONS / 2 - 1);    //place 4 tiles in middle of board
+        setCell(PLAYER.PLAYER2, DIMENSIONS / 2, DIMENSIONS / 2);
+        scores[0] = DIMENSIONS * DIMENSIONS / 2 - 2;
+        scores[1] = DIMENSIONS * DIMENSIONS / 2 - 2;
         blackMoved = true;
         whiteMoved = true;
     }
@@ -175,16 +175,16 @@ public class OthelloBoard extends Board {
     }
     public int countBlack(){
         int blackSpaces = 0;
-        for (int currentRow = 0; currentRow < ROWS(); currentRow++)
-            for (int currentColumn = 0; currentColumn < ROWS(); currentColumn++)
+        for (int currentRow = 0; currentRow < DIMENSIONS; currentRow++)
+            for (int currentColumn = 0; currentColumn < DIMENSIONS; currentColumn++)
                 if (getCell(currentRow, currentColumn) == PLAYER.PLAYER1)
                     blackSpaces++;
         return blackSpaces;
     }
     public int countWhite(){
         int whiteSpaces = 0;
-        for (int currentRow = 0; currentRow < ROWS(); currentRow++)
-            for (int currentColumn = 0; currentColumn < ROWS(); currentColumn++)
+        for (int currentRow = 0; currentRow < DIMENSIONS; currentRow++)
+            for (int currentColumn = 0; currentColumn < DIMENSIONS; currentColumn++)
                 if (getCell(currentRow, currentColumn) == PLAYER.PLAYER2)
                     whiteSpaces++;
         return whiteSpaces;
@@ -250,16 +250,15 @@ public class OthelloBoard extends Board {
     public int canFlank(int originalRow, int originalColumn, int slopeRow, int slopeColumn) {
         int currentRow;  //first element in the chain return null
         int currentColumn;
-        for (int incrementChain = 1; incrementChain < ROWS()*COLUMNS(); incrementChain++) {
+        for (int incrementChain = 1; incrementChain < DIMENSIONS*2; incrementChain++) {
             currentRow = originalRow + (slopeRow * incrementChain);          //find next item
             currentColumn = originalColumn + (slopeColumn * incrementChain); //find next item
-            if (isWithinBounds(currentRow, currentColumn)) {
-                if (getCell(currentRow, currentColumn) == PLAYER.EMPTY || !isWithinBounds(currentRow, currentColumn)) {
+
+            if (isWithinBounds(currentRow, currentColumn))
+                if (getCell(currentRow, currentColumn) == PLAYER.EMPTY || !isWithinBounds(currentRow, currentColumn))
                     return 0;
-                } else if (getCell(currentRow, currentColumn) == getCurrentPlayer()) { //found a flank-able trail
+                 else if (getCell(currentRow, currentColumn) == getCurrentPlayer())  //found a flank-able trail
                     return incrementChain;
-                }
-            }
         }
         return 0;
     }

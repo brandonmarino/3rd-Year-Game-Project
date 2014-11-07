@@ -1,14 +1,20 @@
 package PlayerTypes;
 
 import Boards.Board;
-
 import java.util.ArrayList;
-
 import Boards.OthelloBoard;
 import Minimax.moveWorth;
 
-/**
- * Created by Brandon on 11/7/2014.
+/***********************************************************************************************************************************************************
+ * 							MiniMaxPlayerType Class creates Indexes for Row and Column to be Used in Board Classes
+ ***********************************************************************************************************************************************************
+
+ * Milestone 2, Author: Brandon Marino
+ *  - Subclass of PlayerTypes
+ * An AI implementation which looks into the future that each legal move could result in
+ * and selects the best and safest legal move for the current state
+ *
+ * Currently this only works for Othello, We'll have to make some heavy modifications for it to work with our own game later
  */
 public class MinimaxPlayerType extends PlayerType {
     private Board boardGame;
@@ -26,7 +32,6 @@ public class MinimaxPlayerType extends PlayerType {
 
     /**
      * Call to make some decision and then pop the best move off the available moves
-     *
      * @return the best possible move
      */
     @Override
@@ -94,11 +99,11 @@ public class MinimaxPlayerType extends PlayerType {
      */
     public int evaluate(Board boardGame, ArrayList<Integer[]> availableMoves) {
         int score = 0;
-        //player mobilities
+        //player mobilities and shiptotals
         int player1Mobility = 0;
         int player2Mobility = 0;
         int mobility = 0;
-        int stability = 0;
+        int chips = 0;
         int player1Chips = ((OthelloBoard) boardGame).countBlack();
         int player2Chips = ((OthelloBoard) boardGame).countWhite();
         switch (boardGame.getCurrentPlayer()) {
@@ -108,7 +113,7 @@ public class MinimaxPlayerType extends PlayerType {
                 player2Mobility = boardGame.getPossibleMoves().size();
                 boardGame.setcurrentPlayer(Board.PLAYER.PLAYER1);
                 mobility = player1Mobility - player2Mobility;
-                stability = player1Chips - player2Chips;
+                chips = player1Chips - player2Chips;
                 break;
             case PLAYER2:
                 boardGame.setcurrentPlayer(Board.PLAYER.PLAYER1);
@@ -116,11 +121,11 @@ public class MinimaxPlayerType extends PlayerType {
                 boardGame.setcurrentPlayer(Board.PLAYER.PLAYER2);
                 player2Mobility = PlayerType.cloneMoves(availableMoves).size();
                 mobility = player2Mobility - player1Mobility;
-                stability = player2Chips - player1Chips;
+                chips = player2Chips - player1Chips;
                 break;
         }
         // return evaluation of board
-        return (10 * mobility) + (1 * stability);
+        return (10 * mobility) + chips; //ability to move is more important than the player's score at the next state
 
     }
 }

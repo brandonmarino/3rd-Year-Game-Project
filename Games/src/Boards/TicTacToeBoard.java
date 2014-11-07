@@ -26,7 +26,7 @@ public class TicTacToeBoard extends Board
      */
     public TicTacToeBoard()
 	{
-        super(3,3);
+        super(3);
         setPlayerTiles('X', 'O');
         currentRow = 0;
         currentCol = 0;

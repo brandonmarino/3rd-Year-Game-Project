@@ -25,8 +25,7 @@ public abstract class Board{
     protected int scores[] = new int[]{0,0};
 
     //Max row and columns, must be set be the generic game
-    private int ROWS;
-    private int COLUMNS;
+    public final int DIMENSIONS;
 
     private PLAYER[][] board;
     private GAME_STATE currentState;
@@ -35,16 +34,14 @@ public abstract class Board{
     /**
      * Define a Generic Board
      *
-     * @param ROWS    the amount of rows of this board
-     * @param COLUMNS the amount of columns of this board
+     * @param DIMENSIONS    the amount of Dimensions of this board
      */
-    public Board(int ROWS, int COLUMNS) {
-        this.ROWS = ROWS;
-        this.COLUMNS = COLUMNS;
-        board = new PLAYER[ROWS][COLUMNS];
-        for (int row = 0; row < ROWS; row++)
+    public Board(final int DIMENSIONS) {
+        this.DIMENSIONS = DIMENSIONS;
+        board = new PLAYER[DIMENSIONS][DIMENSIONS];
+        for (int row = 0; row < DIMENSIONS; row++)
         {
-            for (int col = 0; col < COLUMNS; col++)
+            for (int col = 0; col < DIMENSIONS; col++)
             {
                 board[row][col] = PLAYER.EMPTY;     // all cells empty
             }
@@ -52,34 +49,10 @@ public abstract class Board{
         currentState = GAME_STATE.PLAYING; // ready to play
         currentPlayer = PLAYER.PLAYER1;    // player1  plays first
     }
-    /**
-     * Define a Generic Board
-     *
-     * @param ROWS    the amount of rows of this board
-     * @param COLUMNS the amount of columns of this board
-     */
 
     /******************************************************************************************************************************************************************
      * 												Getter Methods for variables and constants defined above
      * ****************************************************************************************************************************************************************/
-
-    /**
-     * Return the row size for this board
-     *
-     * @return row size
-     */
-    protected int ROWS() {
-        return ROWS;
-    }
-
-    /**
-     * Return the column size for this board
-     *
-     * @return column size
-     */
-    protected int COLUMNS() {
-        return COLUMNS;
-    }
 
     /**
      * Return the current board to the player
@@ -119,7 +92,7 @@ public abstract class Board{
     }
 
     public int getDimensions(){
-        return ROWS();
+        return DIMENSIONS;
     }
 
     protected int[] getScores(){
@@ -138,8 +111,8 @@ public abstract class Board{
      */
     protected ArrayList<Integer[]> getEmptySpaces() {
         ArrayList<Integer[]> emptySpaces = new ArrayList<Integer[]>();
-        for (int currentRow = 0; currentRow < ROWS(); currentRow++) {
-            for (int currentColumn = 0; currentColumn < ROWS(); currentColumn++) {
+        for (int currentRow = 0; currentRow < DIMENSIONS; currentRow++) {
+            for (int currentColumn = 0; currentColumn < DIMENSIONS; currentColumn++) {
                 if (getBoard()[currentRow][currentColumn] == PLAYER.EMPTY) {
                     Integer[] ret = {currentRow, currentColumn};
                     emptySpaces.add(ret);
@@ -195,9 +168,9 @@ public abstract class Board{
      *
      */
     protected void setBoard( PLAYER[][] originalBoard) {
-        PLAYER[][] cloneBoard = new PLAYER[ROWS][COLUMNS];
-        for(int row = 0; row<ROWS; row++) {
-            for (int column = 0; column < COLUMNS; column++) {
+        PLAYER[][] cloneBoard = new PLAYER[DIMENSIONS][DIMENSIONS];
+        for(int row = 0; row<DIMENSIONS; row++) {
+            for (int column = 0; column < DIMENSIONS; column++) {
                 cloneBoard[row][column] = originalBoard[row][column];
             }
         }
@@ -245,15 +218,15 @@ public abstract class Board{
      * Will print the entire board of any square bound game given
      */
     public void printBoard() {
-        for (int row = 0; row < ROWS(); ++row) {
-            for (int col = 0; col < COLUMNS(); ++col) {
+        for (int row = 0; row < DIMENSIONS; ++row) {
+            for (int col = 0; col < DIMENSIONS; ++col) {
                 printCell(board[row][col]); // print each of the cells
-                if (col != COLUMNS() - 1)
+                if (col != DIMENSIONS - 1)
                     System.out.print("|");   // print vertical partition
             }
             System.out.println();
-            if (row != ROWS() - 1)
-                for (int dashes = 0; dashes < 4 * COLUMNS(); dashes++)
+            if (row != DIMENSIONS - 1)
+                for (int dashes = 0; dashes < 4 * DIMENSIONS; dashes++)
                     System.out.print("-"); // print horizontal partition
             System.out.print("\n");
         }
@@ -296,7 +269,7 @@ public abstract class Board{
      */
     public boolean isWithinBounds(int row, int column) {
         if (row >= 0 && column >= 0)
-            if (row < ROWS() && column < COLUMNS())
+            if (row < DIMENSIONS && column < DIMENSIONS)
                 return true;
         return false;
     }
