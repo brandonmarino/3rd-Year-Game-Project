@@ -1,8 +1,11 @@
 package PlayerTypes;
 
 import static org.junit.Assert.*;
+
 import java.util.ArrayList;
+
 import PlayerTypes.RandomPlayerType;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,6 +33,13 @@ public class RandomPlayerTypeTEST {
 	        ArrayList<Integer[]> availableMoves = new ArrayList<Integer[]>();
 	        randomPlayer.setAvailableMoves(availableMoves);
 	        assertNull(randomPlayer.getMove());
+	        
+	        // test with case have an available moves
+	        availableMoves.add(new Integer[] { 1 });
+	        randomPlayer.setAvailableMoves(availableMoves);
+	        int move = randomPlayer.getMove()[0];
+	        assertEquals(1, move);
+	        assertTrue(randomPlayer.getAvailableMoves().isEmpty());
 	 }
 
 }
