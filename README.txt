@@ -5,10 +5,13 @@ Project Authors: Lina El Sadek, Brandon Marino, Martin Massie, Osama BuHamad
 
 Two programs have been written to model specific board games.  Both AI implementations randomly find a move to perform.
 
-Design Decision ... 
+Overall Design Decision ... 
 Diving the classes the way we did (i.e. board, game, and player) decreasing coupling, inhances readability, easier to debug,
 and results in fewer bugs in general.
 
+Minimax Design Decesion....
+In addition to minimax, alpha beta prunning algorithm is used which decreases the number of positions on board that are evaluated
+by the board. This way, the program will have a faster response time and is less error prone.
 
 Imrovements made since Milestone 1....
 1) Reduced code duplications between Othello and TicTacToe by creating 3 main abstract classes called Game, Board, and PlayerType. 
