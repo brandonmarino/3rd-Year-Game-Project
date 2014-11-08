@@ -1,9 +1,11 @@
 package Games;
 
 import Boards.Board;
+import GUI.OthelloController;
 import PlayerTypes.*;
 
 import java.util.InputMismatchException;
+import java.util.Observable;
 import java.util.Scanner;
 
 /***************************************************************************************************************************************************************
@@ -13,7 +15,7 @@ import java.util.Scanner;
  * Milestone 2: Brandon Marino: Collected general functions from the two current Games will adapt as needed in future iterations
  * By merging Tic Tac Toe and Othello, we were able to significantly decrease redundant code
  */
-public abstract class Game {
+public abstract class Game extends Observable {
     // Fields that are constant across all possible games
     protected Board boardGame;
     protected PlayerType[] players = new PlayerType[2]; //each player has enough dimensions to warrant it's own object
@@ -66,7 +68,10 @@ public abstract class Game {
                     if (choice == 1){
                         System.out.println("Please enter Players "+(playernum+1)+"'s name:");
                         user_input = new Scanner(System.in);
-                        players[playernum] = new HumanPlayerType(user_input.next());
+                        if (this instanceof Othello){
+                            players[playernum] = new OthelloController(user_input.next(), boardGame, playernum);
+                        }
+                        else players[playernum] = new HumanPlayerType(user_input.next());
                     }
                     else if (choice == 2)
                         players[playernum] = new RandomPlayerType(playernum+1);
@@ -115,6 +120,8 @@ public abstract class Game {
         //if a move was made print the resulting board
         if (turnTaken){
             boardGame.printBoard();
+            setChanged();				//notify view(s)
+	        notifyObservers(boardGame);
         }
     }
 
