@@ -15,6 +15,23 @@ by the board. This way, the program will have a faster response time and is less
 calculations the program has to do. In simple terms, alpha beta prunning basically eliminates a position immediately if it finds a 
 a better position on the board.
 
+Othello Graphic User Interface (gui) design decisions
+Made the gui using the swing framework because of its simplicity and the prior knowledge of it. The gui
+shows the Model View Controller (MVC) design pattern to reduce coupling and make further changes much easier 
+to impliment. In order to make the MVC pattern work the OthelloFrameView class listens to the a Game class.
+The controller sends data from the view to the game when coordinates for a player move is needed. That is 
+done through the event model using action listeners in the controller class while this same class waits, looping,
+in the player part of the controller class.
+
+JUnit Design Decision
+Used Black Box technique as well as rigorous testing cases to ensure our program behaved the way it is supposed to. 
+
+Known Issues in Milestone2...
+  Regarding GUI...
+    - GUI buttons don't show until you hover the mouse over.
+    - Main function in OthelloController only launches Othello and always launches the GUI.
+    - Othello keeps playing in the command line.
+
 Imrovements made since Milestone 1....
 1) Reduced code duplications between Othello and TicTacToe by creating 3 main abstract classes called Game, Board, and PlayerType. 
 Classes related to Othello and TicTacToe inherit from the abstract classes and if necessary, implement certain abstract methods
@@ -45,8 +62,7 @@ Tic-Tac-Toe
   part of the map.  If neither player can complete that challenge, the game is a draw.
   
 Othello
-  Board game which is ordinarily played on a board of size 8 rows by 8 columns.  This implementation lowers the 
-  size of the board to 4 rows by 4 columns for logistical purposes.  Two players are involved with each game, a
+  Board game which is ordinarily played on a board of size 8 rows by 8 columns. Two players are involved with each game, a
   'Black' player and a 'White' player.  This implementation uses a 'B' to represent a black tile and a 'W' to
   represent a white tile in the console.  The GUI uses black and white ellipses.  Each player starts with half of 
   the available tiles.  The game consists of each player trying to flank their opponent's pieces of lines of pieces.  
@@ -64,12 +80,3 @@ TO RUN
 Diagrams
   The UML diagrams for Tic-Tac-Toe and Othello can be found in their respective project root folders.
   ie: Phoenix-master.zip/phoenix-master/Othello or Phoenix-master.zip/phoenix-master/Tic Tac toe
-
-Othello Graphic User Interface (gui) design decisions
-  Made the gui using the swing framework because of its simplicity and the prior knowledge of it. The gui
-  shows the Model View Controller (MVC) design pattern to reduce coupling and make further changes much easier 
-  to impliment. In order to make the MVC pattern work the OthelloFrameView class listens to the a Game class.
-  The controller sends data from the view to the game when coordinates for a player move is needed. That is 
-  done through the event model using action listeners in the controller class while this same class waits, looping,
-  in the player part of the controller class.
-  
