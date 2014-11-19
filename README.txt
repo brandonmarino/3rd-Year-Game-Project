@@ -7,7 +7,8 @@ Project Authors: Lina El Sadek, Brandon Marino, Martin Massie, Osama BuHamad
                                                   Milestone 3
 ==============================================================================================================================
 Third board game chosen is Checkers
-Background on Checkrs...
+
+Background on Checkers...
 It is a 2 player board game. The game starts with each player having 12 discs of different colors (e.g player1 has black discs and player2 has red discs).
 The board itself is made up of 64 squares. That is, it is an 8x8 board. Usually, the board consists of 32 white squares and 32 black squares alternating
 between each color. Each player places their pieces on the 12 dark squares closest to them. Black starts the game first, alternating moves between players
@@ -15,12 +16,12 @@ every turn. Finally, discs are allowed to move on black squares only. Therefore,
 When a disc jumps over the opponent's dis, the other disc is captured and is taken out of the board. Only when a disc has reached the furthest row will
 it be able to move back and forth. When the opponent's pieces has been captured, that's when the player wins the game.
 
-Overall Design Decision
-Strategy Design Decision
-Checkers User Interface
-JUnit Design Decision
-Knows Issues in Milestone 3
-Improvements Made Since Milestone 2
+Overall Design Decision...
+Strategy Design Decision...
+Checkers User Interface...
+JUnit Design Decision...
+Known issues in Milestone 3...
+Improvements Made Since Milestone 2...
 - Fixed ReadMe file
 - Fixed UML Diagrams - Java API classes were missing
 - JUnit testing includes invalid numbers
