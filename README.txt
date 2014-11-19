@@ -1,4 +1,4 @@
-/*At the end, check UML Paths at the end...*/
+/*At the end, and redo RUN instructions check UML Paths at the end...*/
 Phoenix
 Milestone 3
 Project Authors: Lina El Sadek, Brandon Marino, Martin Massie, Osama BuHamad
