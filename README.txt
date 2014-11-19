@@ -11,8 +11,7 @@ and results in fewer bugs in general.
 
 Minimax Design Decesion....
 In addition to minimax, alpha beta prunning algorithm was used, which decreases the number of positions on board that are evaluated
-by the board. This way, the program will have a faster response time and is less error prone by simplifying decreasing the overall
-calculations the program has to do. In simple terms, alpha beta prunning basically eliminates a position immediately if it finds a 
+by the board. This way, the program will have a faster response time. In simple terms, alpha beta prunning basically eliminates a position immediately if it finds a 
 a better position on the board.
 
 Othello Graphic User Interface (gui) design decisions
