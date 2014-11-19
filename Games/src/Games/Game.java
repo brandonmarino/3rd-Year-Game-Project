@@ -3,6 +3,7 @@ package Games;
 import Boards.Board;
 import GUI.OthelloController;
 import PlayerTypes.*;
+import common.Move;
 
 import java.util.InputMismatchException;
 import java.util.Observable;
@@ -37,7 +38,7 @@ public abstract class Game extends Observable {
     /**
      * Play a game
      */
-    protected void play(){
+    public void play(){
         // Continue Playing Until You're Done
         while (boardGame.getCurrentState() == Board.GAME_STATE.PLAYING) {
             boolean moveMade = false;
@@ -95,13 +96,13 @@ public abstract class Game extends Observable {
         boolean turnTaken = false;
         move.setAvailableMoves(boardGame.getPossibleMoves());       //give all available moves from board
         while(state){
-            Integer[] playerMove = move.getMove();
+            Move playerMove = move.getMove();
             if (playerMove == null){
                 //All moves have been exhausted
                 state = false;//Quit loop
             }else{
                 //some moves were available
-                if (boardGame.attemptMove(playerMove[0], playerMove[1])){  //try to make the move
+                if (boardGame.attemptMove(playerMove)){  //try to make the move
                     turnTaken = true;
                     state = false;//Quit loop
                 }
@@ -143,7 +144,6 @@ public abstract class Game extends Observable {
         else
             boardGame.setcurrentPlayer(Board.PLAYER.PLAYER1);
     }
-
     /** Clone the generic board
      *
      * @return a generic clone of the current board
@@ -154,16 +154,17 @@ public abstract class Game extends Observable {
     }
 
     /**
-     * Extend cloning function to both internally handle exceptions and cast Board
-     * @return a cloned generic board
+     * Return the board
+     * @return the board
      */
-    public Board getClone(){
-        Object clone = new Object();
-        try{
-            clone = clone();
-        }catch(CloneNotSupportedException e){
-            System.out.println("Game not cloneable");
-        }
-        return (Board) clone;
+    public Board getBoard(){
+        return boardGame;
+    }
+    /**
+     * Return the board
+     * @return the board
+     */
+    public PlayerType[] getPlayers(){
+        return players;
     }
 }

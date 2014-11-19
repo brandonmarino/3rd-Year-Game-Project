@@ -10,13 +10,14 @@ import Boards.*;
 import Boards.Board.PLAYER;
 import Games.Othello;
 import PlayerTypes.PlayerType;
+import common.Move;
 
 public class OthelloController extends PlayerType  implements ActionListener {
 	
 	private String playerName;						//Name of player
 	private OthelloBoard model;						//Model for MVC
 	private PLAYER myPlayer;						//This player (to keep track of who has control over the burrons
-	private Integer[] selection = {-1, -1};			//Grid selection for a move
+	private Move selection = new Move();			//Grid selection for a move
 
 	
 	/**
@@ -75,10 +76,10 @@ public class OthelloController extends PlayerType  implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		OthelloButton button = (OthelloButton)arg0.getSource();
-		if (model.getcurrentPlayer() == myPlayer) 
+		if (model.getCurrentPlayer() == myPlayer)
 		{
-			selection[1] = button.getX() + 1;
-			selection[0] = button.getY() + 1;
+			selection.setColumn( button.getX() + 1 );
+			selection.setRow( button.getY() + 1 );
 		}
 	}
 	
@@ -87,21 +88,20 @@ public class OthelloController extends PlayerType  implements ActionListener {
 	 * to be pressed and makes the selection
 	 */
 	@Override
-	public Integer[] getMove() {
-		ArrayList<Integer[]> moves = getAvailableMoves();
+	public Move getMove() {
+		ArrayList<Move> moves = getAvailableMoves();
 		if (moves.isEmpty()) return null;
 		boolean goodMove = false;
-		Integer[] move = null;
+		Move move = null;
 		do
 		{
 				move = selection;
-				for(Integer[] possibleMove : moves)
+				for(Move possibleMove : moves)
 				{
-					if(possibleMove[0] + 1 == move[0] && possibleMove[1] + 1 == move[1])
+					if(possibleMove.getRow() + 1 == move.getRow() && possibleMove.getColumn() + 1 == move.getColumn())
 					{
 						goodMove = true;
-						selection[0] = -1;
-						selection[1] = -1;
+						selection = new Move();
 						move = possibleMove;
 					}
 				}
@@ -115,7 +115,7 @@ public class OthelloController extends PlayerType  implements ActionListener {
 	public static void main(String[] args)
 	{
 		Othello game = new Othello();								//Create game
-		OthelloBoard model = (game.getBoard());						//Get model from game
+		OthelloBoard model = (OthelloBoard)(game.getBoard());						//Get model from game
 		OthelloFrameView view = new OthelloFrameView();				//Create view
 		view.setSize(model.getDimensions());						//Size view to scale with model size
 		for(PlayerType player : game.getPlayers())					//Create controller(s)

@@ -1,5 +1,7 @@
 package Boards;
 
+import common.Move;
+
 import java.util.ArrayList;
 
 /**
@@ -40,7 +42,7 @@ public class TicTacToeBoard extends Board
      * Return all possible moves of the othello board
      * @return all empty space on the board
      */
-    public ArrayList<Integer[]> getPossibleMoves(){
+    public ArrayList<Move> getPossibleMoves(){
         return getEmptySpaces();
     }
 
@@ -74,15 +76,14 @@ public class TicTacToeBoard extends Board
 
     /**
      * Try a move in tic tac toe
-     * @param currentRow some row
-     * @param currentCol some column
+     * @param move: the attempted move
      * @return if the move worked
      */
-	public boolean attemptMove(int currentRow, int currentCol)
+	public boolean attemptMove(Move move)
 	{
-        this.currentRow = currentRow;
-        this.currentCol = currentCol;
-        setCell(getCurrentPlayer(),currentRow,currentCol);
+        currentRow = move.getRow();
+        currentCol = move.getColumn();
+        setCell(getCurrentPlayer(), move);
         return true;
 	}
 
@@ -99,25 +100,25 @@ public class TicTacToeBoard extends Board
      * Find if vertical match can be found
      * @return if that vertical was found
      */
-	private boolean isVertical()
+    public boolean isVertical()
 	{
-		return (getCell(0,currentCol) == getCurrentPlayer()  && getCell(1,currentCol) == getCurrentPlayer() && getCell(2, currentCol) == getCurrentPlayer());
+		return ( getCell(0,currentCol) == getCurrentPlayer()  && getCell(1,currentCol) == getCurrentPlayer() && getCell(2, currentCol) == getCurrentPlayer() );
 	}
 
     /**
      * Find if horizontal match can be found
      * @return if that vertical was found
      */
-	private boolean isHorizontal()
+	public boolean isHorizontal()
 	{
-		return ( getCell(currentRow, 0) == getCurrentPlayer()  && getCell(currentRow,1) == getCurrentPlayer() && getCell(currentRow,2) == getCurrentPlayer());
+		return ( getCell(currentRow, 0) == getCurrentPlayer()  && getCell(currentRow,1) == getCurrentPlayer() && getCell(currentRow,2) == getCurrentPlayer() );
 	}
 
     /**
      * Find if diagonal match can be found
      * @return if that diagonal was found
      */
-	private boolean isDiagonal()
+	public boolean isDiagonal()
 	{
 		if( currentRow == currentCol  && getCell(0,0) == getCurrentPlayer() && getCell(1,1) == getCurrentPlayer() && getCell(2,2) == getCurrentPlayer())
 			return true;
@@ -127,6 +128,15 @@ public class TicTacToeBoard extends Board
 			return false;
 	}
 
+    /**
+     * Allow getCell to be accessed without first creating a new move object
+     * @param row: co-ordinate
+     * @param column: co-ordinate
+     */
+    private PLAYER getCell(int row, int column){
+        Move move = new Move(row, column);
+        return getCell(move);
+    }
     /**
      * Find if somebody has made a line of three
      * @return if a line was found

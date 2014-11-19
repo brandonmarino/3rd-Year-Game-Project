@@ -1,7 +1,7 @@
 package Boards;
 
 import java.util.ArrayList;
-
+import common.Move;
 /**
  * *********************************************************************************************************************************************************
  * Board Class Sets Up the board, Checks Winning Conditions, And Updates Status of Othello
@@ -29,10 +29,10 @@ public class OthelloBoard extends Board {
     public OthelloBoard() {
         super(4);    //ask for a 4x4 board
         setPlayerTiles('B', 'W');
-        setCell(PLAYER.PLAYER1, DIMENSIONS / 2 - 1, DIMENSIONS / 2);
-        setCell(PLAYER.PLAYER1, DIMENSIONS / 2, DIMENSIONS / 2 - 1);
-        setCell(PLAYER.PLAYER2, DIMENSIONS / 2 - 1, DIMENSIONS / 2 - 1);    //place 4 tiles in middle of board
-        setCell(PLAYER.PLAYER2, DIMENSIONS / 2, DIMENSIONS / 2);
+        setCell( PLAYER.PLAYER1, new Move(DIMENSIONS / 2 - 1, DIMENSIONS / 2) );
+        setCell( PLAYER.PLAYER1, new Move(DIMENSIONS / 2, DIMENSIONS / 2 - 1) );
+        setCell( PLAYER.PLAYER2, new Move(DIMENSIONS / 2 - 1, DIMENSIONS / 2 - 1) );    //place 4 tiles in middle of board
+        setCell( PLAYER.PLAYER2, new Move(DIMENSIONS / 2, DIMENSIONS / 2) );
         scores[0] = DIMENSIONS * DIMENSIONS / 2 - 2;
         scores[1] = DIMENSIONS * DIMENSIONS / 2 - 2;
         blackMoved = true;
@@ -63,14 +63,15 @@ public class OthelloBoard extends Board {
      * Return all legal moves that this player could make on this othello board
      * @return a list of possible moves
      */
-    public ArrayList<Integer[]> getPossibleMoves(){
-        ArrayList<Integer[]> legalMoves = new ArrayList<Integer[]>();
+    public ArrayList<Move> getPossibleMoves(){
+        ArrayList<Move> legalMoves = new ArrayList<Move>();
         boolean isLegal = false;
-        for (Integer[] possibleMove: getEmptySpaces()){
-            ArrayList<Integer[]> adjEnemies = findadjacentEnemies(possibleMove[0], possibleMove[1]);
+        for (Move possibleMove: getEmptySpaces()){
+            ArrayList<Move> adjEnemies = findadjacentEnemies(possibleMove);
             isLegal = false;
-            for (Integer[] ret : adjEnemies){
-                if (canFlank(possibleMove[0], possibleMove[1], ret[0] - possibleMove[0], ret[1] - possibleMove[1]) > 0){
+            for (Move ret : adjEnemies){
+                Move slopeMove = new Move( ret.getRow() - possibleMove.getRow(), ret.getColumn() - possibleMove.getColumn() );
+                if (canFlank(possibleMove, slopeMove) > 0){
                     isLegal = true;
                 }
 
@@ -159,12 +160,11 @@ public class OthelloBoard extends Board {
     /**
      * Method to count the tiles on the board once either both players cannot make a move or the board is full
      * Players with the most tiles facing their colour wins the game
-     * <p/>
-     * Returns: Enum representation of the Players
+     * @Return Enum representation of the Players
      */
     private PLAYER countWinner() {
-        int blackSpaces = countBlack();
-        int whiteSpaces = countWhite();
+        int blackSpaces = countSpaces(PLAYER.PLAYER1);
+        int whiteSpaces = countSpaces(PLAYER.PLAYER2);
 
         if (blackSpaces > whiteSpaces)
             return PLAYER.PLAYER1;
@@ -173,21 +173,22 @@ public class OthelloBoard extends Board {
         else
             return PLAYER.EMPTY;
     }
-    public int countBlack(){
-        int blackSpaces = 0;
-        for (int currentRow = 0; currentRow < DIMENSIONS; currentRow++)
-            for (int currentColumn = 0; currentColumn < DIMENSIONS; currentColumn++)
-                if (getCell(currentRow, currentColumn) == PLAYER.PLAYER1)
-                    blackSpaces++;
-        return blackSpaces;
-    }
-    public int countWhite(){
-        int whiteSpaces = 0;
-        for (int currentRow = 0; currentRow < DIMENSIONS; currentRow++)
-            for (int currentColumn = 0; currentColumn < DIMENSIONS; currentColumn++)
-                if (getCell(currentRow, currentColumn) == PLAYER.PLAYER2)
-                    whiteSpaces++;
-        return whiteSpaces;
+
+    /**
+     * Count all spaces currently occupied by a specific player
+     * @param somePlayer the player
+     * @return some amount of spaces occupied
+     */
+    public int countSpaces(PLAYER somePlayer){
+        int spaces = 0;
+        for (int currentRow = 0; currentRow < DIMENSIONS; currentRow++) {
+            for (int currentColumn = 0; currentColumn < DIMENSIONS; currentColumn++) {
+                if (getCell( new Move(currentRow, currentColumn) ) == somePlayer) {
+                    spaces++;
+                }
+            }
+        }
+        return spaces;
     }
 
     /*****************************************************************************************************************************************************************
@@ -196,20 +197,20 @@ public class OthelloBoard extends Board {
     /**
      * Attempt a move in Othello
      * To make a move in othello, an empty space must be found that can be used to 'flank' the other team's players
-     * @param row row of empty cell
-     * @param column column of possible move
+     * @param move pointing to empty cell
      * @return
      */
-    public boolean attemptMove(int row, int column){
+    public boolean attemptMove(Move move){
         if (getPlayerDiscs() <=0)
             return false;
-        ArrayList<Integer[]> adjEnemies = findadjacentEnemies(row, column);
+        ArrayList<Move> adjEnemies = findadjacentEnemies(move);
         boolean madeMove = false;
-        for (Integer[] ret : adjEnemies){       //for all adjacent enemies
-            int chainLength = canFlank(row, column, ret[0] - row, ret[1] - column);
+        for (Move ret : adjEnemies){       //for all adjacent enemies
+            Move slope = new Move (ret.getRow() - move.getRow(), ret.getColumn() - move.getColumn());
+            int chainLength = canFlank(move, slope);
             if (chainLength != 0){
                 madeMove = true;                //if any chain is found, this move was made
-                flankChain(chainLength, row, column, ret[0] - row, ret[1] - column);
+                flankChain(chainLength, move, slope);
             }
         }
         if (madeMove)
@@ -220,20 +221,15 @@ public class OthelloBoard extends Board {
     /**
      * Flip a chain chain of enemy pieces and place your own in the empty space
      *
-     * @param originalRow    the row of the original empty space
-     * @param originalColumn the column of the original empty space
-     * @param slopeRow       the offset of the adjacent enemy to the empty space
-     * @param slopeColumn    the offset of the adjacent enemy to the empty space
-     * @return if the flip completed properly
+     * @param originalMove the original Move attempted
+     * @param slope       the offsets of the adjacent enemy to the empty space
      */
-    private void flankChain(int length, int originalRow, int originalColumn, int slopeRow, int slopeColumn) {
-        int currentRow;     //first element in the chain
-        int currentColumn;
-            //flip chain
+    private void flankChain(int length, Move originalMove, Move slope) {
+        Move currentMove = new Move (0,0);
         for (int slopeIncrement = 0; slopeIncrement < length; slopeIncrement++) {  //traverse the chain
-            currentRow = originalRow + (slopeRow * slopeIncrement);          //find next item
-            currentColumn = originalColumn + (slopeColumn * slopeIncrement); //find next item
-            setCell(getCurrentPlayer(), currentRow, currentColumn);
+            currentMove.setRow( originalMove.getRow() + (slope.getRow() * slopeIncrement) );          //find next item
+            currentMove.setColumn( originalMove.getColumn() + (slope.getColumn() * slopeIncrement) ); //find next item
+            setCell(getCurrentPlayer(), currentMove);
         }
     }
 
@@ -241,23 +237,22 @@ public class OthelloBoard extends Board {
      * Find if a chain can be made out of an empty space, adjacent enemy and then a possible chain of enemies leading
      * to a space owned by the current player
      *
-     * @param originalRow    the row of the original empty space
-     * @param originalColumn the column of the original empty space
-     * @param slopeRow       the offset of the adjacent enemy to the empty space
-     * @param slopeColumn    the offset of the adjacent enemy to the empty space
+     * @param originalMove the original Move attempted
+     * @param slope       the offsets of the adjacent enemy to the empty space
      * @return the length of the chain, null if not chain-able
      */
-    public int canFlank(int originalRow, int originalColumn, int slopeRow, int slopeColumn) {
+    public int canFlank(Move originalMove, Move slope) {
         int currentRow;  //first element in the chain return null
         int currentColumn;
+        Move currentMove = new Move();
         for (int incrementChain = 1; incrementChain < DIMENSIONS*2; incrementChain++) {
-            currentRow = originalRow + (slopeRow * incrementChain);          //find next item
-            currentColumn = originalColumn + (slopeColumn * incrementChain); //find next item
+            currentMove.setRow(originalMove.getRow() + (slope.getRow() * incrementChain));          //find next item
+            currentMove.setColumn( originalMove.getColumn() + (slope.getColumn() * incrementChain) ); //find next item
 
-            if (isWithinBounds(currentRow, currentColumn))
-                if (getCell(currentRow, currentColumn) == PLAYER.EMPTY || !isWithinBounds(currentRow, currentColumn))
+            if (isWithinBounds(currentMove))
+                if (getCell(currentMove) == PLAYER.EMPTY || !isWithinBounds(currentMove))
                     return 0;
-                 else if (getCell(currentRow, currentColumn) == getCurrentPlayer())  //found a flank-able trail
+                 else if (getCell(currentMove) == getCurrentPlayer())  //found a flank-able trail
                     return incrementChain;
         }
         return 0;
@@ -265,28 +260,27 @@ public class OthelloBoard extends Board {
 
     /**
      * Find all adjacent enemies to a particular empty space
-     * @param originalRow    the empty space row
-     * @param originalColumn the empty space column
+     * @param originalMove    move object pointing to the empty space
      * @return a list of the enemies around an empty space
      */
-    private ArrayList<Integer[]> findadjacentEnemies(int originalRow, int originalColumn) {
-        ArrayList<Integer[]> adjacentEnemies = new ArrayList<Integer[]>();
+    private ArrayList<Move> findadjacentEnemies(Move originalMove) {
+        ArrayList<Move> adjacentEnemies = new ArrayList<Move>();
         PLAYER enemy = getEnemy();
-        for (int currentRow = originalRow - 1; currentRow <= (originalRow + 1); currentRow++)                    //span the spaces connected to the move location
-            for (int currentColumn = originalColumn - 1; currentColumn <= (originalColumn + 1); currentColumn++) {
-                if (isWithinBounds(currentRow, currentColumn)) {                              //if it is not the center location and that it's not off the board
-                    if (getCell(currentRow, currentColumn) == enemy) {                      //if this spot has the potential of being surrounded
-                        Integer[] ret = {currentRow, currentColumn};
-                        adjacentEnemies.add(ret);
+        for (int currentRow = originalMove.getRow() - 1; currentRow <= (originalMove.getRow() + 1); currentRow++)                    //span the spaces connected to the move location
+            for (int currentColumn = originalMove.getColumn() - 1; currentColumn <= (originalMove.getColumn() + 1); currentColumn++) {
+                Move currentMove = new Move(currentRow,currentColumn);
+                if (isWithinBounds(currentMove)) {                              //if it is not the center location and that it's not off the board
+                    if (getCell(currentMove) == enemy) {                      //if this spot has the potential of being surrounded
+                        adjacentEnemies.add(currentMove);
                     }
                 }
             }
         return adjacentEnemies;
     }
 
-    /******************************************************************************************************************************************************************
+    /********************************************************************************
      * 				Internal functions for use of Othello Logic
-     ******************************************************************************************************************************************************************
+     ********************************************************************************
 
     /**
      * lower the current player's disk count by 1

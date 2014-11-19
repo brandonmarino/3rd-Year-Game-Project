@@ -3,7 +3,7 @@ package PlayerTypes;
 import Boards.Board;
 import java.util.ArrayList;
 import Boards.OthelloBoard;
-import Minimax.moveWorth;
+import common.Move;
 
 /***********************************************************************************************************************************************************
  * 							MiniMaxPlayerType Class creates Indexes for Row and Column to be Used in Board Classes
@@ -35,18 +35,17 @@ public class MinimaxPlayerType extends PlayerType {
      * @return the best possible move
      */
     @Override
-    public Integer[] getMove() {
+    public Move getMove() {
         if (getAvailableMoves().isEmpty())   //player cannot move
             return null;
-        moveWorth mostWorthy = decision(boardGame, getAvailableMoves(), 0);
-        Integer[] bestmove = mostWorthy.getMove();
+        Move mostWorthy = decision(boardGame, getAvailableMoves(), 0);
         for (int i = 0; i < getAvailableMoves().size(); i++) {
-            if (getAvailableMoves().get(i) == bestmove) {
+            if (getAvailableMoves().get(i) == mostWorthy) {
                 popMove(i);
                 break;
             }
         }
-        return bestmove;
+        return mostWorthy;
     }
 
     /**
@@ -57,34 +56,30 @@ public class MinimaxPlayerType extends PlayerType {
      * @param depth the maxiumu depth of the decision tree
      * @return some move
      */
-    private moveWorth decision(Board boardGame, ArrayList<Integer[]> moves, int depth) {
+    private Move decision(Board boardGame, ArrayList<Move> moves, int depth) {
         moves = PlayerType.cloneMoves(moves);   //clone that set of moves so as to not edit the overall list of moves (allows branching without sharing one object of moves)
         boardGame = boardGame.getClone();  //get a full clone of the current board which you can perform operations on
-        moveWorth thisMove = new moveWorth();
+        Move thisMove = new Move();
         if (depth >= maxDepth) {
-            thisMove.setScore(evaluate(boardGame, moves));
+            thisMove.setWorth(evaluate(boardGame, moves));
             return thisMove;
         } else {
             if (moves.size() == 0) {
-                thisMove.setScore(evaluate(boardGame, moves));
+                thisMove.setWorth(evaluate(boardGame, moves));
                 return thisMove;
             } else {
                 int maximumScore = Integer.MAX_VALUE;
-                Integer[] bestMove = new Integer[2];
-                //for(Integer[] currentMove: moves){
                 for (int i = moves.size() - 1; i >= 0; i--) {
-                    Integer[] currentMove = moves.get(i);
+                    Move currentMove = moves.get(i);
                     moves.remove(currentMove); //pop off list
-                    boardGame.attemptMove(currentMove[0], currentMove[1]);  //attempt this move
-                    moveWorth worth = decision(boardGame, moves, depth + 1);
-                    if (worth.getScore() < maximumScore) {
-                        maximumScore = worth.getScore();
-                        bestMove = currentMove;
+                    boardGame.attemptMove(currentMove);  //attempt this move
+                    Move worth = decision(boardGame, moves, depth + 1);
+                    if (worth.getWorth() < maximumScore) {
+                        maximumScore = worth.getWorth();
+                        thisMove = currentMove;
                     }
                 }
-                thisMove = new moveWorth();
-                thisMove.setScore(maximumScore);
-                thisMove.setMove(bestMove);
+                thisMove.setWorth(maximumScore);
                 return thisMove;
             }
         }
@@ -97,15 +92,15 @@ public class MinimaxPlayerType extends PlayerType {
      * @param availableMoves all legal moves
      * @return the evaluation of this state
      */
-    public int evaluate(Board boardGame, ArrayList<Integer[]> availableMoves) {
+    public int evaluate(Board boardGame, ArrayList<Move> availableMoves) {
         int score = 0;
         //player mobilities and shiptotals
         int player1Mobility = 0;
         int player2Mobility = 0;
         int mobility = 0;
         int chips = 0;
-        int player1Chips = ((OthelloBoard) boardGame).countBlack();
-        int player2Chips = ((OthelloBoard) boardGame).countWhite();
+        int player1Chips = ((OthelloBoard) boardGame).countSpaces(Board.PLAYER.PLAYER1);
+        int player2Chips = ((OthelloBoard) boardGame).countSpaces(Board.PLAYER.PLAYER2);
         switch (boardGame.getCurrentPlayer()) {
             case PLAYER1:
                 player1Mobility = PlayerType.cloneMoves(availableMoves).size();

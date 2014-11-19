@@ -2,6 +2,7 @@ package PlayerTypes;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import common.Move;
 
 /***********************************************************************************************************************************************************
  * 							HumanPlayerType Class creates Indexes for Row and Column to be Used in Board Classes
@@ -28,8 +29,8 @@ public class HumanPlayerType extends PlayerType {
      *  4 - Provide move choice to Board and Game
      * @return the user's choice
      */
-    public Integer[] getMove(){
-        ArrayList<Integer[]> moves = getAvailableMoves();
+    public Move getMove(){
+        ArrayList<Move> moves = getAvailableMoves();
 
         if (moves.isEmpty())   //player cannot move
             return null;
@@ -44,12 +45,12 @@ public class HumanPlayerType extends PlayerType {
      * Print the available legal moves and provide a numerical choice for each move
      * @param moves a list of available moves
      */
-    private void printMoves(ArrayList<Integer[]> moves){
+    private void printMoves(ArrayList<Move> moves){
         System.out.println("Currently Available PlayerTypes: ");
         int choice = 0;
-        for(Integer[] move: moves){
+        for(Move move: moves){
             choice++;
-        System.out.println(choice + ": Row " + (move[0]+1) +", Column "+ (move[1]+1) );
+        System.out.println(choice + ": Row " + (move.getRow()+1) +", Column "+ (move.getColumn()+1) );
     }
 }
 
@@ -67,7 +68,7 @@ public class HumanPlayerType extends PlayerType {
                 Scanner user_choice = new Scanner(System.in);
                 String input = user_choice.next();
                 choice = Integer.parseInt(input);
-                if (choice > options)
+                if ( choice <= 0 || choice > options )
                     throw new NumberFormatException();
                 break;
             }catch(NumberFormatException e){

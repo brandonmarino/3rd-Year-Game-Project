@@ -8,6 +8,8 @@ package PlayerTypes;
  * Milestone 2, Author: Brandon Marino
  *  - Make subclass of PlayerTypes
  */
+import common.Move;
+
 import java.util.Random;
 public class RandomPlayerType extends PlayerType
 {
@@ -34,7 +36,7 @@ public class RandomPlayerType extends PlayerType
      * @return some random move
      */
     @Override
-    public Integer[] getMove(){
+    public Move getMove(){
         if (getAvailableMoves().isEmpty())   //player cannot move
             return null;
         int val = randVal.nextInt(getAvailableMoves().size());   //seed with the number of moves

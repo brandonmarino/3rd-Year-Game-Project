@@ -10,26 +10,26 @@ package PlayerTypes;
  * Milestone 2, Adapting Author: Brandon Marino
  * Changed both games to use the method Othello used, then made this a superclass of all move types
  */
-import com.sun.media.jfxmedia.events.PlayerStateEvent;
-
 import java.util.ArrayList;
+import common.Move;
+
 public abstract class PlayerType
 {
 
-    private ArrayList<Integer[]> availableMoves;
+    private ArrayList<Move> availableMoves;
     private String name = "Computer";
 
     /**
      * Set the availableMoves arraylist to something to avoid null pointer
      */
     public PlayerType(){
-        availableMoves = new ArrayList<Integer[]>();
+        availableMoves = new ArrayList<Move>();
     }
     /**
      * Tell object all of the possible moves that can be made on the board
      * @param availableMoves a list of all of the moves possible on this board by this player
      */
-    public void setAvailableMoves(ArrayList<Integer[]> availableMoves)
+    public void setAvailableMoves(ArrayList<Move> availableMoves)
     {
         this.availableMoves = availableMoves;
     }
@@ -46,7 +46,7 @@ public abstract class PlayerType
      * Will return the moves that are available to this player at this time
      * @return the current list of available moves for this player
      */
-    protected ArrayList<Integer[]> getAvailableMoves(){
+    protected ArrayList<Move> getAvailableMoves(){
         return availableMoves;
     }
 
@@ -63,11 +63,11 @@ public abstract class PlayerType
      * @param originalMoves original set of moves
      * @return the cloned set
      */
-    public static ArrayList<Integer[]> cloneMoves(ArrayList<Integer[]> originalMoves) {
-        ArrayList<Integer[]> cloneMoves = new ArrayList<Integer[]>();
-        //for(Integer[] move: originalMoves) cloneMoves.add(move.clone());
-        for(Integer[] move: originalMoves) cloneMoves.add(move);
-        //ArrayList<Integer[]> cloneMoves = originalMoves.clone();
+    public static ArrayList<Move> cloneMoves(ArrayList<Move> originalMoves) {
+        ArrayList<Move> cloneMoves = new ArrayList<Move>();
+        //for(Move move: originalMoves) cloneMoves.add(move.clone());
+        for(Move move: originalMoves) cloneMoves.add(move);
+        //ArrayList<Move> cloneMoves = originalMoves.clone();
         return cloneMoves;
     }
 
@@ -77,7 +77,7 @@ public abstract class PlayerType
      * @return the item in that index
      */
 
-    protected Integer[] popMove(int index){
+    protected Move popMove(int index){
         return availableMoves.remove(index);
     }
 
@@ -85,5 +85,5 @@ public abstract class PlayerType
      * Some method do find a move for the player to do
      * @return Use some possible method to find a possible move by this player
      */
-    public abstract Integer[] getMove();
+    public abstract Move getMove();
 }

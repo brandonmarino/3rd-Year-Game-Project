@@ -1,7 +1,7 @@
 package Boards;
 
 import java.util.ArrayList;
-
+import common.Move;
 /**
  * *********************************************************************************************************************************************************
  * Board Class Sets Up the board, Checks Winning Conditions, And Updates Status of a Generic Game
@@ -40,12 +40,8 @@ public abstract class Board{
         this.DIMENSIONS = DIMENSIONS;
         board = new PLAYER[DIMENSIONS][DIMENSIONS];
         for (int row = 0; row < DIMENSIONS; row++)
-        {
             for (int col = 0; col < DIMENSIONS; col++)
-            {
                 board[row][col] = PLAYER.EMPTY;     // all cells empty
-            }
-        }
         currentState = GAME_STATE.PLAYING; // ready to play
         currentPlayer = PLAYER.PLAYER1;    // player1  plays first
     }
@@ -83,12 +79,11 @@ public abstract class Board{
 
     /**
      * Get contents of some cell
-     * @param row of cell
-     * @param column of cell
+     * @param move the co-ordinates
      * @return contents of cell
      */
-    public PLAYER getCell(int row, int column) {
-        return board[row][column];
+    public PLAYER getCell(Move move) {
+        return board[move.getRow()][move.getColumn()];
     }
 
     public int getDimensions(){
@@ -102,19 +97,19 @@ public abstract class Board{
      * Return all possible moves of the current board
      * @return return a list of all possible moves
      */
-    public abstract ArrayList<Integer[]> getPossibleMoves();
+    public abstract ArrayList<Move> getPossibleMoves();
 
     /**
      * Will scan the current board and find all of the current empty places
      *
      * @return a list of all empty spaces on the board
      */
-    protected ArrayList<Integer[]> getEmptySpaces() {
-        ArrayList<Integer[]> emptySpaces = new ArrayList<Integer[]>();
+    protected ArrayList<Move> getEmptySpaces() {
+        ArrayList<Move> emptySpaces = new ArrayList<Move>();
         for (int currentRow = 0; currentRow < DIMENSIONS; currentRow++) {
             for (int currentColumn = 0; currentColumn < DIMENSIONS; currentColumn++) {
                 if (getBoard()[currentRow][currentColumn] == PLAYER.EMPTY) {
-                    Integer[] ret = {currentRow, currentColumn};
+                    Move ret = new Move(currentRow, currentColumn);
                     emptySpaces.add(ret);
                 }
             }
@@ -169,21 +164,18 @@ public abstract class Board{
      */
     protected void setBoard( PLAYER[][] originalBoard) {
         PLAYER[][] cloneBoard = new PLAYER[DIMENSIONS][DIMENSIONS];
-        for(int row = 0; row<DIMENSIONS; row++) {
-            for (int column = 0; column < DIMENSIONS; column++) {
+        for(int row = 0; row<DIMENSIONS; row++)
+            for (int column = 0; column < DIMENSIONS; column++)
                 cloneBoard[row][column] = originalBoard[row][column];
-            }
-        }
     }
     /**
      * Set an individual cell to a value
      *
      * @param newPiece the value to set
-     * @param row      the row of the cell
-     * @param column   the column of the cell
+     * @param move which is being set to the new player
      */
-    protected void setCell(PLAYER newPiece, int row, int column) {
-        board[row][column] = newPiece;
+    public void setCell(PLAYER newPiece, Move move) {
+        board[move.getRow()][move.getColumn()] = newPiece;
     }
 
     /**
@@ -204,11 +196,10 @@ public abstract class Board{
      */
     /**
      * Game will attempt a move, non generic MUST EXIST
-     * @param row row of empty cell
-     * @param column column of possible move
+     * @param move: a move pointing to an instance of an empty cell
      * @return if the move was made
      */
-    public abstract boolean attemptMove(int row, int column);
+    public abstract boolean attemptMove(Move move);
 
     /******************************************************************************************************************************************************************
      * 												Printing Methods for Board Game and Cells Within
@@ -263,13 +254,12 @@ public abstract class Board{
     /**
      * Check if a current cell is within the bounds of the current board
      *
-     * @param row    the row of the cell
-     * @param column the column of the cell
+     * @param move    the move in question
      * @return if the move is allowed
      */
-    public boolean isWithinBounds(int row, int column) {
-        if (row >= 0 && column >= 0)
-            if (row < DIMENSIONS && column < DIMENSIONS)
+    public boolean isWithinBounds(Move move) {
+        if (move.getRow() >= 0 && move.getColumn() >= 0)
+            if (move.getRow() < DIMENSIONS && move.getColumn() < DIMENSIONS)
                 return true;
         return false;
     }
