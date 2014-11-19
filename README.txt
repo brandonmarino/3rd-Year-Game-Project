@@ -3,7 +3,50 @@ Phoenix
 Milestone 3
 Project Authors: Lina El Sadek, Brandon Marino, Martin Massie, Osama BuHamad
 =======
+==============================================================================================================================
+                                                  Milestone 3
+==============================================================================================================================
+Third board game chosen is Checkers
+Background on Checkrs...
+It is a 2 player board game. The game starts with each player having 12 discs of different colors (e.g player1 has black discs and player2 has red discs).
+The board itself is made up of 64 squares. That is, it is an 8x8 board. Usually, the board consists of 32 white squares and 32 black squares alternating
+between each color. Each player places their pieces on the 12 dark squares closest to them. Black starts the game first, alternating moves between players
+every turn. Finally, discs are allowed to move on black squares only. Therefore, pieces always move diagonally. Discs are only allowed to move forward.
+When a disc jumps over the opponent's dis, the other disc is captured and is taken out of the board. Only when a disc has reached the furthest row will
+it be able to move back and forth. When the opponent's pieces has been captured, that's when the player wins the game.
 
+Overall Design Decision
+Strategy Design Decision
+Checkers User Interface
+JUnit Design Decision
+Knows Issues in Milestone 3
+Improvements Made Since Milestone 2
+- Fixed ReadMe file
+- Fixed UML Diagrams - Java API classes were missing
+- JUnit testing includes invalid numbers
+- ArrayIndexOutOfBound issue in Tic Tac Toe
+
+Team Members Responsible for Deliverables....
+1) JUnit - Checkers ....... Lina
+2) GUI - Checkers ....... Osama
+3) Strategy - Checkers ...... Brandon 
+4) Board Game - Checkrs ..... Martin
+5) UML Diagrams, and JavaDoc.... Lina
+
+TO RUN
+  Either open a command window, cd into the folder holding the respective .jar file (they are available in the
+  main 'phoenix' folder), once in the folder, simply execute the command 'java -jar project-name.jar'.  
+  The other option is to create a new project in eclipse with the packages 'Boards', 'Games', 'minimax', 
+  'PlayerTypes', and 'GUI'  then create empty classes with the names of each class found in each package and copy 
+  paste the code into those classes and run the project.
+
+Diagrams
+  The UML diagrams for Tic-Tac-Toe and Othello can be found in their respective project root folders.
+  ie: Phoenix-master.zip/phoenix-master/MileStone3UML
+
+==============================================================================================================================
+                                                  Milestone 2
+==============================================================================================================================
 Two programs have been written to model specific board games.  Both AI implementations randomly find a move to perform.
 
 Overall Design Decision ... 
@@ -55,7 +98,9 @@ Team Members Responsible for Deliverables....
 5) UML Diagrams ..... Lina
 6) Reducing redundancy and fixing bugs from MileStone 1 ..... Brandon
 
-
+==============================================================================================================================
+                                                  Milestone 1
+==============================================================================================================================
 Tic-Tac-Toe
   Board game which is played on a board of the size 3 rows by 3 columns.  Two players are involved, an 'X' player
   and 'O' player. The Objective of the game is for a player to place their piece in a straight line across any
@@ -69,14 +114,3 @@ Othello
   A flank is achieved when one opponent successfully encapsulates the other player's piece of chain of pieces with
   two of their own.  Each player can only place one piece at a time.  The game ends when either both players can 
   no longer make a legal move or either players run out of available pieces.
-
-TO RUN
-  Either open a command window, cd into the folder holding the respective .jar file (they are available in the
-  main 'phoenix' folder), once in the folder, simply execute the command 'java -jar project-name.jar'.  
-  The other option is to create a new project in eclipse with the packages 'Boards', 'Games', 'minimax', 
-  'PlayerTypes', and 'GUI'  then create empty classes with the names of each class found in each package and copy 
-  paste the code into those classes and run the project.
-
-Diagrams
-  The UML diagrams for Tic-Tac-Toe and Othello can be found in their respective project root folders.
-  ie: Phoenix-master.zip/phoenix-master/MileStone3UML
