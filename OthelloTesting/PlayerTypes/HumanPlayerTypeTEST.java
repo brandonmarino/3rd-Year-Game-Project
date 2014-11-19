@@ -1,7 +1,13 @@
-package PlayerTypes;
+package Testing;
+
+
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+
 import PlayerTypes.HumanPlayerType;
+import PlayerTypes.PlayerType;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +21,7 @@ import org.junit.Test;
  * 
  */
 
-public class HumanPlayerTypeTEST {
+public class HumanPlayerTypeTest {
 	 private PlayerType humanPlayerMove;
 
 	    @Before
@@ -28,6 +34,8 @@ public class HumanPlayerTypeTEST {
 	        // test with case not enough available moves
 	        ArrayList<Integer[]> availableMoves = new ArrayList<Integer[]>();
 	        humanPlayerMove.setAvailableMoves(availableMoves);
+	        assertNotNull(humanPlayerMove);
+	        
 	    }
 
 }
