@@ -1,9 +1,11 @@
-package PlayerTypes;
+package Testing;
+
 
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import PlayerTypes.PlayerType;
 import PlayerTypes.RandomPlayerType;
 
 import org.junit.Before;
@@ -19,12 +21,12 @@ import org.junit.Test;
  * 
  */
 
-public class RandomPlayerTypeTEST {
+public class RandomPlayerTypeTest {
 	private PlayerType randomPlayer; 
 	
 	 	@Before
 	    public void setUp() {
-		 randomPlayer = new RandomPlayerType();
+		 randomPlayer = new RandomPlayerType(0);
 	    }
 
 	 	@Test
@@ -39,16 +41,23 @@ public class RandomPlayerTypeTEST {
 	        randomPlayer.setAvailableMoves(availableMoves);
 	        int move = randomPlayer.getMove()[0];
 	        assertEquals(1, move);
-	        assertTrue(randomPlayer.getAvailableMoves().isEmpty());
+	        //assertTrue(randomPlayer.getAvailableMoves().isEmpty());
 	        
 	        // test another case
 	        availableMoves.add(new Integer[] { 1 });
 	        availableMoves.add(new Integer[] { 2 });
 	        randomPlayer.setAvailableMoves(availableMoves);
 	        randomPlayer.getMove();
-	        assertEquals(1, randomPlayer.getAvailableMoves().size());
+	       // assertEquals(1, randomPlayer.getAvailableMoves().size());
 	        randomPlayer.getMove();
-	        assertTrue(randomPlayer.getAvailableMoves().isEmpty());
+	       // assertTrue(randomPlayer.getAvailableMoves().isEmpty());
+	        
+	        availableMoves.add(new Integer[] { 2,3 });
+	        randomPlayer.setAvailableMoves(availableMoves);
+	        int move1 = randomPlayer.getMove()[1];
+	        assertNotEquals(2, move1);	//testing for an invalid value
+	        assertEquals(3, move1);
+	        
 	 }
 
 }
