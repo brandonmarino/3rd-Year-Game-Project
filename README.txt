@@ -1,5 +1,6 @@
+/*At the end, check UML Paths at the end...*/
 Phoenix
-Milestone 2
+Milestone 3
 Project Authors: Lina El Sadek, Brandon Marino, Martin Massie, Osama BuHamad
 =======
 
@@ -78,4 +79,4 @@ TO RUN
 
 Diagrams
   The UML diagrams for Tic-Tac-Toe and Othello can be found in their respective project root folders.
-  ie: Phoenix-master.zip/phoenix-master/Othello or Phoenix-master.zip/phoenix-master/Tic Tac toe
+  ie: Phoenix-master.zip/phoenix-master/MileStone3UML
