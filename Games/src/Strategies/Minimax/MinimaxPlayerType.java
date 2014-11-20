@@ -102,10 +102,39 @@ public class MinimaxPlayerType extends PlayerType {
 
     /**
      * Evaluate the current state of the board to rank it later
-     * The versions in the sub classes are the important ones
+     *
      * @param boardGame      the board that the game is being played on
      * @param availableMoves all legal moves
      * @return the evaluation of this state
      */
-    protected int evaluate(Board boardGame, ArrayList<Move> availableMoves){ return 0;}
+    protected int evaluate(Board boardGame, ArrayList<Move> availableMoves) {
+        boardGame = boardGame.getClone();   //clone the board for safety
+        //player mobilities and total owed squares
+        int player1Mobility;
+        int player2Mobility;
+        int mobility = 0;
+        int owendSpaces = 0;
+        int player1Score = boardGame.countSpaces(Board.PLAYER.PLAYER1);
+        int player2Score = boardGame.countSpaces(Board.PLAYER.PLAYER2);
+        switch (boardGame.getCurrentPlayer()) {
+            case PLAYER1:
+                player1Mobility = cloneMoves(availableMoves).size();
+                boardGame.setcurrentPlayer(Board.PLAYER.PLAYER2);
+                player2Mobility = boardGame.getPossibleMoves().size();
+                boardGame.setcurrentPlayer(Board.PLAYER.PLAYER1);
+                mobility = player1Mobility - player2Mobility;
+                owendSpaces = player1Score - player2Score;
+                break;
+            case PLAYER2:
+                boardGame.setcurrentPlayer(Board.PLAYER.PLAYER1);
+                player1Mobility = boardGame.getPossibleMoves().size();
+                boardGame.setcurrentPlayer(Board.PLAYER.PLAYER2);
+                player2Mobility = cloneMoves(availableMoves).size();
+                mobility = player2Mobility - player1Mobility;
+                owendSpaces = player2Score - player1Score;
+                break;
+        }
+        // return evaluation of board
+        return (10 * mobility) + owendSpaces; //ability to move is more important than the player's score at the next state
+    }
 }
