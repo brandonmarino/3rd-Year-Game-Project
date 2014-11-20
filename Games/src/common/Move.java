@@ -90,4 +90,14 @@ public class Move {
     public void setColumn(int column) {
         this.column = column;
     }
+    
+    
+    @Override
+    public boolean equals(Object aMove)
+    {
+    	Move otherMove = (Move)aMove;
+    	if(row == otherMove.getRow() && column == otherMove.getColumn())
+    		return true;
+		return false;    	
+    }
 }
