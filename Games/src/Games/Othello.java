@@ -2,6 +2,10 @@ package Games;
 
 import Boards.OthelloBoard;
 import PlayerTypes.PlayerType;
+import Strategies.Alternative.AlternativePlayerType;
+import Strategies.Alternative.OthelloAlternativePlayerType;
+import Strategies.Minimax.MinimaxPlayerType;
+import Strategies.Minimax.OthelloMinimaxPlayerType;
 
 /***************************************************************************************************************************************************************
  * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomPlayerType and OthelloBoard Class
@@ -41,5 +45,20 @@ public class Othello extends Game
         boolean takeTurn = super.takeTurn(move);
         ((OthelloBoard)boardGame).setMoved(takeTurn);
         return takeTurn;
+    }
+    /**
+     * Will specify the specifics of each strategy, avoid specialization in superclass
+     */
+    protected void getPlayerInfo(){
+        super.getPlayerInfo();
+        PlayerType[] players = getPlayers();
+        for(int i = 0; i< players.length; i++){
+            if (players[i] instanceof AlternativePlayerType){
+                players[i] = new OthelloAlternativePlayerType((AlternativePlayerType)players[i]);
+            }
+            if (players[i] instanceof MinimaxPlayerType){
+                players[i] = new OthelloMinimaxPlayerType((MinimaxPlayerType)players[i]);
+            }
+        }
     }
 }

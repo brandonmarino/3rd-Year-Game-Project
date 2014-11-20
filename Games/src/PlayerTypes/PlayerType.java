@@ -46,7 +46,7 @@ public abstract class PlayerType
      * Will return the moves that are available to this player at this time
      * @return the current list of available moves for this player
      */
-    protected ArrayList<Move> getAvailableMoves(){
+    public ArrayList<Move> getAvailableMoves(){
         return availableMoves;
     }
 

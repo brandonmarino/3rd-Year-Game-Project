@@ -137,6 +137,16 @@ public class TicTacToeBoard extends Board
         Move move = new Move(row, column);
         return getCell(move);
     }
+    public int getState(){
+        int value = 0;
+        if(isVertical())
+            value++;
+        else if(isHorizontal())
+            value++;
+        else if (isDiagonal())
+            value++;
+        return value;
+    }
     /**
      * Find if somebody has made a line of three
      * @return if a line was found

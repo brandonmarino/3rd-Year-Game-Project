@@ -3,6 +3,7 @@ package Games;
 import Boards.Board;
 import GUI.OthelloController;
 import PlayerTypes.*;
+import Strategies.Minimax.MinimaxPlayerType;
 import common.Move;
 
 import java.util.InputMismatchException;
@@ -57,10 +58,7 @@ public abstract class Game extends Observable {
     protected void getPlayerInfo(){
         int choice;
         for(int playernum = 0; playernum < players.length; playernum++){
-            System.out.println("\nPlayers types:\n1: Human\n2: Computer- Random");
-            if (this instanceof Othello){
-                System.out.println("3: Computer- MiniMax");
-            }
+            System.out.println("\nPlayers types:\n1: Human\n2: Computer- Random"+"\n3: Computer- MiniMax");
             while(true){
                 try{
                     Scanner user_input  = new Scanner(System.in);
@@ -76,7 +74,7 @@ public abstract class Game extends Observable {
                     }
                     else if (choice == 2)
                         players[playernum] = new RandomPlayerType(playernum+1);
-                    else if ( (choice == 3) && (this instanceof Othello) )
+                    else if ( choice == 3 )
                         players[playernum] = new MinimaxPlayerType(boardGame,playernum+1);  //change this to MinMaxMove!
                     else
                         throw new InputMismatchException(); //This should be changed to a custom Exception!

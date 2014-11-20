@@ -100,6 +100,23 @@ public abstract class Board{
     public abstract ArrayList<Move> getPossibleMoves();
 
     /**
+     * Count all spaces currently occupied by a specific player
+     * @param somePlayer the player
+     * @return some amount of spaces occupied
+     */
+    public int countSpaces(PLAYER somePlayer){
+        int spaces = 0;
+        for (int currentRow = 0; currentRow < DIMENSIONS; currentRow++) {
+            for (int currentColumn = 0; currentColumn < DIMENSIONS; currentColumn++) {
+                if (getCell( new Move(currentRow, currentColumn) ) == somePlayer) {
+                    spaces++;
+                }
+            }
+        }
+        return spaces;
+    }
+
+    /**
      * Will scan the current board and find all of the current empty places
      *
      * @return a list of all empty spaces on the board
