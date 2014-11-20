@@ -98,7 +98,7 @@ public abstract class Board{
      * @return return a list of all possible moves
      */
     public abstract ArrayList<Move> getPossibleMoves();
-
+    
     /**
      * Count all spaces currently occupied by a specific player
      * @param somePlayer the player
@@ -115,7 +115,8 @@ public abstract class Board{
         }
         return spaces;
     }
-
+    
+    
     /**
      * Will scan the current board and find all of the current empty places
      *
@@ -123,9 +124,10 @@ public abstract class Board{
      */
     protected ArrayList<Move> getEmptySpaces() {
         ArrayList<Move> emptySpaces = new ArrayList<Move>();
+        PLAYER[][] board = getBoard();
         for (int currentRow = 0; currentRow < DIMENSIONS; currentRow++) {
             for (int currentColumn = 0; currentColumn < DIMENSIONS; currentColumn++) {
-                if (getBoard()[currentRow][currentColumn] == PLAYER.EMPTY) {
+                if (board[currentRow][currentColumn] == PLAYER.EMPTY) {
                     Move ret = new Move(currentRow, currentColumn);
                     emptySpaces.add(ret);
                 }
@@ -292,6 +294,8 @@ public abstract class Board{
                 return PLAYER.PLAYER2;
             case PLAYER2:
                 return PLAYER.PLAYER1;
+            case EMPTY:
+            	return PLAYER.EMPTY;
         }
         return PLAYER.EMPTY;
     }

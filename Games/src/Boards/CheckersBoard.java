@@ -1,21 +1,26 @@
 package Boards;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import common.CheckersMove;
 import common.Move;
 
 public class CheckersBoard extends Board {
 
-	private int forwards, deadWhite, deadBlack;
-	private ArrayList<Move> queenedPieces;
+	private int forwards, deadRed, deadBlack;
+	private boolean blackMoved; //pay attention to if the black player made a move on their last attempt
+    private boolean redMoved; // pay attention to if the red player made a move on their last attempt
+	private Set<Move> kingedPieces;
 	
 	public CheckersBoard() {
 		super(8);
 		setPlayerTiles('B', 'R'); // Black moves first
 		setUpBoard(getDimensions());
-		deadWhite = 0;
-		deadBlack = 0;		
+		deadRed = 0;
+		deadBlack = 0;	
+		kingedPieces = new HashSet<Move>();
 	}
 
 	private void setUpBoard(int dim) {
@@ -25,22 +30,22 @@ public class CheckersBoard extends Board {
 		for(PLAYER player : players)
 		{
 			setForwards(player);
-			int row = 0;
+			int rowStart = 0;
 			if(player.equals(PLAYER.PLAYER2))
-				row = dim;
-			for(row--; row != (dim-2)/2 && row != (dim-2)/2 +1 ; row += forwards)
+				rowStart = dim -1; 
+			for(int row = rowStart; row != (dim-2)/2 && row != (dim-2)/2 +1 ; row += forwards)
 			{
-				if (row % 2 == 0){
+				if (row % 2 == 1){
 					setCell( player, new Move(row,0));
 					setCell( player, new Move(row,dim/4));
 					setCell( player, new Move(row,dim/2));
 					setCell( player, new Move(row,dim-2));
 				}
 				else{
-					setCell( player, new Move(row,dim/4 -1));
-					setCell( player, new Move(row,dim/2 -1));
-					setCell( player, new Move(row,dim/2 +1));
-					setCell( player, new Move(row,dim));
+					setCell( player, new Move(row,(dim/4) -1));
+					setCell( player, new Move(row,(dim/2) -1));
+					setCell( player, new Move(row,(dim/2) +1));
+					setCell( player, new Move(row,dim -1));
 				}
 			}
 		}	
@@ -68,6 +73,25 @@ public class CheckersBoard extends Board {
         }		
 		return legalMoves;		
 	}
+	
+    /**
+     * Will scan the current board and find all of the current occupied places
+     * 
+     * @return a list of all occupied spaces on the board
+     */
+    protected ArrayList<Move> getFullSpaces() {
+        ArrayList<Move> fullSpaces = new ArrayList<Move>();
+        PLAYER[][] board = getBoard();
+        for (int currentRow = 0; currentRow < DIMENSIONS; currentRow++) {
+            for (int currentColumn = 0; currentColumn < DIMENSIONS; currentColumn++) {
+                if (board[currentRow][currentColumn] == getCurrentPlayer()) {
+                    Move ret = new Move(currentRow, currentColumn);
+                    fullSpaces.add(ret);
+                }
+            }
+        }
+        return fullSpaces;
+    }
 
 	/**
 	 * finds the possible places (Moves) a specific piece can go to.
@@ -87,7 +111,7 @@ public class CheckersBoard extends Board {
 		if (isInBound(aMove) && isEmpty(aMove))
 			goodMoves.add(aMove);
 		
-		if(queenedPieces.contains(possibleMove))
+		if(kingedPieces.contains(possibleMove))
 		{ //check all directions
 			aMove.setRow(possibleMove.getRow() + forwards * -1);
 			aMove.setColumn(possibleMove.getColumn() + 1);
@@ -111,24 +135,37 @@ public class CheckersBoard extends Board {
 		if (isInBound(enemy) && isEnemy(enemy))
 		{
 			jump = new Move (enemy.getRow() + forwards, enemy.getColumn() +1);
-			if(isInBound(jump) && isEnemy(jump))
+			if(isInBound(jump) && isEmpty(jump))
 				goodMoves.add(jump);
 		}
 		
 		enemy.setColumn(justMoved.getColumn() - 1);
-		if (isInBound(enemy) && isEmpty(enemy))
-			goodMoves.add(enemy);
+		if (isInBound(enemy) && isEnemy(enemy))
+		{
+			jump = new Move (enemy.getRow() + forwards, enemy.getColumn() -1);
+			if(isInBound(jump) && isEmpty(jump))
+				goodMoves.add(jump);
+		}
 		
-		if(queenedPieces.contains(justMoved))
+		if(kingedPieces.contains(justMoved))
 		{ //check all directions
 			enemy.setRow(justMoved.getRow() + forwards * -1);
-			enemy.setColumn(justMoved.getColumn() + 1);
-			if (isInBound(enemy) && isEmpty(enemy))
-				goodMoves.add(enemy);
+			enemy.setColumn(justMoved.getColumn() +1);
+			if (isInBound(enemy) && isEnemy(enemy))
+			{
+				jump = new Move (enemy.getRow() + forwards * -1, enemy.getColumn() +1);
+				if(isInBound(jump) && isEmpty(jump))
+					goodMoves.add(jump);
+			}
 			
-			enemy.setColumn(justMoved.getColumn() - 1);
-			if (isInBound(enemy) && isEmpty(enemy))
-				goodMoves.add(enemy);
+			enemy.setRow(justMoved.getRow() + forwards * -1);
+			enemy.setColumn(justMoved.getColumn() -1);
+			if (isInBound(enemy) && isEnemy(enemy))
+			{
+				jump = new Move (enemy.getRow() + forwards * -1, enemy.getColumn() -1);
+				if(isInBound(jump) && isEmpty(jump))
+					goodMoves.add(jump);
+			}
 		}
 		return goodMoves;
 	}
@@ -146,6 +183,7 @@ public class CheckersBoard extends Board {
 	}	
 
 	private boolean isInBound(Move aMove) {
+		System.out.println("Before: Row: " + aMove.getRow() + "    Column: " + aMove.getColumn());
 		int x = aMove.getColumn();
 		int y = aMove.getRow();
 		if(x >= 0 && x < getDimensions())
@@ -158,27 +196,80 @@ public class CheckersBoard extends Board {
 
 	@Override
 	public Board getClone() {
-		// TODO Auto-generated method stub
-		return null;
+		CheckersBoard cloneBoard = new CheckersBoard();
+		cloneBoard = (CheckersBoard) super.getClone(cloneBoard);
+		cloneBoard.setBlackMoved(isBlackMoved());
+		cloneBoard.setRedMoved(isRedMoved());
+		return cloneBoard;
 	}
 
 	@Override
 	public boolean attemptMove(Move move) {
+		CheckersMove moveFrom = (CheckersMove) move;
+		Move moveTo = moveFrom.getDest();
+		PLAYER[][] board = getBoard();
+		if (hasJumped(moveFrom))
+		{
+			board[ moveFrom.getRow() + ( (moveTo.getRow() - moveFrom.getRow()) /2) ][ moveFrom.getColumn() + ( (moveTo.getColumn() - moveFrom.getColumn()) /2) ] = PLAYER.EMPTY;
+			if(getEnemy() == PLAYER.PLAYER1)
+			{
+				deadBlack += 1;
+			}
+			else
+			{
+				deadRed += 1;
+			}
+		}
+		System.out.println("Origin: Row: " + moveFrom.getRow() + "    Column: " + moveFrom.getColumn());
+		System.out.println("Destination: Row: " + moveTo.getRow() + "    Column: " + moveTo.getColumn());
+		board[moveFrom.getRow()][moveFrom.getColumn()] = PLAYER.EMPTY;
+		board[moveTo.getRow()][moveTo.getColumn()] = getCurrentPlayer();
+		
+		//check if piece is kinged
+		if(moveTo.getRow() == 0 || moveTo.getRow() == getDimensions() -1)
+		{
+			kingedPieces.add(moveTo);
+		}
+		//update kinged list
+		if(kingedPieces.contains(moveFrom))
+		{
+			kingedPieces.remove(moveFrom);
+			kingedPieces.add(moveTo);
+		}
+		setForwards(getEnemy());
+		return true;
+	}
 
-
-		//check if piece is queened
-		//update queened list
+	private boolean hasJumped(CheckersMove aMove) {
+		if(Math.abs(aMove.getColumn() - aMove.getDest().getColumn()) > 1)
+			return true;
 		return false;
 	}
 
 	@Override
 	protected PLAYER hasBeenWon() {
-		// TODO Auto-generated method stub
+		if(deadRed >= 12)
+			return PLAYER.PLAYER1;
+		else if (deadBlack >= 12)
+			return PLAYER.PLAYER2;
+		else if (getPossibleMoves().isEmpty())
+			return getEnemy();
 		return null;
 	}
-
 	
 	
+	public void setMoved(Boolean set){
+        switch(getCurrentPlayer()){
+            case PLAYER1:
+                blackMoved = set;
+                break;
+            case PLAYER2:
+                redMoved = set;
+                break;
+            case EMPTY:
+            	break;
+        }
+    }	
 
 	public void setForwards(PLAYER player) {
 		if(player.equals(PLAYER.PLAYER1))
@@ -189,6 +280,34 @@ public class CheckersBoard extends Board {
 		{
 			forwards = -1;
 		}
+	}
+	
+	/**
+	 * @return the blackMoved
+	 */
+	public boolean isBlackMoved() {
+		return blackMoved;
+	}
+
+	/**
+	 * @param blackMoved the blackMoved to set
+	 */
+	public void setBlackMoved(boolean blackMoved) {
+		this.blackMoved = blackMoved;
+	}
+
+	/**
+	 * @return the redMoved
+	 */
+	public boolean isRedMoved() {
+		return redMoved;
+	}
+
+	/**
+	 * @param redMoved the redMoved to set
+	 */
+	public void setRedMoved(boolean redMoved) {
+		this.redMoved = redMoved;
 	}
 
 }
