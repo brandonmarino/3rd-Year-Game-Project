@@ -3,6 +3,7 @@ package Boards;
 import java.util.ArrayList;
 import java.util.Set;
 
+import Boards.Board.PLAYER;
 import common.CheckersMove;
 import common.Move;
 
@@ -71,6 +72,25 @@ public class CheckersBoard extends Board {
         }		
 		return legalMoves;		
 	}
+	
+    /**
+     * Will scan the current board and find all of the current occupied places
+     * 
+     * @return a list of all occupied spaces on the board
+     */
+    protected ArrayList<Move> getFullSpaces() {
+        ArrayList<Move> fullSpaces = new ArrayList<Move>();
+        PLAYER[][] board = getBoard();
+        for (int currentRow = 0; currentRow < DIMENSIONS; currentRow++) {
+            for (int currentColumn = 0; currentColumn < DIMENSIONS; currentColumn++) {
+                if (board[currentRow][currentColumn] == getCurrentPlayer()) {
+                    Move ret = new Move(currentRow, currentColumn);
+                    fullSpaces.add(ret);
+                }
+            }
+        }
+        return fullSpaces;
+    }
 
 	/**
 	 * finds the possible places (Moves) a specific piece can go to.
@@ -229,7 +249,7 @@ public class CheckersBoard extends Board {
 		else if (deadBlack >= 12)
 			return PLAYER.PLAYER2;
 		else if (getPossibleMoves().isEmpty())
-			return PLAYER.EMPTY;////////////////////////////////////////////
+			return getEnemy();
 		return null;
 	}
 	
@@ -243,10 +263,7 @@ public class CheckersBoard extends Board {
                 redMoved = set;
                 break;
         }
-    }
-
-	
-	
+    }	
 
 	public void setForwards(PLAYER player) {
 		if(player.equals(PLAYER.PLAYER1))
