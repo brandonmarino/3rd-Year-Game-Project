@@ -294,6 +294,8 @@ public abstract class Board{
                 return PLAYER.PLAYER2;
             case PLAYER2:
                 return PLAYER.PLAYER1;
+            case EMPTY:
+            	return PLAYER.EMPTY;
         }
         return PLAYER.EMPTY;
     }

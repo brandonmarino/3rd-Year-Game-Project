@@ -1,9 +1,9 @@
 package Boards;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
-import Boards.Board.PLAYER;
 import common.CheckersMove;
 import common.Move;
 
@@ -19,7 +19,8 @@ public class CheckersBoard extends Board {
 		setPlayerTiles('B', 'R'); // Black moves first
 		setUpBoard(getDimensions());
 		deadRed = 0;
-		deadBlack = 0;		
+		deadBlack = 0;	
+		kingedPieces = new HashSet<Move>();
 	}
 
 	private void setUpBoard(int dim) {
@@ -29,22 +30,22 @@ public class CheckersBoard extends Board {
 		for(PLAYER player : players)
 		{
 			setForwards(player);
-			int row = 0;
+			int rowStart = 0;
 			if(player.equals(PLAYER.PLAYER2))
-				row = dim;
-			for(row--; row != (dim-2)/2 && row != (dim-2)/2 +1 ; row += forwards)
+				rowStart = dim -1; 
+			for(int row = rowStart; row != (dim-2)/2 && row != (dim-2)/2 +1 ; row += forwards)
 			{
-				if (row % 2 == 0){
+				if (row % 2 == 1){
 					setCell( player, new Move(row,0));
 					setCell( player, new Move(row,dim/4));
 					setCell( player, new Move(row,dim/2));
 					setCell( player, new Move(row,dim-2));
 				}
 				else{
-					setCell( player, new Move(row,dim/4 -1));
-					setCell( player, new Move(row,dim/2 -1));
-					setCell( player, new Move(row,dim/2 +1));
-					setCell( player, new Move(row,dim));
+					setCell( player, new Move(row,(dim/4) -1));
+					setCell( player, new Move(row,(dim/2) -1));
+					setCell( player, new Move(row,(dim/2) +1));
+					setCell( player, new Move(row,dim -1));
 				}
 			}
 		}	
@@ -182,6 +183,7 @@ public class CheckersBoard extends Board {
 	}	
 
 	private boolean isInBound(Move aMove) {
+		System.out.println("Before: Row: " + aMove.getRow() + "    Column: " + aMove.getColumn());
 		int x = aMove.getColumn();
 		int y = aMove.getRow();
 		if(x >= 0 && x < getDimensions())
@@ -218,6 +220,8 @@ public class CheckersBoard extends Board {
 				deadRed += 1;
 			}
 		}
+		System.out.println("Origin: Row: " + moveFrom.getRow() + "    Column: " + moveFrom.getColumn());
+		System.out.println("Destination: Row: " + moveTo.getRow() + "    Column: " + moveTo.getColumn());
 		board[moveFrom.getRow()][moveFrom.getColumn()] = PLAYER.EMPTY;
 		board[moveTo.getRow()][moveTo.getColumn()] = getCurrentPlayer();
 		
@@ -262,6 +266,8 @@ public class CheckersBoard extends Board {
             case PLAYER2:
                 redMoved = set;
                 break;
+            case EMPTY:
+            	break;
         }
     }	
 
