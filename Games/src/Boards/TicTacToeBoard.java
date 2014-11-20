@@ -137,7 +137,7 @@ public class TicTacToeBoard extends Board
         Move move = new Move(row, column);
         return getCell(move);
     }
-    public int getState(){
+    public int getStateWorth(){
         int value = 0;
         if(isVertical())
             value++;

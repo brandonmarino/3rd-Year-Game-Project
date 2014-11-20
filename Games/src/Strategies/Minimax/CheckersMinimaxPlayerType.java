@@ -1,6 +1,7 @@
 package Strategies.Minimax;
 
 import Boards.Board;
+import Boards.CheckersBoard;
 import PlayerTypes.PlayerType;
 import common.Move;
 
@@ -27,40 +28,17 @@ public class CheckersMinimaxPlayerType extends MinimaxPlayerType {
     }
 
     /**
-     * Evaluate the current state of the board to rank it later
+     * Evaluate the current state of the checkers board to rank it later
      *
-     * @param boardGame      the board that the game is being played on
-     * @param availableMoves all legal moves
+     * @param GenericBoardGame      the board that the game is being played on
+     * @param availableMoves        all legal moves
      * @return the evaluation of this state
      */
-    protected int evaluate(Board boardGame, ArrayList<Move> availableMoves) {
-        //player mobilities and shiptotals
-        int player1Mobility = 0;
-        int player2Mobility = 0;
-        int mobility = 0;
-        int chips = 0;
-        //int player1Chips = boardGame.countSpaces(Board.PLAYER.PLAYER1);
-        //int player2Chips = boardGame.countSpaces(Board.PLAYER.PLAYER2);
-        switch (boardGame.getCurrentPlayer()) {
-            case PLAYER1:
-                player1Mobility = PlayerType.cloneMoves(availableMoves).size();
-                boardGame.setcurrentPlayer(Board.PLAYER.PLAYER2);
-                player2Mobility = boardGame.getPossibleMoves().size();
-                boardGame.setcurrentPlayer(Board.PLAYER.PLAYER1);
-                mobility = player1Mobility - player2Mobility;
-                //chips = player1Chips - player2Chips;
-                break;
-            case PLAYER2:
-                boardGame.setcurrentPlayer(Board.PLAYER.PLAYER1);
-                player1Mobility = boardGame.getPossibleMoves().size();
-                boardGame.setcurrentPlayer(Board.PLAYER.PLAYER2);
-                player2Mobility = PlayerType.cloneMoves(availableMoves).size();
-                mobility = player2Mobility - player1Mobility;
-                //chips = player2Chips - player1Chips;
-                break;
-        }
-        // return evaluation of board
-        return (10 * mobility) + chips; //ability to move is more important than the player's score at the next state
+    protected int evaluate(Board GenericBoardGame, ArrayList<Move> availableMoves) {
 
+        CheckersBoard boardGame = (CheckersBoard)GenericBoardGame;
+        //checkers specific code
+        int gameState = boardGame.getStateWorth();
+        return (100*gameState) + super.evaluate(boardGame, availableMoves);
     }
 }

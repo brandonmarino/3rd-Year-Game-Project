@@ -2,6 +2,7 @@ package Strategies.Minimax;
 
 import Boards.Board;
 import Boards.TicTacToeBoard;
+import Games.TicTacToe;
 import common.Move;
 
 import java.util.ArrayList;
@@ -27,18 +28,17 @@ public class TicTacToeMinimaxPlayerType extends MinimaxPlayerType {
         super(player.getBoard(),player.getPlayerNum());
     }
 
-
     /**
      * Evaluate the current state of the board to rank it later
      *
-     * @param boardGame      the board that the game is being played on
+     * @param GenericBoardGame      the board that the game is being played on
      * @param availableMoves all legal moves
      * @return the evaluation of this state
      */
     @Override
-    protected int evaluate(Board boardGame, ArrayList<Move> availableMoves) {
-
-        int gameState = ((TicTacToeBoard)boardGame).getState(); //if the game has been won, and if so, how many conditions does it meet?
+    protected int evaluate(Board GenericBoardGame, ArrayList<Move> availableMoves) {
+        TicTacToeBoard boardGame = (TicTacToeBoard)GenericBoardGame;
+        int gameState = boardGame.getStateWorth(); //if the game has been won, and if so, how many conditions does it meet?
         // return evaluation of board
         return (100* gameState) + super.evaluate(boardGame, availableMoves); //ability to move is more important than the player's score at the next state
     }
