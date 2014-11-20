@@ -1,20 +1,23 @@
 package Boards;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import common.CheckersMove;
 import common.Move;
 
 public class CheckersBoard extends Board {
 
-	private int forwards, deadWhite, deadBlack;
-	private ArrayList<Move> queenedPieces;
+	private int forwards, deadRed, deadBlack;
+	private boolean blackMoved; //pay attention to if the black player made a move on their last attempt
+    private boolean redMoved; // pay attention to if the red player made a move on their last attempt
+	private Set<Move> kingedPieces;
 	
 	public CheckersBoard() {
 		super(8);
 		setPlayerTiles('B', 'R'); // Black moves first
 		setUpBoard(getDimensions());
-		deadWhite = 0;
+		deadRed = 0;
 		deadBlack = 0;		
 	}
 
@@ -87,7 +90,7 @@ public class CheckersBoard extends Board {
 		if (isInBound(aMove) && isEmpty(aMove))
 			goodMoves.add(aMove);
 		
-		if(queenedPieces.contains(possibleMove))
+		if(kingedPieces.contains(possibleMove))
 		{ //check all directions
 			aMove.setRow(possibleMove.getRow() + forwards * -1);
 			aMove.setColumn(possibleMove.getColumn() + 1);
@@ -111,24 +114,37 @@ public class CheckersBoard extends Board {
 		if (isInBound(enemy) && isEnemy(enemy))
 		{
 			jump = new Move (enemy.getRow() + forwards, enemy.getColumn() +1);
-			if(isInBound(jump) && isEnemy(jump))
+			if(isInBound(jump) && isEmpty(jump))
 				goodMoves.add(jump);
 		}
 		
 		enemy.setColumn(justMoved.getColumn() - 1);
-		if (isInBound(enemy) && isEmpty(enemy))
-			goodMoves.add(enemy);
+		if (isInBound(enemy) && isEnemy(enemy))
+		{
+			jump = new Move (enemy.getRow() + forwards, enemy.getColumn() -1);
+			if(isInBound(jump) && isEmpty(jump))
+				goodMoves.add(jump);
+		}
 		
-		if(queenedPieces.contains(justMoved))
+		if(kingedPieces.contains(justMoved))
 		{ //check all directions
 			enemy.setRow(justMoved.getRow() + forwards * -1);
-			enemy.setColumn(justMoved.getColumn() + 1);
-			if (isInBound(enemy) && isEmpty(enemy))
-				goodMoves.add(enemy);
+			enemy.setColumn(justMoved.getColumn() +1);
+			if (isInBound(enemy) && isEnemy(enemy))
+			{
+				jump = new Move (enemy.getRow() + forwards * -1, enemy.getColumn() +1);
+				if(isInBound(jump) && isEmpty(jump))
+					goodMoves.add(jump);
+			}
 			
-			enemy.setColumn(justMoved.getColumn() - 1);
-			if (isInBound(enemy) && isEmpty(enemy))
-				goodMoves.add(enemy);
+			enemy.setRow(justMoved.getRow() + forwards * -1);
+			enemy.setColumn(justMoved.getColumn() -1);
+			if (isInBound(enemy) && isEnemy(enemy))
+			{
+				jump = new Move (enemy.getRow() + forwards * -1, enemy.getColumn() -1);
+				if(isInBound(jump) && isEmpty(jump))
+					goodMoves.add(jump);
+			}
 		}
 		return goodMoves;
 	}
@@ -158,24 +174,76 @@ public class CheckersBoard extends Board {
 
 	@Override
 	public Board getClone() {
-		// TODO Auto-generated method stub
-		return null;
+		CheckersBoard cloneBoard = new CheckersBoard();
+		cloneBoard = (CheckersBoard) super.getClone(cloneBoard);
+		cloneBoard.setBlackMoved(isBlackMoved());
+		cloneBoard.setRedMoved(isRedMoved());
+		return cloneBoard;
 	}
 
 	@Override
 	public boolean attemptMove(Move move) {
+		CheckersMove moveFrom = (CheckersMove) move;
+		Move moveTo = moveFrom.getDest();
+		PLAYER[][] board = getBoard();
+		if (hasJumped(moveFrom))
+		{
+			board[ moveFrom.getRow() + ( (moveTo.getRow() - moveFrom.getRow()) /2) ][ moveFrom.getColumn() + ( (moveTo.getColumn() - moveFrom.getColumn()) /2) ] = PLAYER.EMPTY;
+			if(getEnemy() == PLAYER.PLAYER1)
+			{
+				deadBlack += 1;
+			}
+			else
+			{
+				deadRed += 1;
+			}
+		}
+		board[moveFrom.getRow()][moveFrom.getColumn()] = PLAYER.EMPTY;
+		board[moveTo.getRow()][moveTo.getColumn()] = getCurrentPlayer();
+		
+		//check if piece is kinged
+		if(moveTo.getRow() == 0 || moveTo.getRow() == getDimensions() -1)
+		{
+			kingedPieces.add(moveTo);
+		}
+		//update kinged list
+		if(kingedPieces.contains(moveFrom))
+		{
+			kingedPieces.remove(moveFrom);
+			kingedPieces.add(moveTo);
+		}
+		setForwards(getEnemy());
+		return true;
+	}
 
-
-		//check if piece is queened
-		//update queened list
+	private boolean hasJumped(CheckersMove aMove) {
+		if(Math.abs(aMove.getColumn() - aMove.getDest().getColumn()) > 1)
+			return true;
 		return false;
 	}
 
 	@Override
 	protected PLAYER hasBeenWon() {
-		// TODO Auto-generated method stub
+		if(deadRed >= 12)
+			return PLAYER.PLAYER1;
+		else if (deadBlack >= 12)
+			return PLAYER.PLAYER2;
+		else if (getPossibleMoves().isEmpty())
+			return PLAYER.EMPTY;////////////////////////////////////////////
 		return null;
 	}
+	
+	
+	public void setMoved(Boolean set){
+        switch(getCurrentPlayer()){
+            case PLAYER1:
+                blackMoved = set;
+                break;
+            case PLAYER2:
+                redMoved = set;
+                break;
+        }
+    }
 
 	
 	
@@ -189,6 +257,34 @@ public class CheckersBoard extends Board {
 		{
 			forwards = -1;
 		}
+	}
+	
+	/**
+	 * @return the blackMoved
+	 */
+	public boolean isBlackMoved() {
+		return blackMoved;
+	}
+
+	/**
+	 * @param blackMoved the blackMoved to set
+	 */
+	public void setBlackMoved(boolean blackMoved) {
+		this.blackMoved = blackMoved;
+	}
+
+	/**
+	 * @return the redMoved
+	 */
+	public boolean isRedMoved() {
+		return redMoved;
+	}
+
+	/**
+	 * @param redMoved the redMoved to set
+	 */
+	public void setRedMoved(boolean redMoved) {
+		this.redMoved = redMoved;
 	}
 
 }
