@@ -3,13 +3,23 @@ import Boards.Board;
 import Boards.Board.GAME_STATE;
 import Boards.Board.PLAYER;
 import Boards.TicTacToeBoard;
-
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class TicTacToeBoardTest {
+import common.Move;
 
+/**
+* *********************************************************************************************************************************************************
+* 									TicTacToeBoardTEST 
+* ***********************************************************************************************************************************************************
+*
+* Author: Lina El Sadek
+*
+*/
+
+public class TicTacToeBoardTest {
+			
 	@Test
 	public void ConstructorTest() {
 		TicTacToeBoard b = new TicTacToeBoard();
@@ -34,28 +44,53 @@ public class TicTacToeBoardTest {
 	public void TicTacToeBoardTestAndDraw()
 	{
 		TicTacToeBoard b = new TicTacToeBoard();
+		Move move = new Move();
 		
-		b.attemptMove(0, 0);
-		b.attemptMove(0, 1);
-		b.attemptMove(0, 2);
+		move.setColumn(0);
+        move.setRow(0);
+		b.attemptMove(move);
+		
+		move.setColumn(1);
+        move.setRow(0);
+		b.attemptMove(move);
+		
+		move.setColumn(2);
+        move.setRow(0);
+		b.attemptMove(move);
 		
 		assertTrue(b.isHorizontal());
 		assertFalse(b.isVertical());
-		assertFalse(b.isDiagonal());
+		assertEquals(0,b.isDiagonal());	//if it's a zero then it's false
 		
-		b.attemptMove(0, 0);
-		b.attemptMove(1, 0);
-		b.attemptMove(2, 0);
+		move.setColumn(0);
+        move.setRow(0);
+		b.attemptMove(move);
+		
+		move.setColumn(0);
+        move.setRow(1);
+		b.attemptMove(move);
+		
+		move.setColumn(0);
+        move.setRow(2);
+		b.attemptMove(move);
 		
 		assertTrue(b.isVertical());
 		assertFalse(b.isHorizontal());
-		assertFalse(b.isDiagonal());
+		assertEquals(0,b.isDiagonal());
 		
-		b.attemptMove(0, 0);
-		b.attemptMove(1, 1);
-		b.attemptMove(2, 2);
+		move.setColumn(0);
+        move.setRow(0);
+		b.attemptMove(move);
 		
-		assertTrue(b.isDiagonal());
+		move.setColumn(1);
+        move.setRow(1);
+		b.attemptMove(move);
+		
+		move.setColumn(2);
+        move.setRow(2);
+		b.attemptMove(move);
+		
+		assertEquals(1,b.isDiagonal()); //it returns 1 if it's true
 		assertFalse(b.isHorizontal());
 		assertFalse(b.isVertical());
 	}
@@ -64,11 +99,20 @@ public class TicTacToeBoardTest {
 	public void TicTacToeBoardTestAndHasWon()
 	{
 		TicTacToeBoard b = new TicTacToeBoard();
+		Move move = new Move();
 		b.setcurrentPlayer(PLAYER.PLAYER1);
 		//Test 1 - horizontal
-		b.attemptMove(0, 0);
-		b.attemptMove(0, 1);
-		b.attemptMove(0, 2);
+		move.setColumn(0);
+        move.setRow(0);
+		b.attemptMove(move);
+		
+		move.setColumn(1);
+        move.setRow(0);
+		b.attemptMove(move);
+		
+		move.setColumn(2);
+        move.setRow(0);
+		b.attemptMove(move);
 		
 		b.updateGame();
 		assertTrue(b.getCurrentState() != GAME_STATE.PLAYING);
@@ -77,9 +121,17 @@ public class TicTacToeBoardTest {
 		b = new TicTacToeBoard();
 		b.setcurrentPlayer(PLAYER.PLAYER1);
 		//Test 5 - vertical
-		b.attemptMove(0, 0 );
-		b.attemptMove(1, 0 );
-		b.attemptMove(2, 0);
+		move.setColumn(0);
+        move.setRow(0);
+		b.attemptMove(move);
+		
+		move.setColumn(0);
+        move.setRow(1);
+		b.attemptMove(move);
+		
+		move.setColumn(0);
+        move.setRow(2);
+		b.attemptMove(move);
 		
 		b.updateGame();
 		assertTrue(b.isVertical());
@@ -87,9 +139,17 @@ public class TicTacToeBoardTest {
 		b.updateGame();
 		assertTrue(b.getCurrentState() != GAME_STATE.PLAYING);
 		//Test 8 - Diagonal
-		b.attemptMove(0, 0);
-		b.attemptMove(1, 1);
-		b.attemptMove(2, 2);
+		move.setColumn(0);
+        move.setRow(0);
+		b.attemptMove(move);
+		
+		move.setColumn(1);
+        move.setRow(1);
+		b.attemptMove(move);
+		
+		move.setColumn(2);
+        move.setRow(2);
+		b.attemptMove(move);
 		
 		b.updateGame();
 		assertTrue(b.getCurrentState() != GAME_STATE.PLAYING);
