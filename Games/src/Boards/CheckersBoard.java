@@ -13,7 +13,7 @@ public class CheckersBoard extends Board {
 	private boolean blackMoved; //pay attention to if the black player made a move on their last attempt
     	private boolean redMoved; // pay attention to if the red player made a move on their last attempt
 	private ArrayList<Move> kingedPieces;
-	
+	private Move lastMove;
 	public CheckersBoard() {
 		super(8);
 		setPlayerTiles('B', 'R'); // Black moves first
@@ -211,6 +211,7 @@ public class CheckersBoard extends Board {
 
 	@Override
 	public boolean attemptMove(Move move) {
+        lastMove = move;
 		CheckersMove moveFrom = (CheckersMove) move;
 		Move moveTo = moveFrom.getDest();
 		//System.out.println("Source: Row: " + moveTo.getRow() + "    Column: " + moveTo.getColumn());
@@ -229,9 +230,13 @@ public class CheckersBoard extends Board {
 		}
 		//System.out.println("Origin: Row: " + moveFrom.getRow() + "    Column: " + moveFrom.getColumn());
 		//System.out.println("Destination: Row: " + moveTo.getRow() + "    Column: " + moveTo.getColumn());
-		board[moveFrom.getRow()][moveFrom.getColumn()] = PLAYER.EMPTY;
+		if ( (!isWithinBounds(moveTo))||(!isWithinBounds(moveFrom)) ){
+            return false;
+        }
+
+        board[moveFrom.getRow()][moveFrom.getColumn()] = PLAYER.EMPTY;
 		board[moveTo.getRow()][moveTo.getColumn()] = getCurrentPlayer();
-		
+
 		//check if piece is kinged
 		if(moveTo.getRow() == 0 || moveTo.getRow() == getDimensions() -1)
 		{
