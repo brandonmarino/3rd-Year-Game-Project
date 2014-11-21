@@ -1,4 +1,4 @@
-/*At the end, redo RUN instructions...*/
+
 Phoenix
 Milestone 3
 Project Authors: Lina El Sadek, Brandon Marino, Martin Massie, Osama BuHamad
@@ -33,7 +33,6 @@ JUnit Design Decision...
 Used Black Box technique as well as rigorous testing cases to ensure our program behaved the way it is supposed to. Moreover, invalid
 test cases were included.
 
-Known issues in Milestone 3...
 
 Improvements Made Since Milestone 2...
 - Fixed ReadMe file
@@ -50,13 +49,13 @@ Team Members Responsible for Deliverables....
 2) JUnit - Checkers classes ....... Osama
 3) Strategy - Checkers ...... Brandon 
 4) Board Game - Checkrs ..... Martin
-5) UML Diagrams, and JavaDoc.... Lina
+5) UML Diagrams .... Osama
 
 TO RUN
   Either open a command window, cd into the folder holding the respective .jar file (they are available in the
   main 'phoenix' folder), once in the folder, simply execute the command 'java -jar project-name.jar'.  
   The other option is to create a new project in eclipse with the packages 'Boards', 'Games', 'minimax', 
-  'PlayerTypes', and 'GUI'  then create empty classes with the names of each class found in each package and copy 
+  'PlayerTypes', and 'common', 'strategies', ' alternative', and 'GUI'  then create empty classes with the names of each class found in each package and copy 
   paste the code into those classes and run the project.
 
 Diagrams
