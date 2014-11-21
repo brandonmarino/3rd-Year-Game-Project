@@ -24,6 +24,10 @@ Strategy Design Decision...
 Two strategies were implemented: Random, and Minimax. The random strategy generates random moves with no evaluation to whether it was
 a good or bad move. On the other hand, minimax, evaluates all possible moves, and picks the best move that would result in making the 
 computer win. In this milestone, miniax has been improved on to suit Othello, Tic Tac Toe, and Checkers.
+In milestone 3, a third strategy was implemented. It can be found in Strategies.Alternatives package. This strategy works by looking at all its
+possible moves and instead of picking the best move, it picks the move that causes the biggest problem to the opponent. That is, it tries to block the
+opponent's best move. In addition to that, it has been designed to accomodate cases where there is nothing to obstruct. In that case, instead of using
+a random move, it will use minimax.
 
 JUnit Design Decision...
 Used Black Box technique as well as rigorous testing cases to ensure our program behaved the way it is supposed to. Moreover, invalid
