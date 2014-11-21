@@ -1,4 +1,4 @@
-/*At the end, and redo RUN instructions...*/
+/*At the end, redo RUN instructions...*/
 Phoenix
 Milestone 3
 Project Authors: Lina El Sadek, Brandon Marino, Martin Massie, Osama BuHamad
@@ -42,8 +42,8 @@ Improvements Made Since Milestone 2...
 - Missing minimax AI in Tic Tac Toe
 
 Team Members Responsible for Deliverables....
-1) JUnit - Checkers ....... Lina
-2) GUI - Checkers ....... Osama
+1) JUnit - Othello and TicTacToe Games ....... Lina
+2) JUnit - Checkers classes ....... Osama
 3) Strategy - Checkers ...... Brandon 
 4) Board Game - Checkrs ..... Martin
 5) UML Diagrams, and JavaDoc.... Lina
