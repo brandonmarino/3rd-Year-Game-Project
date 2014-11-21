@@ -13,7 +13,7 @@ public class CheckersBoard extends Board {
     private boolean blackMoved; //pay attention to if the black player made a move on their last attempt
     private boolean redMoved; // pay attention to if the red player made a move on their last attempt
     private Set<Move> kingedPieces;
-
+    private CheckersMove lastMove;  //coulnt think of a better way of passing the move for evaluation, sorry
     public CheckersBoard() {
         super(8);
         setPlayerTiles('B', 'R'); // Black moves first
@@ -21,6 +21,7 @@ public class CheckersBoard extends Board {
         deadRed = 0;
         deadBlack = 0;
         kingedPieces = new HashSet<Move>();
+        lastMove = new CheckersMove(new Move(), new Move());
     }
 
     private void setUpBoard(int dim) {
@@ -206,6 +207,7 @@ public class CheckersBoard extends Board {
     @Override
     public boolean attemptMove(Move move) {
         CheckersMove moveFrom = (CheckersMove) move;
+        lastMove = moveFrom;
         Move moveTo = moveFrom.getDest();
         PLAYER[][] board = getBoard();
         if (hasJumped(moveFrom))
@@ -311,10 +313,59 @@ public class CheckersBoard extends Board {
     }
 
 
-    public boolean canBeJumped(Move move){
+    private boolean canBeJumped(Move move){
+        if (move instanceof CheckersMove){
+            Move dest = ((CheckersMove) move).getDest();
+            for(Move currentMove: findadjacentEnemies(dest)){
+                if (getCurrentPlayer() == PLAYER.PLAYER1){
+
+                }
+                else if(getCurrentPlayer() == PLAYER.PLAYER2){
+
+                }
+            }
+        }
         return false;
     }
+    private int countJump(Move move){
+        int jumpTotal = 0;
+        //jumpTotal = ((CheckersMove)move).getJumpCount();
+        return jumpTotal;
+    }
+    private boolean canKing(Move move){
+        if (move instanceof CheckersMove){
+            if (!kingedPieces.contains(move)){
+                switch(getCurrentPlayer()){
+                    case PLAYER1:
+                        if(((CheckersMove) move).getDest().getRow() == DIMENSIONS-1)
+                            return true;
+                        break;
+                    case PLAYER2:
+                        if(((CheckersMove) move).getDest().getRow() == 0)
+                            return true;
+                        break;
+                }
+            }
+        }
+        return false;
+    }
+    private int LeftOrRight(Move move){
+        int distance = 0;
+        if (move instanceof CheckersMove){
+            Move destination = ((CheckersMove) move).getDest();
+                distance = move.getColumn() - destination.getColumn();
+        }
+        return Math.abs(distance);
+    }
+
     public int getStateWorth(){
-        return 0;
+        Move move = lastMove;
+        int jumpable = 0;
+        int kingable = 0;
+        if (canBeJumped(move))  jumpable = 1;
+        int jumpCount = countJump(move);
+        if (canKing(move))  kingable = 1;
+        //only jump if you can get two or more out of the opponent
+        return kingable*100 + jumpable*20 + jumpCount*10 + LeftOrRight(move);
     }
 }

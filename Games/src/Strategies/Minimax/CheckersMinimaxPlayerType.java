@@ -39,6 +39,6 @@ public class CheckersMinimaxPlayerType extends MinimaxPlayerType {
         CheckersBoard boardGame = (CheckersBoard)GenericBoardGame;
         //checkers specific code
         int gameState = boardGame.getStateWorth();
-        return (100*gameState) + super.evaluate(boardGame, availableMoves);
+        return gameState + super.evaluate(boardGame, availableMoves);
     }
 }

@@ -3,7 +3,7 @@ package common;
 /**
  * Object that will contain a move and will rank that move
  */
-public class Move {
+public class Move implements Cloneable{
 
     private int row;
     private int column;
@@ -95,9 +95,10 @@ public class Move {
     @Override
     public boolean equals(Object aMove)
     {
-    	Move otherMove = (Move)aMove;
-    	if(row == otherMove.getRow() && column == otherMove.getColumn())
-    		return true;
-		return false;    	
+        if (aMove instanceof Move){
+    	    Move otherMove = (Move)aMove;
+    	    return (row == otherMove.row && column == otherMove.column);
+        }
+        return false;
     }
 }

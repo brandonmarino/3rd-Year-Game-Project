@@ -300,6 +300,26 @@ public abstract class Board{
         return PLAYER.EMPTY;
     }
 
+    /**
+     * Find all adjacent enemies to a particular empty space
+     * @param originalMove    move object pointing to the empty space
+     * @return a list of the enemies around an empty space
+     */
+    protected ArrayList<Move> findadjacentEnemies(Move originalMove) {
+        ArrayList<Move> adjacentEnemies = new ArrayList<Move>();
+        PLAYER enemy = getEnemy();
+        for (int currentRow = originalMove.getRow() - 1; currentRow <= (originalMove.getRow() + 1); currentRow++)                    //span the spaces connected to the move location
+            for (int currentColumn = originalMove.getColumn() - 1; currentColumn <= (originalMove.getColumn() + 1); currentColumn++) {
+                Move currentMove = new Move(currentRow,currentColumn);
+                if (isWithinBounds(currentMove)) {                              //if it is not the center location and that it's not off the board
+                    if (getCell(currentMove) == enemy) {                      //if this spot has the potential of being surrounded
+                        adjacentEnemies.add(currentMove);
+                    }
+                }
+            }
+        return adjacentEnemies;
+    }
+
     /******************************************************************************************************************************************************************
      * 												Update Method To Change State of Game to Win or Draw
      *****************************************************************************************************************************************************************/
