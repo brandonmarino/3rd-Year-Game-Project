@@ -1,6 +1,6 @@
 package PlayerTypes;
 /***********************************************************************************************************************************************************
- * 											PlayerTypes Class Generates Random Indexes for Row and Column to be Used in Board Class
+ * 											PlayerTypes Class Generates a Move to play on the board through some means
  ***********************************************************************************************************************************************************
 
  ** Adapted from PlayerTypes source of TIC TAC TOE Authored by Lina

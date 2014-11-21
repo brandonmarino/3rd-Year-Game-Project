@@ -1,13 +1,11 @@
 package Strategies.Alternative;
 
-import Boards.Board;
 import Boards.OthelloBoard;
 import common.Move;
-
 import java.util.ArrayList;
 
-/**
- * Created by Brandon on 11/20/14.
+ /** Milestone 3, Author: Brandon Marino
+ * will control it's own ranking system
  */
 public class OthelloObstruct extends ObstructPlayerType {
     public OthelloObstruct(ObstructPlayerType player){
@@ -16,8 +14,8 @@ public class OthelloObstruct extends ObstructPlayerType {
 
     /**
      * Will check if the enemy can do something significantly bad to the player, if so, obstruct it
-     * @param move
-     * @return
+     * @param move some move
+     * @return the move rank
      */
     protected int rankObstruction(Move move){
         int rank = super.rankObstruction(move);

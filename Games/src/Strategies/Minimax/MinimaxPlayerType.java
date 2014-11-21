@@ -2,12 +2,11 @@ package Strategies.Minimax;
 
 import Boards.Board;
 import java.util.ArrayList;
-import Boards.OthelloBoard;
 import PlayerTypes.PlayerType;
 import common.Move;
 
 /***********************************************************************************************************************************************************
- * 							MiniMaxPlayerType Class creates Indexes for Row and Column to be Used in Board Classes
+ * 							MiniMaxPlayerType Picks a sophisticated move
  ***********************************************************************************************************************************************************
 
  * Milestone 2, Author: Brandon Marino

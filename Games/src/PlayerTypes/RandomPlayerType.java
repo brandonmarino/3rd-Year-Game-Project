@@ -1,6 +1,6 @@
 package PlayerTypes;
 /***********************************************************************************************************************************************************
- * 											RandomPlayerType Class Generates Random Indexes for Row and Column to be Used in Board Class
+ * 						RandomPlayerType Class Randomly Generates a momve to play
  ***********************************************************************************************************************************************************
 
  * Milestone 1, Adapting Author: Lina + Brandon
@@ -9,8 +9,8 @@ package PlayerTypes;
  *  - Make subclass of PlayerTypes
  */
 import common.Move;
-
 import java.util.Random;
+
 public class RandomPlayerType extends PlayerType
 {
     private Random randVal;

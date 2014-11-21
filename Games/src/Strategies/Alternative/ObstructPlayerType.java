@@ -1,15 +1,19 @@
 package Strategies.Alternative;
 
 import Boards.Board;
-import Boards.TicTacToeBoard;
 import PlayerTypes.PlayerType;
 import Strategies.Minimax.MinimaxPlayerType;
 import common.Move;
-import PlayerTypes.RandomPlayerType;
 import java.util.ArrayList;
 
-/**
- * Created by Brandon on 11/20/14.
+/***********************************************************************************************************************************************************
+ * 							ObstructionPlayerType Class creates Indexes for Row and Column to be Used in Board Classes
+ ***********************************************************************************************************************************************************
+
+ * Milestone 3, Author: Brandon Marino
+ * This is our alternative AI for the project
+ *
+ * Essentially it attempts to the other player from making a good move whenever possible.  If it can't block a move, it fallss back on minimax
  */
 public class ObstructPlayerType extends PlayerType {
     private Board gameBoard;
@@ -54,23 +58,23 @@ public class ObstructPlayerType extends PlayerType {
 
     /**
      * Will check if the enemy can do something significantly bad to the player, if so, obstruct it
-     * @param move
-     * @return
+     *
+     * I had to make a design choice to not making this function abstracted, not my preference
+     * @param move some move
+     *  @return its rank
      */
-    protected int rankObstruction(Move move){
-        return 0;
-    }
+    protected int rankObstruction(Move move){return 0;}
 
     /**
      * Get board contained by this object
-     * @return
+     * @return get the internal board
      */
     protected Board getBoard(){
         return gameBoard;
     }
     /**
      * Get board contained by this object
-     * @return
+     * @return the current player's number
      */
     protected int getPlayerNum(){
         return playernum;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import common.Move;
 
 /***********************************************************************************************************************************************************
- * 							HumanPlayerType Class creates Indexes for Row and Column to be Used in Board Classes
+ * 							HumanPlayerType Have a person Play
  ***********************************************************************************************************************************************************
 
  * Milestone 2, Author: Brandon Marino

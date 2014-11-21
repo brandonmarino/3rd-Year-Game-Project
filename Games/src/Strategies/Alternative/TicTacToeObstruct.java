@@ -1,11 +1,10 @@
 package Strategies.Alternative;
 
-import Boards.Board;
 import Boards.TicTacToeBoard;
 import common.Move;
 
-/**
- * Created by Brandon on 11/20/14.
+ /** Milestone 3, Author: Brandon Marino
+ * Will control its own ranking system
  */
 public class TicTacToeObstruct extends ObstructPlayerType {
     public TicTacToeObstruct(ObstructPlayerType player){

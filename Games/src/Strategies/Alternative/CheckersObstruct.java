@@ -5,8 +5,8 @@ import Boards.CheckersBoard;
 import PlayerTypes.PlayerType;
 import common.Move;
 
-/**
- * Created by Brandon on 11/20/14.
+ /** Milestone 3, Author: Brandon Marino
+ * will control it's own ranking system
  */
 public class CheckersObstruct extends ObstructPlayerType {
     public CheckersObstruct(ObstructPlayerType player){
