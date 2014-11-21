@@ -17,15 +17,29 @@ When a disc jumps over the opponent's dis, the other disc is captured and is tak
 it be able to move back and forth. When the opponent's pieces has been captured, that's when the player wins the game.
 
 Overall Design Decision...
+Our design is focused around creating an abstract class in a package and creating other classes that inherits from it. This increases
+readability, decreases chances of bugs, and is generally easier to improve and add more features to it.
+
 Strategy Design Decision...
-Checkers User Interface...
+Two strategies were implemented: Random, and Minimax. The random strategy generates random moves with no evaluation to whether it was
+a good or bad move. On the other hand, minimax, evaluates all possible moves, and picks the best move that would result in making the 
+computer win. In this milestone, miniax has been improved on to suit Othello, Tic Tac Toe, and Checkers.
+
 JUnit Design Decision...
+Used Black Box technique as well as rigorous testing cases to ensure our program behaved the way it is supposed to. Moreover, invalid
+test cases were included.
+
 Known issues in Milestone 3...
+
 Improvements Made Since Milestone 2...
 - Fixed ReadMe file
 - Fixed UML Diagrams - Java API classes were missing
 - JUnit testing includes invalid numbers
 - ArrayIndexOutOfBound issue in Tic Tac Toe
+- Initial values in Board class should be constants
+- Game.getPlayerInfo() should not need to know if its an othello game or not. Consider refactoring
+- Board class should be handling whos won or lost that logic should be handled by the game class
+- Missing minimax AI in Tic Tac Toe
 
 Team Members Responsible for Deliverables....
 1) JUnit - Checkers ....... Lina
