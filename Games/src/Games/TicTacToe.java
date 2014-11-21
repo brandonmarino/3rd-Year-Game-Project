@@ -1,11 +1,11 @@
 package Games;
 
 import Boards.TicTacToeBoard;
-import Strategies.Alternative.AlternativePlayerType;
-import Strategies.Alternative.TicTacToeAlternativePlayerType;
+import Strategies.Alternative.ObstructPlayerType;
+import Strategies.Alternative.TicTacToeObstruct;
 import Strategies.Minimax.MinimaxPlayerType;
 import PlayerTypes.PlayerType;
-import Strategies.Minimax.TicTacToeMinimaxPlayerType;
+import Strategies.Minimax.TicTacToeMinimax;
 
 /***************************************************************************************************************************************************************
  * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomPlayerType and OthelloBoard Class
@@ -41,11 +41,14 @@ public class TicTacToe extends Game{
         super.getPlayerInfo();
         PlayerType[] players = getPlayers();
         for(int i = 0; i< players.length; i++){
-            if (players[i] instanceof AlternativePlayerType){
-                players[i] = new TicTacToeAlternativePlayerType((AlternativePlayerType)players[i]);
+            if (players[i] instanceof ObstructPlayerType){
+                players[i] = new TicTacToeObstruct((ObstructPlayerType)players[i]);
             }
             if (players[i] instanceof MinimaxPlayerType){
-                players[i] = new TicTacToeMinimaxPlayerType((MinimaxPlayerType)players[i]);
+                players[i] = new TicTacToeMinimax((MinimaxPlayerType)players[i]);
+            }
+            if (players[i] instanceof ObstructPlayerType){
+                players[i] = new TicTacToeObstruct((ObstructPlayerType)players[i]);
             }
         }
     }

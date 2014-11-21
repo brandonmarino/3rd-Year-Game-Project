@@ -18,13 +18,13 @@ import java.util.ArrayList;
  *
  * Currently this only works for Othello, We'll have to make some heavy modifications for it to work with our own game later
  */
-public class TicTacToeMinimaxPlayerType extends MinimaxPlayerType {
+public class TicTacToeMinimax extends MinimaxPlayerType {
 
     /**
      * Copy/ up-casting constructor
      * @param player the generic Player that was made in the generic Game class needed to make decisions about later int the game
      */
-    public TicTacToeMinimaxPlayerType(MinimaxPlayerType player) {
+    public TicTacToeMinimax(MinimaxPlayerType player) {
         super(player.getBoard(),player.getPlayerNum());
     }
 

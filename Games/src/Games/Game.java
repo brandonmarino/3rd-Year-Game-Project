@@ -3,6 +3,7 @@ package Games;
 import Boards.Board;
 import GUI.OthelloController;
 import PlayerTypes.*;
+import Strategies.Alternative.ObstructPlayerType;
 import Strategies.Minimax.MinimaxPlayerType;
 import common.Move;
 
@@ -58,7 +59,7 @@ public abstract class Game extends Observable {
     protected void getPlayerInfo(){
         int choice;
         for(int playernum = 0; playernum < players.length; playernum++){
-            System.out.println("\nPlayers types:\n1: Human\n2: Computer- Random"+"\n3: Computer- MiniMax");
+            System.out.println("\nPlayers types:\n1: Human\n2: Computer- Random\n3: Computer- MiniMax\n4: Computer- Obstruction");
             while(true){
                 try{
                     Scanner user_input  = new Scanner(System.in);
@@ -76,6 +77,8 @@ public abstract class Game extends Observable {
                         players[playernum] = new RandomPlayerType(playernum+1);
                     else if ( choice == 3 )
                         players[playernum] = new MinimaxPlayerType(boardGame,playernum+1);  //change this to MinMaxMove!
+                    else if ( choice == 4 )
+                        players[playernum] = new ObstructPlayerType(boardGame,playernum+1);  //change this to MinMaxMove!
                     else
                         throw new InputMismatchException(); //This should be changed to a custom Exception!
                     break;

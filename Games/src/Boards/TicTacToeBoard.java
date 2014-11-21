@@ -118,14 +118,14 @@ public class TicTacToeBoard extends Board
      * Find if diagonal match can be found
      * @return if that diagonal was found
      */
-	public boolean isDiagonal()
+	public int isDiagonal()
 	{
+        int worth = 0;
 		if( currentRow == currentCol  && getCell(0,0) == getCurrentPlayer() && getCell(1,1) == getCurrentPlayer() && getCell(2,2) == getCurrentPlayer())
-			return true;
+			worth++;
 		else if (currentRow + currentCol == 2 && getCell(0,2) == getCurrentPlayer() && getCell(1,1) == getCurrentPlayer() && getCell(2,0) == getCurrentPlayer())
-			return true;
-		else
-			return false;
+			worth++;
+        return worth;
 	}
 
     /**
@@ -143,7 +143,7 @@ public class TicTacToeBoard extends Board
             value++;
         else if(isHorizontal())
             value++;
-        else if (isDiagonal())
+        else if (isDiagonal() > 0)
             value++;
         return value;
     }
@@ -156,7 +156,7 @@ public class TicTacToeBoard extends Board
             return getCurrentPlayer();
         else if(isHorizontal())
             return getCurrentPlayer();
-        else if (isDiagonal())
+        else if (isDiagonal()>0)
             return getCurrentPlayer();
         else if (isDraw())
             return PLAYER.EMPTY;

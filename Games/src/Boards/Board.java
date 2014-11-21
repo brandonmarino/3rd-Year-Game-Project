@@ -142,7 +142,13 @@ public abstract class Board{
      * @return a cloned generic board
      */
     protected Board getClone(Board clonedBoard){
-        clonedBoard.setBoard(this.getBoard());
+        PLAYER[][] cloneBoard = new PLAYER[DIMENSIONS][DIMENSIONS];
+        for(int row = 0; row<DIMENSIONS; row++){
+            for(int column = 0; column<DIMENSIONS; column++){
+                cloneBoard[row][column] = board[row][column];
+            }
+        }
+        clonedBoard.setBoard(cloneBoard);
         clonedBoard.setcurrentPlayer(this.getCurrentPlayer());
         clonedBoard.setCurrentState(this.getCurrentState());
         clonedBoard.setPlayerTiles(chip1,chip2);
@@ -182,10 +188,7 @@ public abstract class Board{
      *
      */
     protected void setBoard( PLAYER[][] originalBoard) {
-        PLAYER[][] cloneBoard = new PLAYER[DIMENSIONS][DIMENSIONS];
-        for(int row = 0; row<DIMENSIONS; row++)
-            for (int column = 0; column < DIMENSIONS; column++)
-                cloneBoard[row][column] = originalBoard[row][column];
+        this.board = originalBoard;
     }
     /**
      * Set an individual cell to a value
