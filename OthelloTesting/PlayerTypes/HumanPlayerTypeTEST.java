@@ -11,6 +11,8 @@ import PlayerTypes.PlayerType;
 import org.junit.Before;
 import org.junit.Test;
 
+import common.Move;
+
 /**
  * *********************************************************************************************************************************************************
  * 									HumanPlayerTypeTEST 
@@ -19,6 +21,8 @@ import org.junit.Test;
  * Author: Osama Buhamad 
  * -test for HumanPlayerTypeTEST Class
  * 
+ * Edited by: Lina El Sadek
+ * for Milestone 3
  */
 
 public class HumanPlayerTypeTest {
@@ -32,7 +36,7 @@ public class HumanPlayerTypeTest {
 	    @Test
 	    public void testGetMove() {
 	        // test with case not enough available moves
-	        ArrayList<Integer[]> availableMoves = new ArrayList<Integer[]>();
+	        ArrayList<Move> availableMoves = new ArrayList<Move>();
 	        humanPlayerMove.setAvailableMoves(availableMoves);
 	        assertNotNull(humanPlayerMove);
 	        
