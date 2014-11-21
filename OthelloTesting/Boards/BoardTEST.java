@@ -1,4 +1,4 @@
-package Boards;
+package Testing;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import common.Move;
 
 import Boards.Board;
 import Boards.Board.PLAYER;
@@ -18,15 +20,19 @@ import Boards.Board.PLAYER;
 * Author: Osama Buhamad 
 * -test the Board Class 
 * 
+* Edited by: Lina El Sadek
+* for Milestone 3
+* 
 */
 
-public class BoardTEST {
+public class BoardTest {
 	
 	 private Board board;
+	 private Move move;
 
 	 	@Before
 	    public void setUp() {
-		    board = new Board(4, 4) {
+		    board = new Board(4) {
 
 	            @Override
 	            protected PLAYER hasBeenWon() {
@@ -34,22 +40,30 @@ public class BoardTEST {
 	            }
 
 	            @Override
-	            public ArrayList<Integer[]> getPossibleMoves() {
+	            public ArrayList<Move> getPossibleMoves() {
 	                return null;
 	            }
 
 	            @Override
-	            public boolean attemptMove(int row, int column) {
+	            public boolean attemptMove(Move move) {
 	                return false;
 	            }
+	            
+	            @Override
+	            public Board getClone()
+	            {
+	            	return this;
+	            }
+	            
 	        };
+	        
+	        move = new Move();
 	 
 	 }
 	 
 	 	@Test
 	    public void testProperties() {
-	 		assertEquals(4, board.ROWS());
-	        assertEquals(4, board.COLUMNS());
+	 		assertEquals(4, board.DIMENSIONS);
 	        PLAYER[][] players = board.getBoard();
 	        assertEquals(4, players.length);
 	        for (PLAYER[] player : players) {
@@ -58,10 +72,12 @@ public class BoardTEST {
 	            }
 	        }
 	        assertEquals(Board.GAME_STATE.PLAYING, board.getCurrentState());
-	        assertEquals(Board.PLAYER.PLAYER1, board.getcurrentPlayer());
+	        assertEquals(Board.PLAYER.PLAYER1, board.getCurrentPlayer());
 	        for (int i = 0; i < 4; i++) {
 	            for (int j = 0; j < 4; j++) {
-	                assertEquals(Board.PLAYER.EMPTY, board.getCell(i, j));
+	            	move.setColumn(j);
+	            	move.setRow(i);
+	                assertEquals(Board.PLAYER.EMPTY, board.getCell(move));
 	            }
 	        }
 		 
@@ -71,18 +87,20 @@ public class BoardTEST {
 	    @SuppressWarnings("deprecation")
 	    @Test
 	    public void testGetEmptySpaces() {
-	        ArrayList<Integer[]> emptySpaces = board.getEmptySpaces();
-	        ArrayList<Integer[]> expectedSpaces = new ArrayList<Integer[]>();
+	        ArrayList<Move> emptySpaces = board.getEmptySpaces();
+	        ArrayList<Move> expectedSpaces = new ArrayList<Move>();
 	        for (int i = 0; i < 4; i++) {
 	            for (int j = 0; j < 4; j++) {
-	                Integer[] ret = { i, j };
+	                Move ret = new Move( i, j );
 	                expectedSpaces.add(ret);
 	            }
 	        }
+	        ArrayList<Move> actualValue = new ArrayList<Move>();
 	        for (int i = 0; i < emptySpaces.size(); i++) {
-	            Integer[] actualValue = emptySpaces.get(i);
-	            assertEquals(2, actualValue.length);
-	            assertEquals(expectedSpaces.get(i), actualValue);
+	            
+	            actualValue.add(emptySpaces.get(i));
+	            assertEquals(i+1, actualValue.size());
+	            assertEquals(expectedSpaces.get(i), actualValue.get(i));
 	        }
 	    }
 
@@ -90,51 +108,83 @@ public class BoardTEST {
 	    public void testGetSetMethod() {
 	        // test set/get current player
 	        board.setcurrentPlayer(Board.PLAYER.PLAYER2);
-	        assertEquals(Board.PLAYER.PLAYER2, board.getcurrentPlayer());
+	        assertEquals(Board.PLAYER.PLAYER2, board.getCurrentPlayer());
 
 	        // test set/get current game state
 	        board.setCurrentState(Board.GAME_STATE.PLAYER2_WON);
 	        assertEquals(Board.GAME_STATE.PLAYER2_WON, board.getCurrentState());
 
 	        // test set/get cell
-	        board.setCell(Board.PLAYER.PLAYER1, 1, 1);
-	        board.setCell(Board.PLAYER.PLAYER2, 3, 1);
-	        assertEquals(Board.PLAYER.PLAYER1, board.getCell(1, 1));
-	        assertEquals(Board.PLAYER.PLAYER2, board.getCell(3, 1));
+	        move.setColumn(1);
+        	move.setRow(1);
+	        board.setCell(Board.PLAYER.PLAYER1, move);
+	        assertEquals(Board.PLAYER.PLAYER1, board.getCell(move));
+	        
+	        move.setColumn(1);
+        	move.setRow(3);
+	        board.setCell(Board.PLAYER.PLAYER2, move);
+	        assertEquals(Board.PLAYER.PLAYER2, board.getCell(move));
 	    }
 	    
 	    @Test
 	    public void testIsWithInBounds() {
 	        // test return false 1
-	        assertFalse(board.isWithinBounds(-1, 1));
-	        assertFalse(board.isWithinBounds(1, -1));
-	        assertFalse(board.isWithinBounds(-1, -1));
+	    	move.setColumn(-1);
+        	move.setRow(-1);
+	        assertFalse(board.isWithinBounds(move));
+	        
+	        move.setColumn(-1);
+        	move.setRow(1);
+	        assertFalse(board.isWithinBounds(move));
+	        
+	        move.setColumn(-1);
+        	move.setRow(-1);
+	        assertFalse(board.isWithinBounds(move));
 	        
 	        // test return false 2
-	        assertFalse(board.isWithinBounds(1, 5));
-	        assertFalse(board.isWithinBounds(5, 2));
-	        assertFalse(board.isWithinBounds(5, 5));
+	        move.setColumn(5);
+        	move.setRow(1);
+	        assertFalse(board.isWithinBounds(move));
+	        
+	        move.setColumn(2);
+        	move.setRow(5);
+	        assertFalse(board.isWithinBounds(move));
+	        
+	        move.setColumn(5);
+        	move.setRow(5);
+	        assertFalse(board.isWithinBounds(move));
 
 	        // test return true
-	        assertTrue(board.isWithinBounds(0, 0));
-	        assertTrue(board.isWithinBounds(1, 1));
-	        assertTrue(board.isWithinBounds(2, 2));
-	        assertTrue(board.isWithinBounds(3, 3));
+	        move.setColumn(0);
+        	move.setRow(0);
+	        assertTrue(board.isWithinBounds(move));
+	        
+	        move.setColumn(1);
+        	move.setRow(1);
+	        assertTrue(board.isWithinBounds(move));
+	        
+	        move.setColumn(2);
+        	move.setRow(2);
+	        assertTrue(board.isWithinBounds(move));
+	        
+	        move.setColumn(3);
+        	move.setRow(3);
+	        assertTrue(board.isWithinBounds(move));
 	    }
 
 
-	 @Test
-	    public void testGetEnemy() {
-		 	// test default (when initialize the game)
-	        assertEquals(Board.PLAYER.PLAYER2, board.getEnemy());
-	        // test return Player 1
-	        board.setcurrentPlayer(Board.PLAYER.PLAYER2);
-	        assertEquals(Board.PLAYER.PLAYER1, board.getEnemy());
-	        // test return Empty
-	        board.setcurrentPlayer(Board.PLAYER.EMPTY);
-	        assertEquals(Board.PLAYER.EMPTY, board.getEnemy());
-		 
-	 }
+//	 @Test
+//	    public void testGetEnemy() {
+//		 	// test default (when initialize the game)
+//	        assertEquals(Board.PLAYER.PLAYER2, board.getEnemy());
+//	        // test return Player 1
+//	        board.setcurrentPlayer(Board.PLAYER.PLAYER2);
+//	        assertEquals(Board.PLAYER.PLAYER1, board.getEnemy());
+//	        // test return Empty
+//	        board.setcurrentPlayer(Board.PLAYER.EMPTY);
+//	        assertEquals(Board.PLAYER.EMPTY, board.getEnemy());
+//		 
+//	 }
 	 
 	 @Test
 	    public void testUpdateGame() {
@@ -143,7 +193,7 @@ public class BoardTEST {
 	        assertEquals(Board.GAME_STATE.PLAYING, board.getCurrentState());
 
 	        // test for player 1 won
-	        board = new Board(4, 4) {
+	        board = new Board(4) {
 
 	            @Override
 	            protected PLAYER hasBeenWon() {
@@ -151,20 +201,26 @@ public class BoardTEST {
 	            }
 
 	            @Override
-	            public ArrayList<Integer[]> getPossibleMoves() {
+	            public ArrayList<Move> getPossibleMoves() {
 	                return null;
 	            }
 
 	            @Override
-	            public boolean attemptMove(int row, int column) {
+	            public boolean attemptMove(Move move) {
 	                return false;
+	            }
+	            
+	            @Override
+	            public Board getClone()
+	            {
+	            	return this;
 	            }
 	        };
 	        board.updateGame();
 	        assertEquals(Board.GAME_STATE.PLAYER1_WON, board.getCurrentState());
 
 	     // test for player 2 won
-	        board = new Board(4, 4) {
+	        board = new Board(4) {
 
 	            @Override
 	            protected PLAYER hasBeenWon() {
@@ -172,20 +228,26 @@ public class BoardTEST {
 	            }
 
 	            @Override
-	            public ArrayList<Integer[]> getPossibleMoves() {
+	            public ArrayList<Move> getPossibleMoves() {
 	                return null;
 	            }
 
 	            @Override
-	            public boolean attemptMove(int row, int column) {
+	            public boolean attemptMove(Move move) {
 	                return false;
+	            }
+	            
+	            @Override
+	            public Board getClone()
+	            {
+	            	return this;
 	            }
 	        };
 	        board.updateGame();
 	        assertEquals(Board.GAME_STATE.PLAYER2_WON, board.getCurrentState());
 
 	        // test for game state is in DRAW
-	        board = new Board(4, 4) {
+	        board = new Board(4) {
 
 	            @Override
 	            protected PLAYER hasBeenWon() {
@@ -193,13 +255,19 @@ public class BoardTEST {
 	            }
 
 	            @Override
-	            public ArrayList<Integer[]> getPossibleMoves() {
+	            public ArrayList<Move> getPossibleMoves() {
 	                return null;
 	            }
 
 	            @Override
-	            public boolean attemptMove(int row, int column) {
+	            public boolean attemptMove(Move move) {
 	                return false;
+	            }
+	            
+	            @Override
+	            public Board getClone()
+	            {
+	            	return this;
 	            }
 	        };
 	        board.updateGame();
