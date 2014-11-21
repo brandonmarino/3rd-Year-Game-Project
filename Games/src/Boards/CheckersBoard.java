@@ -53,31 +53,32 @@ public class CheckersBoard extends Board {
     }
 
     @Override
-    public ArrayList<Move> getPossibleMoves() {
-        ArrayList<Move> legalMoves = new ArrayList<Move>();
+	public ArrayList<Move> getPossibleMoves() {
+		ArrayList<Move> legalMoves = new ArrayList<Move>();
         for (Move possibleMove: getFullSpaces()){
             ArrayList<Move> diagMove = findOpenDiagonals(possibleMove);
             diagMove.addAll(findHopDiagonals(possibleMove));
             for (Move ret : diagMove){
-                legalMoves.add(new CheckersMove(possibleMove, ret));
-            }
+            	legalMoves.add(new CheckersMove(possibleMove, ret));
+            }                
         }
         return legalMoves;
-    }
+	}
 
-    public ArrayList<Move> getPossibleMovesSingle(Move justMoved)
-    {
-        ArrayList<Move> legalMoves = new ArrayList<Move>();
-        ArrayList<Move> diagOpen = findHopDiagonals(justMoved);
+
+	public ArrayList<Move> getPossibleMovesSingle(Move justMoved)
+	{
+		ArrayList<Move> legalMoves = new ArrayList<Move>();
+		ArrayList<Move> diagOpen = findHopDiagonals(justMoved);
         for (Move ret : diagOpen){
-            legalMoves.add(new CheckersMove(justMoved, ret));
-        }
-        return legalMoves;
-    }
-
+        	legalMoves.add(new CheckersMove(justMoved, ret));
+        }		
+		return legalMoves;		
+	}
+	
     /**
      * Will scan the current board and find all of the current occupied places
-     *
+     * 
      * @return a list of all occupied spaces on the board
      */
     protected ArrayList<Move> getFullSpaces() {
@@ -94,82 +95,80 @@ public class CheckersBoard extends Board {
         return fullSpaces;
     }
 
-    /**
-     * finds the possible places (Moves) a specific piece can go to.
-     * @param possibleMove the piece you want to know more about
-     * @return all the possible non-hop moves
-     */
-    private ArrayList<Move> findOpenDiagonals(Move possibleMove) {
-        ArrayList<Move> goodMoves = new ArrayList<Move>();
-        PLAYER[][] board = getBoard();
-        setForwards(board[possibleMove.getRow()][possibleMove.getColumn()]);
+	/**
+	 * finds the possible places (Moves) a specific piece can go to.
+	 * @param possibleMove the piece you want to know more about
+	 * @return all the possible non-hop moves
+	 */
+	private ArrayList<Move> findOpenDiagonals(Move possibleMove) {
+		ArrayList<Move> goodMoves = new ArrayList<Move>();
+		PLAYER[][] board = getBoard();
+		setForwards(board[possibleMove.getRow()][possibleMove.getColumn()]);
+		
+		Move aMove = new Move(possibleMove.getRow() + forwards, possibleMove.getColumn() +1);
+		if (isInBound(aMove) && isEmpty(aMove)){
+			goodMoves.add(new Move(aMove.getRow(), aMove.getColumn()));}
+		
+		aMove = new Move (possibleMove.getRow() + forwards, possibleMove.getColumn() - 1);
+		if (isInBound(aMove) && isEmpty(aMove)){
+			goodMoves.add(new Move(aMove.getRow(), aMove.getColumn()));}
+		
+		if(kingedPieces.contains(possibleMove))
+		{ //check all directions
+			aMove = new Move(possibleMove.getRow() + (forwards * -1), possibleMove.getColumn() + 1);
+			if (isInBound(aMove) && isEmpty(aMove))
+				goodMoves.add(new Move(aMove.getRow(), aMove.getColumn()));
+			
+			aMove = new Move(possibleMove.getRow() + (forwards * -1), possibleMove.getColumn() - 1);
+			if (isInBound(aMove) && isEmpty(aMove))
+				goodMoves.add(new Move(aMove.getRow(), aMove.getColumn()));
+		}
+		return goodMoves;
+	}
 
-        Move aMove = new Move(possibleMove.getRow() + forwards, possibleMove.getColumn() +1);
-        if (isInBound(aMove) && isEmpty(aMove))
-            goodMoves.add(aMove);
-
-        aMove.setColumn(possibleMove.getColumn() - 1);
-        if (isInBound(aMove) && isEmpty(aMove))
-            goodMoves.add(aMove);
-
-        if(kingedPieces.contains(possibleMove))
-        { //check all directions
-            aMove.setRow(possibleMove.getRow() + forwards * -1);
-            aMove.setColumn(possibleMove.getColumn() + 1);
-            if (isInBound(aMove) && isEmpty(aMove))
-                goodMoves.add(aMove);
-
-            aMove.setColumn(possibleMove.getColumn() - 1);
-            if (isInBound(aMove) && isEmpty(aMove))
-                goodMoves.add(aMove);
-        }
-        return goodMoves;
-    }
-
-    private ArrayList<Move> findHopDiagonals(Move justMoved) {
-        ArrayList<Move> goodMoves = new ArrayList<Move>();
-        PLAYER[][] board = getBoard();
-        setForwards(board[justMoved.getRow()][justMoved.getColumn()]);
-
-        Move enemy = new Move(justMoved.getRow() + forwards, justMoved.getColumn() +1);
-        Move jump;
-        if (isInBound(enemy) && isEnemy(enemy))
-        {
-            jump = new Move (enemy.getRow() + forwards, enemy.getColumn() +1);
-            if(isInBound(jump) && isEmpty(jump))
-                goodMoves.add(jump);
-        }
-
-        enemy.setColumn(justMoved.getColumn() - 1);
-        if (isInBound(enemy) && isEnemy(enemy))
-        {
-            jump = new Move (enemy.getRow() + forwards, enemy.getColumn() -1);
-            if(isInBound(jump) && isEmpty(jump))
-                goodMoves.add(jump);
-        }
-
-        if(kingedPieces.contains(justMoved))
-        { //check all directions
-            enemy.setRow(justMoved.getRow() + forwards * -1);
-            enemy.setColumn(justMoved.getColumn() +1);
-            if (isInBound(enemy) && isEnemy(enemy))
-            {
-                jump = new Move (enemy.getRow() + forwards * -1, enemy.getColumn() +1);
-                if(isInBound(jump) && isEmpty(jump))
-                    goodMoves.add(jump);
-            }
-
-            enemy.setRow(justMoved.getRow() + forwards * -1);
-            enemy.setColumn(justMoved.getColumn() -1);
-            if (isInBound(enemy) && isEnemy(enemy))
-            {
-                jump = new Move (enemy.getRow() + forwards * -1, enemy.getColumn() -1);
-                if(isInBound(jump) && isEmpty(jump))
-                    goodMoves.add(jump);
-            }
-        }
-        return goodMoves;
-    }
+	private ArrayList<Move> findHopDiagonals(Move justMoved) {
+		ArrayList<Move> goodMoves = new ArrayList<Move>();
+		PLAYER[][] board = getBoard();
+		setForwards(board[justMoved.getRow()][justMoved.getColumn()]);
+		
+		Move enemy = new Move(justMoved.getRow() + forwards, justMoved.getColumn() +1);
+		Move jump;
+		if (isInBound(enemy) && isEnemy(enemy))
+		{
+			jump = new Move (enemy.getRow() + forwards, enemy.getColumn() +1);
+			if(isInBound(jump) && isEmpty(jump)){
+				goodMoves.add(new Move(jump.getRow(), jump.getColumn()));}
+		}
+		
+		enemy = new Move(justMoved.getRow() + forwards, justMoved.getColumn() - 1);
+		if (isInBound(enemy) && isEnemy(enemy))
+		{
+			jump = new Move (enemy.getRow() + forwards, enemy.getColumn() -1);
+			if(isInBound(jump) && isEmpty(jump)){
+				goodMoves.add(new Move(jump.getRow(), jump.getColumn()));}
+		}
+		
+		if(kingedPieces.contains(justMoved))
+		{ //check all directions
+			enemy = new Move (justMoved.getRow() + (forwards * -1), justMoved.getColumn() +1);
+			if (isInBound(enemy) && isEnemy(enemy))
+			{
+				jump = new Move (enemy.getRow() + (forwards * -1), enemy.getColumn() +1);
+				if(isInBound(jump) && isEmpty(jump)){
+					goodMoves.add(new Move(jump.getRow(), jump.getColumn()));}
+			}
+			
+			enemy = new Move (justMoved.getRow() + (forwards * -1), justMoved.getColumn() -1);
+			if (isInBound(enemy) && isEnemy(enemy))
+			{
+				jump = new Move (enemy.getRow() + (forwards * -1), enemy.getColumn() -1);
+				if(isInBound(jump) && isEmpty(jump)){
+					goodMoves.add(new Move(jump.getRow(), jump.getColumn()));
+				}
+			}
+		}
+		return goodMoves;
+	}
 
     private boolean isEnemy(Move enemy) {
         if(getCell(enemy).equals(this.getEnemy()))
@@ -222,8 +221,6 @@ public class CheckersBoard extends Board {
                 deadRed += 1;
             }
         }
-        System.out.println("Origin: Row: " + moveFrom.getRow() + "    Column: " + moveFrom.getColumn());
-        System.out.println("Destination: Row: " + moveTo.getRow() + "    Column: " + moveTo.getColumn());
         board[moveFrom.getRow()][moveFrom.getColumn()] = PLAYER.EMPTY;
         board[moveTo.getRow()][moveTo.getColumn()] = getCurrentPlayer();
 
