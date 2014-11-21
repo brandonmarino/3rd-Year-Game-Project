@@ -26,8 +26,7 @@ public class CheckersObstruct extends ObstructPlayerType {
 
         //find the rank of this obstruction
         gameBoard.attemptMove(move);
-        rank += gameBoard.getStateWorth();
+        rank += gameBoard.rankObstruction();
         return rank;
-
     }
 }

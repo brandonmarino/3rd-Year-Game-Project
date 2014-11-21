@@ -396,4 +396,10 @@ public class CheckersBoard extends Board {
         //only jump if you can get two or more out of the opponent
         return kingable*100 + jumpable*20 + jumpCount*10 + LeftOrRight(move);
     }
+    public int rankObstruction(){
+        Move move = lastMove;
+        int kingable=0;
+        if (canKing(move))  kingable = 1;
+        return 10*kingable + countJump(move);
+    }
 }
