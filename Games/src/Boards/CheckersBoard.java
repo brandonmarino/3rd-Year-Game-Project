@@ -310,15 +310,31 @@ public class CheckersBoard extends Board {
     }
 
 
+    /*****************************************************************************************************************************************************************
+     *             State testing functions
+     * ****************************************************************************************************************************************************************/
+
     private boolean canBeJumped(Move move){
         if (move instanceof CheckersMove){
             Move dest = ((CheckersMove) move).getDest();
-            for(Move currentMove: findadjacentEnemies(dest)){
-                if (getCurrentPlayer() == PLAYER.PLAYER1){
+            for(Move currentEnemy: findadjacentEnemies(dest)){
+                Board testBoard = this.getClone();
 
+                ArrayList<Move> testMoves = testBoard.getPossibleMoves();
+                CheckersMove testmove = new CheckersMove(new Move(), new Move());
+                for (Move currentMove:testMoves){
+                    if (move.equals(currentMove))
+                        testmove = (CheckersMove)currentMove;
+                }
+                testBoard.switchcurrentPlayer();
+                testBoard.attemptMove(testmove);
+                if (getCurrentPlayer() == PLAYER.PLAYER1){
+                    if  (((CheckersBoard)testBoard).getDeadBlack() > deadBlack)
+                        return true;
                 }
                 else if(getCurrentPlayer() == PLAYER.PLAYER2){
-
+                    if  (((CheckersBoard)testBoard).getDeadRed() > deadRed)
+                        return true;
                 }
             }
         }
@@ -354,6 +370,8 @@ public class CheckersBoard extends Board {
         }
         return Math.abs(distance);
     }
+    protected int getDeadBlack(){ return deadBlack;}
+    protected int getDeadRed(){ return deadRed;}
 
     public int getStateWorth(){
         Move move = lastMove;
