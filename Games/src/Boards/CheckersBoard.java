@@ -14,6 +14,10 @@ public class CheckersBoard extends Board {
     	private boolean redMoved; // pay attention to if the red player made a move on their last attempt
 	private ArrayList<Move> kingedPieces;
 	private Move lastMove;
+	
+	/**
+	 * Sets up an 8X8 board and initializes the pieces
+	 */
 	public CheckersBoard() {
 		super(8);
 		setPlayerTiles('B', 'R'); // Black moves first
@@ -22,7 +26,11 @@ public class CheckersBoard extends Board {
 		deadBlack = 0;	
 		kingedPieces = new ArrayList<Move>();
 	}
-
+	/**
+	 * Scalable function that sets up every row of the board with one of the players checkers style. 
+	 * Every row but the middle two are setup.
+	 * @param dim
+	 */
 	private void setUpBoard(int dim) {
 		ArrayList<PLAYER> players = new ArrayList<PLAYER>();
 		players.add(PLAYER.PLAYER1);
@@ -51,7 +59,10 @@ public class CheckersBoard extends Board {
 		}	
 	}
 
-	@Override
+	/**
+	 * Collects all the possible moves every piece can make (both hops and direct moves)
+	 * @return a list of all pieces that can move (one instance of a piece per move it can make)
+	 */
 	public ArrayList<Move> getPossibleMoves() {
 		ArrayList<Move> legalMoves = new ArrayList<Move>();
         for (Move possibleMove: getFullSpaces()){
@@ -64,7 +75,12 @@ public class CheckersBoard extends Board {
         return legalMoves;
 	}
 
-
+	/**
+	 * Collects the possible moves for a single piece (hops only)
+	 * Used for jumping chains
+	 * @param justMoved The placement of the piece that just moved
+	 * @return A list of moves the piece can take
+	 */
 	public ArrayList<Move> getPossibleMovesSingle(Move justMoved)
 	{
 		ArrayList<Move> legalMoves = new ArrayList<Move>();
@@ -76,9 +92,9 @@ public class CheckersBoard extends Board {
 	}
 	
     /**
-     * Will scan the current board and find all of the current occupied places
-     * 
-     * @return a list of all occupied spaces on the board
+     * Will scan the current board and find all of the current occupied places 
+     * that belong to the current player
+     * @return a list of occupied spaces on the board
      */
     protected ArrayList<Move> getFullSpaces() {
         ArrayList<Move> fullSpaces = new ArrayList<Move>();
@@ -95,8 +111,8 @@ public class CheckersBoard extends Board {
     }
 
 	/**
-	 * finds the possible places (Moves) a specific piece can go to.
-	 * @param possibleMove the piece you want to know more about
+	 * finds the possible places (Moves) a specific piece can go to without jumping
+	 * @param possibleMove the piece that is potentially moving
 	 * @return all the possible non-hop moves
 	 */
 	private ArrayList<Move> findOpenDiagonals(Move possibleMove) {
@@ -129,6 +145,11 @@ public class CheckersBoard extends Board {
 		return goodMoves;
 	}
 
+	/**
+	 * finds the possible places (Moves) a specific piece can go to while jumping
+	 * @param justMoved the piece that is hopping
+	 * @return a list of places the piece can hop to.
+	 */
 	private ArrayList<Move> findHopDiagonals(Move justMoved) {
 		ArrayList<Move> goodMoves = new ArrayList<Move>();
 		PLAYER[][] board = getBoard();
@@ -177,18 +198,33 @@ public class CheckersBoard extends Board {
 		return goodMoves;
 	}
 	
+	/**
+	 * Evaluates if a given player is not the current player
+	 * @param enemy piece to be evaluated
+	 * @return true if this player is not the current player, false otherwise
+	 */
 	private boolean isEnemy(Move enemy) {
 		if(getCell(enemy).equals(this.getEnemy()))
 			return true;
 		return false;
 	}
 
+	/**
+	 * Evaluates if a given position is empty 
+	 * @param aMove a place where the evaluation needs to take place
+	 * @return true if no player currently occupies that spot, false otherwise.
+	 */
 	private boolean isEmpty(Move aMove) {
 		if(getCell(aMove) == PLAYER.EMPTY)
 			return true;
 		return false;
 	}	
 
+	/**
+	 * Evaluates if the given position is within the bounds of the board
+	 * @param aMove a potentially out of bounds position
+	 * @return true if the position is not violating any bounds, false if it is out of bounds
+	 */
 	private boolean isInBound(Move aMove) {
 		int x = aMove.getColumn();
 		int y = aMove.getRow();
@@ -200,7 +236,10 @@ public class CheckersBoard extends Board {
 		//if that is the case, the program only has to execute 2 comparisons instead of 4, speeding up this subroutine.
 	}
 
-	@Override
+	/**
+	 * Create and populate a clone of the checkers board with the current board's values
+	 * @return a clone of the current board
+	 */
 	public Board getClone() {
 		CheckersBoard cloneBoard = new CheckersBoard();
 		cloneBoard = (CheckersBoard) super.getClone(cloneBoard);
@@ -209,7 +248,13 @@ public class CheckersBoard extends Board {
 		return cloneBoard;
 	}
 
-	@Override
+	/**
+	 * Attempt to make a move in checkers
+	 * A move in checkers can only be made one space diagonally and forward relative to the player. 
+	 * Pieces can only move into empty places or hop over a single enemy piece. Once a piece reaches 
+	 * the other end of the board, it becomes kinged. A kinged piece can move and hop forwards and backwards.
+	 * @return true if the attempted move was made, false otherwise.
+	 */
 	public boolean attemptMove(Move move) {
         lastMove = move;
 		CheckersMove moveFrom = (CheckersMove) move;
@@ -228,8 +273,6 @@ public class CheckersBoard extends Board {
 				deadRed += 1;
 			}
 		}
-		//System.out.println("Origin: Row: " + moveFrom.getRow() + "    Column: " + moveFrom.getColumn());
-		//System.out.println("Destination: Row: " + moveTo.getRow() + "    Column: " + moveTo.getColumn());
 		if ( (!isWithinBounds(moveTo))||(!isWithinBounds(moveFrom)) ){
             return false;
         }
@@ -252,13 +295,22 @@ public class CheckersBoard extends Board {
 		return true;
 	}
 
+	/**
+	 * Evaluates if a checkers move was a hop or not
+	 * @param aMove a checkers move containing both origin and destination
+	 * @return true if the distance between the destination and origin is more than one space on the board
+	 */
 	private boolean hasJumped(CheckersMove aMove) {
 		if(Math.abs(aMove.getColumn() - aMove.getDest().getColumn()) > 1)
 			return true;
 		return false;
 	}
 
-	@Override
+	/**
+	 * Checks if the board is in a state where a player is considered a winner. A game of checkers is won when
+	 * the opposing player no longer has any moves remaining.
+	 * @return the winning player, null if the board is not in a state where any of the players won
+	 */
 	protected PLAYER hasBeenWon() {
 		if(deadRed >= 12)
 			return PLAYER.PLAYER1;
@@ -269,7 +321,12 @@ public class CheckersBoard extends Board {
 		return null;
 	}
 	
-	
+	/**
+	 * Switches the current player
+	 * from black to red  or
+	 * from red to black
+	 * @param set the value that will be the state of the current player. 
+	 */
 	public void setMoved(Boolean set){
 	        switch(getCurrentPlayer()){
 	            case PLAYER1:
@@ -283,6 +340,10 @@ public class CheckersBoard extends Board {
         	}
     	}	
 
+	/**
+	 * Takes care of the relativeness of only being able to move forwards with respect to the current player
+	 * @param player the player who's turn it is.
+	 */
 	public void setForwards(PLAYER player) {
 		if(player.equals(PLAYER.PLAYER1))
 		{
