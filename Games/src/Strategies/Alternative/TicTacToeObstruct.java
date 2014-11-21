@@ -18,21 +18,15 @@ public class TicTacToeObstruct extends ObstructPlayerType {
      * @return the obstruction's rank
      */
     protected int rankObstruction(Move move){
-        TicTacToeBoard board = ((TicTacToeBoard) getBoard().getClone() );
-
-        //swap players
-        if ( board.getCurrentPlayer() == Board.PLAYER.PLAYER1 )
-            board.setcurrentPlayer(Board.PLAYER.PLAYER2);
-        else if ( board.getCurrentPlayer() == Board.PLAYER.PLAYER2 )
-            board.setcurrentPlayer(Board.PLAYER.PLAYER1);
-        board.attemptMove(move);
+        int rank = super.rankObstruction(move);
+        TicTacToeBoard gameBoard = ((TicTacToeBoard) getBoard().getClone() );
+        gameBoard.switchcurrentPlayer();
 
         //find the rank of this obstruction
-        int rank = 0;
-        rank = rank + board.isDiagonal();
-        if ( board.isVertical() )
+        rank = rank + gameBoard.isDiagonal();
+        if ( gameBoard.isVertical() )
             rank++;
-        if ( board.isHorizontal() )
+        if ( gameBoard.isHorizontal() )
             rank++;
         return rank;
     }

@@ -183,7 +183,7 @@ public class CheckersBoard extends Board {
     }
 
     private boolean isInBound(Move aMove) {
-        System.out.println("Before: Row: " + aMove.getRow() + "    Column: " + aMove.getColumn());
+        //System.out.println("Before: Row: " + aMove.getRow() + "    Column: " + aMove.getColumn());
         int x = aMove.getColumn();
         int y = aMove.getRow();
         if(x >= 0 && x < getDimensions())

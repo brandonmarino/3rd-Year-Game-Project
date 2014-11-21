@@ -1,7 +1,9 @@
 package Strategies.Alternative;
 
 import Boards.Board;
+import Boards.TicTacToeBoard;
 import PlayerTypes.PlayerType;
+import Strategies.Minimax.MinimaxPlayerType;
 import common.Move;
 import PlayerTypes.RandomPlayerType;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 public class ObstructPlayerType extends PlayerType {
     private Board gameBoard;
     private int playernum;
+
     /**
      * Will define an obstruction super-class
      * @param gameBoard needed for obstruction testing
@@ -42,9 +45,9 @@ public class ObstructPlayerType extends PlayerType {
         }
         if(bestObstructionScore == 0){
             // no obstructions found, just return a random of the set
-            PlayerType Random = new RandomPlayerType(0);
-            Random.setAvailableMoves(allMoves);
-            finalMove = Random.getMove();
+            PlayerType minimax = new MinimaxPlayerType(getBoard(),0);
+            minimax.setAvailableMoves(allMoves);
+            finalMove = minimax.getMove();
         }else   finalMove = popMove(bestObstructionIndex);  //return the item in the set that performs the best possible obstruction
         return finalMove;
     }

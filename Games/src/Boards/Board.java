@@ -212,6 +212,13 @@ public abstract class Board{
     }
 
     /**
+     * Switch the current player with it's enemy
+     */
+    public void switchcurrentPlayer(){
+        this.currentPlayer = getEnemy();
+    }
+
+    /**
      * ***************************************************************************************************************************************************************
      * Methods to Make PlayerTypes
      * ***************************************************************************************************************************************************************
@@ -308,7 +315,7 @@ public abstract class Board{
      * @param originalMove    move object pointing to the empty space
      * @return a list of the enemies around an empty space
      */
-    protected ArrayList<Move> findadjacentEnemies(Move originalMove) {
+    public ArrayList<Move> findadjacentEnemies(Move originalMove) {
         ArrayList<Move> adjacentEnemies = new ArrayList<Move>();
         PLAYER enemy = getEnemy();
         for (int currentRow = originalMove.getRow() - 1; currentRow <= (originalMove.getRow() + 1); currentRow++)                    //span the spaces connected to the move location
