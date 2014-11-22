@@ -53,10 +53,10 @@ Team Members Responsible for Deliverables....
 
 TO RUN
   Either open a command window, cd into the folder holding the respective .jar file (they are available in the
-  main 'phoenix' folder), once in the folder, simply execute the command 'java -jar project-name.jar'.  
-  The other option is to create a new project in eclipse with the packages 'Boards', 'Games', 'minimax', 
-  'PlayerTypes', and 'common', 'strategies', ' alternative', and 'GUI'  then create empty classes with the names of each class found in each package and copy 
-  paste the code into those classes and run the project.
+  main 'phoenix' folder), once in the folder, simply execute the command 'java -jar PhoenixMileStone3.jar' or 'java -jar Checkers.jar'
+  or 'java -jar Othello.jar' or 'java -jar OthelloGui.jar' or 'java -jar TicTacToe.jar'.  The other option is to create a new project in 
+  eclipse with the packages 'Boards', 'Games', 'minimax', 'PlayerTypes', and 'common', 'strategies', ' alternative', and 'GUI'  then create 
+  empty classes with the names of each class found in each package and copy paste the code into those classes and run the project.
 
 Diagrams
   All UML diagrams can be found in the respective project root folder.
