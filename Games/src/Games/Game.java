@@ -1,13 +1,12 @@
 package Games;
 
 import Boards.Board;
-import GUI.OthelloController;
 import PlayerTypes.*;
 import Strategies.Alternative.ObstructPlayerType;
 import Strategies.Minimax.MinimaxPlayerType;
+import common.GameInputException;
 import common.Move;
 
-import java.util.InputMismatchException;
 import java.util.Observable;
 import java.util.Scanner;
 
@@ -22,7 +21,7 @@ public abstract class Game extends Observable {
     // Fields that are constant across all possible games
     protected Board boardGame;
     protected PlayerType[] players = new PlayerType[2]; //each player has enough dimensions to warrant it's own object
-
+    public boolean isGUI = false;
     /**
      * Create some non-generic Game
      * @param boardGame the board of the non generic game
@@ -60,31 +59,29 @@ public abstract class Game extends Observable {
         int choice;
         for(int playernum = 0; playernum < players.length; playernum++){
             System.out.println("\nPlayers types:\n1: Human\n2: Computer- Random\n3: Computer- MiniMax\n4: Computer- Obstruction");
-            while(true){
+            for(int i = 0; i < 100; i++){
                 try{
                     Scanner user_input  = new Scanner(System.in);
                     System.out.println("Please choose a player type from the options for Player "+ (playernum+1) + " by number:");
                     choice = user_input.nextInt();
-                    if (choice == 1){
-                        System.out.println("Please enter Players "+(playernum+1)+"'s name:");
-                        user_input = new Scanner(System.in);
-                        if (this instanceof Othello){
-                            players[playernum] = new OthelloController(user_input.next(), boardGame, playernum);
-                        }
-                        else players[playernum] = new HumanPlayerType(user_input.next());
-                    }
+                    if (choice == 1)
+                        players[playernum] = new HumanPlayerType(boardGame,playernum+1);
                     else if (choice == 2)
-                        players[playernum] = new RandomPlayerType(playernum+1);
+                        players[playernum] = new RandomPlayerType(boardGame,playernum+1);
                     else if ( choice == 3 )
                         players[playernum] = new MinimaxPlayerType(boardGame,playernum+1);  //change this to MinMaxMove!
                     else if ( choice == 4 )
                         players[playernum] = new ObstructPlayerType(boardGame,playernum+1);  //change this to MinMaxMove!
                     else
-                        throw new InputMismatchException(); //This should be changed to a custom Exception!
+                        throw new GameInputException("Sorry, that is not an option!"); //This should be changed to a custom Exception!
                     break;
-                }catch(InputMismatchException e){
-                    System.out.println("Not a valid option, try again!");
+                }catch(GameInputException e){
+                    System.out.println(e.getMessage());
                 }
+            }
+            if(players[0] instanceof HumanPlayerType && players[1] instanceof HumanPlayerType) {
+                ((HumanPlayerType)players[0]).canUndo(false);
+                ((HumanPlayerType)players[1]).canUndo(false);
             }
         }
     }

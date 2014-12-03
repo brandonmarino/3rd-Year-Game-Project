@@ -1,34 +1,21 @@
 package Strategies.Alternative;
 
-import Boards.OthelloBoard;
 import common.Move;
-import java.util.ArrayList;
 
- /** Milestone 3, Author: Brandon Marino
- * will control it's own ranking system
+/**
+ * Created by Brandon on 11/20/14.
  */
 public class OthelloObstruct extends ObstructPlayerType {
     public OthelloObstruct(ObstructPlayerType player){
-        super(player.getBoard(),player.getPlayerNum());
+        super(player.getBoard(),player.getNumber());
     }
 
     /**
-     * Will check if the enemy can do something significantly bad to the player, if so, obstruct it
+     * Decrease the size of the flanking chane the opponent can impose on you
      * @param move some move
-     * @return the move rank
+     * @return the rank (the size of the flank, so lower is better here)
      */
     protected int rankObstruction(Move move){
-        int rank = super.rankObstruction(move);
-        OthelloBoard gameBoard = (OthelloBoard)getBoard().getClone();
-        gameBoard.switchcurrentPlayer();
-
-        //find the rank of this obstruction
-        ArrayList<Move> adjEnemies = gameBoard.findadjacentEnemies(move);
-        for(Move enemy: adjEnemies){
-            Move slope = new Move (enemy.getRow() - move.getRow(), enemy.getColumn() - move.getColumn());
-            rank += gameBoard.canFlank(move, slope);
-        }
-        return rank;
+        return 0;
     }
-
 }

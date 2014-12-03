@@ -13,6 +13,9 @@ import common.Move;
  *  Adapting Author: Brandon Marino
  *  -Implemented Sub/Superclass inheritance model in order to merge TicTacToe and Othello and reduce code replication
  *  -This Class is of a Generic of a size provided by a programmer/the user and will provide all of the functions required of some generic board game
+ * 
+ * Milestone 4:
+ *  -Undo/redo is only allowed if a human player is facing off against some type of robot. Allowing Human v. Human undo would ruin the point of the game.
  */
 
 public abstract class Board{
@@ -30,6 +33,10 @@ public abstract class Board{
     private PLAYER[][] board;
     private GAME_STATE currentState;
     private PLAYER currentPlayer;
+
+    //Stacks for undo/redo
+    private static ArrayList<Board> undoStack = new ArrayList<Board>();
+    private static ArrayList<Board> redoStack = new ArrayList<Board>();
 
     /**
      * Define a Generic Board
@@ -89,7 +96,6 @@ public abstract class Board{
     public int getDimensions(){
         return DIMENSIONS;
     }
-
     protected int[] getScores(){
         return new int[]{scores[0],scores[1]};
     }
@@ -156,7 +162,36 @@ public abstract class Board{
         return clonedBoard;
     }
 
+    /**
+     * Get a carbon copy of the subclass's board
+     * @return  the sub classes board
+     */
     public abstract Board getClone();
+
+
+    /**
+     * Get the last saved state of the game off the undo stack
+     * @return a saved state (last time a human user was allowed to move)
+     */
+    public static Board popUndo(PLAYER CurrentPlayer){
+        //make sure we are pulling the current player's state
+        if (undoStack.size() > 1) {
+            while (undoStack.size() > 1 && undoStack.get(1).getCurrentPlayer() != CurrentPlayer)
+                undoStack.remove(1);
+            return undoStack.remove(1);
+        }
+        return null;
+    }
+
+    /**
+     * Get the last saved state of the game off the redo stack
+     * @return a saved state (last time a human user assked to undo a move)
+     */
+    public static Board popRedo(){
+        if (redoStack.size() > 0)
+            return redoStack.remove(0);
+        return null;
+    }
 
     /******************************************************************************************************************************************************************
      * 												Setter Methods for variables and constants defined above
@@ -216,6 +251,35 @@ public abstract class Board{
      */
     public void switchcurrentPlayer(){
         this.currentPlayer = getEnemy();
+    }
+
+    /**
+     * Will store one board state in the static undo Stack
+     * @param board - some board state
+     */
+    public static void storeUndo (Board board){
+        undoStack.add(0,board.getClone());
+    }
+    /**
+     * Will store one board state in the static undo Stack
+     * @param board - some board state
+     */
+    public static void storeRedo (Board board){
+        redoStack.add(0,board.getClone());
+    }
+
+    /**
+     * Dump the undo stack
+     */
+    public static void dumpUndoStack (){
+        undoStack = new ArrayList<Board>();
+    }
+
+    /**
+     * Dump all entries into the redo stack, must be completed every turn.
+     */
+    public static void dumpRedoStack (){
+        redoStack = new ArrayList<Board>();
     }
 
     /**

@@ -2,11 +2,12 @@ package Strategies.Minimax;
 
 import Boards.Board;
 import java.util.ArrayList;
+import Boards.OthelloBoard;
 import PlayerTypes.PlayerType;
 import common.Move;
 
 /***********************************************************************************************************************************************************
- * 							MiniMaxPlayerType Picks a sophisticated move
+ * 							MiniMaxPlayerType Class creates Indexes for Row and Column to be Used in Board Classes
  ***********************************************************************************************************************************************************
 
  * Milestone 2, Author: Brandon Marino
@@ -17,7 +18,6 @@ import common.Move;
  * Currently this only works for Othello, We'll have to make some heavy modifications for it to work with our own game later
  */
 public class MinimaxPlayerType extends PlayerType {
-    private Board boardGame;
     public final int MAXDEPTH = 5;
     private int playernum;
     /**
@@ -25,7 +25,7 @@ public class MinimaxPlayerType extends PlayerType {
      * @param playernum needed for naming purposes
      */
     public MinimaxPlayerType(Board boardGame, int playernum) {
-        this.boardGame = boardGame;
+        super(boardGame,playernum);
         setName("Computer-MiniMax " + playernum);
         this.playernum = playernum;
     }
@@ -49,15 +49,8 @@ public class MinimaxPlayerType extends PlayerType {
     }
 
     /**
-     * Pass board to sub-class
-     */
-    protected Board getBoard(){
-        return boardGame;
-    }
-
-    /**
      * get player number for subclass copy constructor
-     * @return
+     * @return the playernum
      */
      protected int getPlayerNum(){
          return playernum;

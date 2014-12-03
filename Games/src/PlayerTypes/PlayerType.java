@@ -1,6 +1,6 @@
 package PlayerTypes;
 /***********************************************************************************************************************************************************
- * 											PlayerTypes Class Generates a Move to play on the board through some means
+ * 											PlayerTypes Class Generates Random Indexes for Row and Column to be Used in Board Class
  ***********************************************************************************************************************************************************
 
  ** Adapted from PlayerTypes source of TIC TAC TOE Authored by Lina
@@ -11,19 +11,24 @@ package PlayerTypes;
  * Changed both games to use the method Othello used, then made this a superclass of all move types
  */
 import java.util.ArrayList;
+
+import Boards.Board;
 import common.Move;
 
 public abstract class PlayerType
 {
 
     private ArrayList<Move> availableMoves;
-    private String name = "Computer";
-
+    protected Board boardGame;
+    private int playernum;
+    private String name;
     /**
      * Set the availableMoves arraylist to something to avoid null pointer
      */
-    public PlayerType(){
+    public PlayerType(Board boardGame, int playernum){
         availableMoves = new ArrayList<Move>();
+        this.playernum = playernum;
+        this.boardGame = boardGame;
     }
     /**
      * Tell object all of the possible moves that can be made on the board
@@ -58,6 +63,18 @@ public abstract class PlayerType
         return name;
     }
 
+    /**
+     * Return the current playernum
+     * @return some playernum
+     */
+    public int getNumber(){ return playernum;}
+    /**
+     * Get the board instance that this play is able to see
+     * @return the board
+     */
+    public Board getBoard(){
+        return boardGame;
+    }
     /**
      * Will clone a set of moves
      * @param originalMoves original set of moves

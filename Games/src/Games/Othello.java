@@ -1,6 +1,8 @@
 package Games;
 
 import Boards.OthelloBoard;
+import GUI.OthelloController;
+import PlayerTypes.HumanPlayerType;
 import PlayerTypes.PlayerType;
 import Strategies.Alternative.ObstructPlayerType;
 import Strategies.Alternative.OthelloObstruct;
@@ -52,16 +54,14 @@ public class Othello extends Game
     protected void getPlayerInfo(){
         super.getPlayerInfo();
         PlayerType[] players = getPlayers();
-        for(int i = 0; i< players.length; i++){
-            if (players[i] instanceof ObstructPlayerType){
+        for(int i = 0; i< players.length; i++)
+            if (players[i] instanceof ObstructPlayerType)
                 players[i] = new OthelloObstruct((ObstructPlayerType)players[i]);
-            }
-            if (players[i] instanceof MinimaxPlayerType){
+            else if (players[i] instanceof MinimaxPlayerType)
                 players[i] = new OthelloMinimax((MinimaxPlayerType)players[i]);
-            }
-            if (players[i] instanceof ObstructPlayerType){
+            else if (players[i] instanceof ObstructPlayerType)
                 players[i] = new OthelloObstruct((ObstructPlayerType)players[i]);
-            }
-        }
+            else if (players[i] instanceof HumanPlayerType && isGUI)
+                players[i] = new OthelloController( (HumanPlayerType)players[i] );
     }
 }

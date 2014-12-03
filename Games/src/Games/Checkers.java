@@ -35,17 +35,13 @@ public class Checkers extends Game {
     protected void getPlayerInfo(){
         super.getPlayerInfo();
         PlayerType[] players = getPlayers();
-        for(int i = 0; i< players.length; i++){
-            if (players[i] instanceof ObstructPlayerType){
+        for(int i = 0; i< players.length; i++)
+            if (players[i] instanceof ObstructPlayerType)
                 players[i] = new CheckersObstruct((ObstructPlayerType)players[i]);
-            }
-            if (players[i] instanceof MinimaxPlayerType){
+            else if (players[i] instanceof MinimaxPlayerType)
                 players[i] = new CheckersMinimax((MinimaxPlayerType)players[i]);
-            }
-            if (players[i] instanceof ObstructPlayerType){
+            else if (players[i] instanceof ObstructPlayerType)
                 players[i] = new CheckersObstruct((ObstructPlayerType)players[i]);
-            }
-        }
     }
 	
 }

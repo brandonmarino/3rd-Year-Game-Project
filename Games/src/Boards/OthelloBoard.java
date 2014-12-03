@@ -244,7 +244,6 @@ public class OthelloBoard extends Board {
     /********************************************************************************
      * 				Internal functions for use of Othello Logic
      ********************************************************************************
-
     /**
      * lower the current player's disk count by 1
      */

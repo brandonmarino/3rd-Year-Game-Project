@@ -40,16 +40,12 @@ public class TicTacToe extends Game{
     protected void getPlayerInfo(){
         super.getPlayerInfo();
         PlayerType[] players = getPlayers();
-        for(int i = 0; i< players.length; i++){
-            if (players[i] instanceof ObstructPlayerType){
+        for(int i = 0; i< players.length; i++)
+            if (players[i] instanceof ObstructPlayerType)
                 players[i] = new TicTacToeObstruct((ObstructPlayerType)players[i]);
-            }
-            if (players[i] instanceof MinimaxPlayerType){
+            else if (players[i] instanceof MinimaxPlayerType)
                 players[i] = new TicTacToeMinimax((MinimaxPlayerType)players[i]);
-            }
-            if (players[i] instanceof ObstructPlayerType){
+            else if (players[i] instanceof ObstructPlayerType)
                 players[i] = new TicTacToeObstruct((ObstructPlayerType)players[i]);
-            }
-        }
     }
 }

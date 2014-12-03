@@ -4,29 +4,20 @@ import Boards.Board;
 import PlayerTypes.PlayerType;
 import Strategies.Minimax.MinimaxPlayerType;
 import common.Move;
+import PlayerTypes.RandomPlayerType;
 import java.util.ArrayList;
 
-/***********************************************************************************************************************************************************
- * 							ObstructionPlayerType Class creates Indexes for Row and Column to be Used in Board Classes
- ***********************************************************************************************************************************************************
-
- * Milestone 3, Author: Brandon Marino
- * This is our alternative AI for the project
- *
- * Essentially it attempts to the other player from making a good move whenever possible.  If it can't block a move, it fallss back on minimax
+/**
+ * Created by Brandon on 11/20/14.
  */
 public class ObstructPlayerType extends PlayerType {
-    private Board gameBoard;
-    private int playernum;
-
     /**
      * Will define an obstruction super-class
      * @param gameBoard needed for obstruction testing
      *
      */
     public ObstructPlayerType(Board gameBoard, int playernum){
-        this.gameBoard = gameBoard;
-        this.playernum = playernum;
+        super(gameBoard,playernum);
         setName("Computer- Obstruction "+ playernum);
     }
     /**
@@ -49,35 +40,20 @@ public class ObstructPlayerType extends PlayerType {
         }
         if(bestObstructionScore == 0){
             // no obstructions found, just return a random of the set
-            PlayerType minimax = new MinimaxPlayerType(getBoard(),0);
-            minimax.setAvailableMoves(allMoves);
-            finalMove = minimax.getMove();
+            PlayerType Minimax = new MinimaxPlayerType(boardGame,0);
+            Minimax.setAvailableMoves(allMoves);
+            finalMove = Minimax.getMove();
         }else   finalMove = popMove(bestObstructionIndex);  //return the item in the set that performs the best possible obstruction
         return finalMove;
     }
 
     /**
      * Will check if the enemy can do something significantly bad to the player, if so, obstruct it
-     *
-     * I had to make a design choice to not making this function abstracted, not my preference
-     * @param move some move
-     *  @return its rank
+     * @param move some move to rank
+     * @return some rank
      */
-    protected int rankObstruction(Move move){return 0;}
-
-    /**
-     * Get board contained by this object
-     * @return get the internal board
-     */
-    protected Board getBoard(){
-        return gameBoard;
-    }
-    /**
-     * Get board contained by this object
-     * @return the current player's number
-     */
-    protected int getPlayerNum(){
-        return playernum;
+    protected int rankObstruction(Move move){
+        return 0;
     }
 
 }

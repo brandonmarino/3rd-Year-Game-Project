@@ -7,6 +7,11 @@ import java.util.Set;
 import common.CheckersMove;
 import common.Move;
 
+/**
+ * 
+ * @author Martin Massie 21/11/2014
+ *
+ */
 public class CheckersBoard extends Board {
 
 	private int forwards, deadRed, deadBlack;
