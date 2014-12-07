@@ -36,6 +36,7 @@ public class Move implements Cloneable{
     public Move(int row, int column, int worth){
         this.row = row;
         this.column = column;
+        this.worth = worth;
     }
 
     /*********************************************************************************
