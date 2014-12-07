@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import Boards.Board;
-import Boards.OthelloBoard;
 import PlayerTypes.HumanPlayerType;
 import PlayerTypes.PlayerType;
 
@@ -24,15 +23,15 @@ import common.Move;
  * -test for HumanPlayerTypeTEST Class
  * 
  * Edited by: Lina El Sadek
- * for Milestone 3
+ * for Milestone 3&4
  */
 
 public class HumanPlayerTypeTest {
 	 private PlayerType humanPlayerMove;
-
+	 private Board board;
 	    @Before
 	    public void setUp() {
-	        humanPlayerMove = new HumanPlayerType(new OthelloBoard(), 0);
+	        humanPlayerMove = new HumanPlayerType(board, 0);
 	    }
 
 	    @Test
