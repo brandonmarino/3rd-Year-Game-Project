@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import Boards.OthelloBoard;
+import Boards.Board;
 import PlayerTypes.PlayerType;
 import PlayerTypes.RandomPlayerType;
 
@@ -23,15 +23,15 @@ import common.Move;
  * -test for RandomPlayerTypeTEST Class
  * 
  * Edited by: Lina El Sadek
- * for Milestone 3 
+ * for Milestone 3 & 4 
  */
 
 public class RandomPlayerTypeTest {
 	private PlayerType randomPlayer; 
-	
+	private Board board;
 	 	@Before
 	    public void setUp() {
-		 randomPlayer = new RandomPlayerType(new OthelloBoard(), 0);
+		 randomPlayer = new RandomPlayerType(board,0);
 	    }
 
 	 	@Test
