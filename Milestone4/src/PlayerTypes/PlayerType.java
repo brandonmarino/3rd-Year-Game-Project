@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import Boards.Board;
 import common.Move;
 
-public abstract class PlayerType
+public abstract class PlayerType implements java.io.Serializable
 {
 
     private ArrayList<Move> availableMoves;
@@ -102,5 +102,6 @@ public abstract class PlayerType
      * Some method do find a move for the player to do
      * @return Use some possible method to find a possible move by this player
      */
-    public abstract Move getMove();
+    public abstract Move getMove(Games.Game game) ;
+      
 }

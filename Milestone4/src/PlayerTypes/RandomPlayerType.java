@@ -38,7 +38,7 @@ public class RandomPlayerType extends PlayerType
      * @return some random move
      */
     @Override
-    public Move getMove(){
+    public Move getMove(Games.Game game){
         if (getAvailableMoves().isEmpty())   //player cannot move
             return null;
         int val = randVal.nextInt(getAvailableMoves().size());   //seed with the number of moves

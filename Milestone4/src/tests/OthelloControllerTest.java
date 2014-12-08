@@ -68,7 +68,7 @@ public class OthelloControllerTest {
 	@Test
 	public void getMoveTest()
 	{
-		assertNull(OC.getMove());
+		assertNull(OC.getMove(null));
 		
 	}
 	

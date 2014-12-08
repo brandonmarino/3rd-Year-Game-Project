@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import Boards.Board;
 import common.Move;
 import common.GameInputException;
+import common.GameTerminatedException;
 
 /***********************************************************************************************************************************************************
  * 							HumanPlayerType Class creates Indexes for Row and Column to be Used in Board Classes
@@ -41,7 +42,8 @@ public class HumanPlayerType extends PlayerType {
      *  4 - Provide move choice to Board and Game
      * @return the user's choice
      */
-    public Move getMove(){
+    @Override
+    public Move getMove(Games.Game game){
         ArrayList<Move> moves = getAvailableMoves();
 
         if (moves.isEmpty())   //player cannot move
@@ -49,7 +51,7 @@ public class HumanPlayerType extends PlayerType {
 
         System.out.println(getName().toUpperCase()+"'S TURN");
         printMoves(moves);
-        int choice = getChoice(moves.size());
+        int choice = getChoice(moves.size(), game);
         return popMove(choice);
     }
 
@@ -85,7 +87,8 @@ public class HumanPlayerType extends PlayerType {
             System.out.println(choice + ": Row " + (move.getRow()+1) +", Column "+ (move.getColumn()+1) );
         }
         if(undoFlag)
-            System.out.println("undo: Undo your last move\nredo: Redo your last undo");
+            System.out.println("undo: Undo your last move\nredo: Redo your last undo"+
+                    "\nsave: Save your game.\nquit: Quit your game");
         System.out.println("Please choose one of the options:");
     }
 
@@ -94,12 +97,25 @@ public class HumanPlayerType extends PlayerType {
      * @param options the number of options that the user has
      * @return the option chosen
      */
-    private int getChoice(int options){
+    private int getChoice(int options, Games.Game game) throws common.GameTerminatedException {
         int choice = 0;
         while(true){
             try{
                 Scanner user_choice = new Scanner(System.in);
                 String input = user_choice.next();
+                if(input.toLowerCase().contains("save")){
+                    if(common.Util.serializeToFile(user_choice, game))
+                        //throw new common.GameTerminatedException("Game terminated by user"); 
+                    	//continue;
+                    	System.out.println("game saved successfully!");
+                    else {
+                        System.out.println("Re-enter your choice:");
+                        continue;
+                    }
+                }else if(input.toLowerCase().contains("quit")){
+                    throw new common.GameTerminatedException("Game terminated by user");
+                }
+                
                 if(undoFlag) {
                     if (input.toLowerCase().contains("undo")) {
                         Board undoBoard = Board.popUndo(boardGame.getCurrentPlayer());

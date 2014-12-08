@@ -35,7 +35,7 @@ public class MinimaxPlayerType extends PlayerType {
      * @return the best possible move
      */
     @Override
-    public Move getMove() {
+    public Move getMove(Games.Game game)throws common.GameTerminatedException{
         if (getAvailableMoves().isEmpty())   //player cannot move
             return null;
         Move mostWorthy = decision(boardGame.getClone(), getAvailableMoves(), 0);

@@ -3,7 +3,7 @@ package common;
 /**
  * Object that will contain a move and will rank that move
  */
-public class Move implements Cloneable{
+public class Move implements Cloneable, java.io.Serializable{
 
     private int row;
     private int column;

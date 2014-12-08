@@ -39,12 +39,12 @@ public class RandomPlayerTypeTest {
 	        // test with case not enough available moves
 	        ArrayList<Move> availableMoves = new ArrayList<Move>();
 	        randomPlayer.setAvailableMoves(availableMoves);
-	        assertNull(randomPlayer.getMove());
+	        assertNull(randomPlayer.getMove(null));
 	        
 	        // test with case have an available moves
 	        availableMoves.add(new Move( 1,2 ));
 	        randomPlayer.setAvailableMoves(availableMoves);
-	        Move move = randomPlayer.getMove();
+	        Move move = randomPlayer.getMove(null);
 	        Move temp = new Move(1,2);
 	        assertEquals(temp, move);
 	        //assertTrue(randomPlayer.getAvailableMoves().isEmpty());
@@ -53,14 +53,14 @@ public class RandomPlayerTypeTest {
 	        availableMoves.add(new Move (1,2));
 	        availableMoves.add(new Move(2,1));
 	        randomPlayer.setAvailableMoves(availableMoves);
-	        randomPlayer.getMove();
+	        randomPlayer.getMove(null);
 	       // assertEquals(1, randomPlayer.getAvailableMoves().size());
-	        randomPlayer.getMove();
+	        randomPlayer.getMove(null);
 	       // assertTrue(randomPlayer.getAvailableMoves().isEmpty());
 	        
 	        availableMoves.add(new Move(2,3));
 	        randomPlayer.setAvailableMoves(availableMoves);
-	       Move move1 = randomPlayer.getMove();
+	       Move move1 = randomPlayer.getMove(null);
 	        assertNotEquals(temp, move1);	//testing for an invalid value
 	        temp = null;
 	        assertNull(temp);

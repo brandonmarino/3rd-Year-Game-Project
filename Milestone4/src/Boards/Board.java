@@ -2,6 +2,7 @@ package Boards;
 
 import java.util.ArrayList;
 import common.Move;
+
 /**
  * *********************************************************************************************************************************************************
  * Board Class Sets Up the board, Checks Winning Conditions, And Updates Status of a Generic Game
@@ -18,7 +19,7 @@ import common.Move;
  *  -Undo/redo is only allowed if a human player is facing off against some type of robot. Allowing Human v. Human undo would ruin the point of the game.
  */
 
-public abstract class Board{
+public abstract class Board implements java.io.Serializable{
     //Fields for generic 2 player board game
     public enum GAME_STATE {PLAYING, DRAW, PLAYER1_WON, PLAYER2_WON}
     public enum PLAYER {EMPTY, PLAYER1, PLAYER2}

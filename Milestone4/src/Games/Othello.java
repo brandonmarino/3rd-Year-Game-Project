@@ -43,7 +43,7 @@ public class Othello extends Game
      * Take a turn
      * @return if a turn was successfully completed
      */
-    protected boolean takeTurn(PlayerType move){
+    protected boolean takeTurn(PlayerType move)throws common.GameTerminatedException{
         boolean takeTurn = super.takeTurn(move);
         ((OthelloBoard)boardGame).setMoved(takeTurn);
         return takeTurn;

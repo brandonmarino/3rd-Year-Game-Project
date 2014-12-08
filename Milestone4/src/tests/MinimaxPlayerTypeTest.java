@@ -46,7 +46,7 @@ public class MinimaxPlayerTypeTest {
 	@Test
 	public void  getMoveTest()
 	{
-		assertNull(MPT.getMove());
+		assertNull(MPT.getMove(null));
 	}
 
 }

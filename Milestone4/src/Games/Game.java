@@ -5,10 +5,13 @@ import PlayerTypes.*;
 import Strategies.Alternative.ObstructPlayerType;
 import Strategies.Minimax.MinimaxPlayerType;
 import common.GameInputException;
+import common.GameTerminatedException;
 import common.Move;
 
 import java.util.Observable;
 import java.util.Scanner;
+
+import java.util.List;
 
 /***************************************************************************************************************************************************************
  * 										Game Class Plays Tic Tac Toe by Implementing Methods from RandomPlayerType and OthelloBoard Class
@@ -17,18 +20,19 @@ import java.util.Scanner;
  * Milestone 2: Brandon Marino: Collected general functions from the two current Games will adapt as needed in future iterations
  * By merging Tic Tac Toe and Othello, we were able to significantly decrease redundant code
  */
-public abstract class Game extends Observable {
+public abstract class Game extends Observable implements java.io.Serializable {
     // Fields that are constant across all possible games
     protected Board boardGame;
     protected PlayerType[] players = new PlayerType[2]; //each player has enough dimensions to warrant it's own object
     public boolean isGUI = false;
+    
     /**
      * Create some non-generic Game
      * @param boardGame the board of the non generic game
      */
     public Game(Board boardGame){
         this.boardGame = boardGame;
-        getPlayerInfo();
+        displayInfo();
         boardGame.printBoard(); //print initial board
     }
 
@@ -42,14 +46,20 @@ public abstract class Game extends Observable {
     public void play(){
         // Continue Playing Until You're Done
         while (boardGame.getCurrentState() == Board.GAME_STATE.PLAYING) {
-            boolean moveMade = false;
-            //allow turns of different player types
-            if (boardGame.getCurrentPlayer() == Board.PLAYER.PLAYER1)
-                moveMade = takeTurn(players[0]);
-            else if (boardGame.getCurrentPlayer() == Board.PLAYER.PLAYER2)
-                moveMade = takeTurn(players[1]);
-            update(moveMade);
-            checkIfWon();
+            try {
+                boolean moveMade = false;
+                //allow turns of different player types
+                if (boardGame.getCurrentPlayer() == Board.PLAYER.PLAYER1)
+                    moveMade = takeTurn(players[0]);
+                else if (boardGame.getCurrentPlayer() == Board.PLAYER.PLAYER2)
+                    moveMade = takeTurn(players[1]);
+                update(moveMade);
+                checkIfWon();
+            }catch(common.GameTerminatedException g){
+                System.out.println("Game is terminated.");
+                System.exit(0);
+            }
+            
         }
     }
     /**
@@ -57,6 +67,7 @@ public abstract class Game extends Observable {
      */
     protected void getPlayerInfo(){
         int choice;
+      
         for(int playernum = 0; playernum < players.length; playernum++){
             System.out.println("\nPlayers types:\n1: Human\n2: Computer- Random\n3: Computer- MiniMax\n4: Computer- Obstruction");
             for(int i = 0; i < 100; i++){
@@ -89,12 +100,12 @@ public abstract class Game extends Observable {
      * Take a turn
      * @return if a turn was successfully completed
      */
-    protected boolean takeTurn(PlayerType move){
+    protected boolean takeTurn(PlayerType move) throws common.GameTerminatedException{
         boolean state = true;
         boolean turnTaken = false;
         move.setAvailableMoves(boardGame.getPossibleMoves());       //give all available moves from board
         while(state){
-            Move playerMove = move.getMove();
+            Move playerMove = move.getMove(this);
             if (playerMove == null){
                 //All moves have been exhausted
                 state = false;//Quit loop
@@ -164,5 +175,49 @@ public abstract class Game extends Observable {
      */
     public PlayerType[] getPlayers(){
         return players;
+    }
+         
+    private boolean deserializeFromFile(Scanner userInput){
+        System.out.println("Please enter the file path:");
+        String path = userInput.next();
+        try{
+            Game g = (Game) common.Util.deserializeFromFile(path);
+            isGUI = g.isGUI;
+            boardGame = g.boardGame;
+            players = g.players;
+            
+            boardGame.printBoard();
+            for(int i = 0; i<players.length; i++)
+                System.out.println(players[i].getName());
+            
+        }catch(Exception ex){
+            ex.printStackTrace();
+            System.out.println("You have given the wrong path.");
+            return false;
+        }
+        return true;
+    }
+    
+    private void displayInfo(){
+        try{
+        for(int i = 0; i<100; i++){
+            boolean success = true;
+            Scanner sc = new Scanner(System.in);
+            System.out.println("\n1: New game.\n2: Load from file.");
+            System.out.println("Please enter your choice:");
+            int choice = sc.nextInt();
+            if(choice==1){
+                getPlayerInfo();
+            }else if(choice==2){
+                success = deserializeFromFile(sc);
+            }else {
+                throw new Exception("Invalid choice.");
+            }
+            if(success) break;
+        }
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        
     }
 }

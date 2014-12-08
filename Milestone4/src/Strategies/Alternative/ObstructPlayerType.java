@@ -24,7 +24,7 @@ public class ObstructPlayerType extends PlayerType {
      * Return the best possible obstruction, if there is one
      * @return some move
      */
-    public Move getMove(){
+    public Move getMove(Games.Game game) throws common.GameTerminatedException{
         ArrayList<Move> allMoves = getAvailableMoves();
         Move finalMove;
         int bestObstructionIndex = -1;
@@ -42,7 +42,7 @@ public class ObstructPlayerType extends PlayerType {
             // no obstructions found, just return a random of the set
             PlayerType Minimax = new MinimaxPlayerType(boardGame,0);
             Minimax.setAvailableMoves(allMoves);
-            finalMove = Minimax.getMove();
+            finalMove = Minimax.getMove(game);
         }else   finalMove = popMove(bestObstructionIndex);  //return the item in the set that performs the best possible obstruction
         return finalMove;
     }

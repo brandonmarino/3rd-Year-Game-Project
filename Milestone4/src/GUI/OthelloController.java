@@ -49,7 +49,7 @@ public class OthelloController extends PlayerType implements ActionListener {
 	 * to be pressed and makes the selection
 	 */
 	@Override
-	public Move getMove() {
+	public Move getMove(Games.Game game) throws common.GameTerminatedException{
 		ArrayList<Move> moves = getAvailableMoves();
 		if (moves.isEmpty()) return null;
 		boolean goodMove = false;
