@@ -127,6 +127,18 @@ public class BoardTest {
         	move.setRow(3);
 	        board.setCell(Board.PLAYER.PLAYER2, move);
 	        assertEquals(Board.PLAYER.PLAYER2, board.getCell(move));
+	        
+	        //Tries to set a cell out of bounds
+	         try{
+	        		move.setColumn(9);
+	        		move.setRow(9);
+	        		board.setCell(Board.PLAYER.PLAYER1, move);
+	        		fail("Out of bound index, cannot place cell");
+	        }catch (IndexOutOfBoundsException e)
+	        {
+	        	assertEquals("9", e.getMessage());
+	        	
+	        }
 	    }
 	    
 	    //testing that there are not any moves out of the board size 
