@@ -55,6 +55,18 @@ public class OthelloBoardTest {
         move.setColumn(2);
         move.setRow(2);
         assertEquals(Board.PLAYER.PLAYER2, board.getCell(move));
+        
+        //Error handling 
+        try{
+    		move.setColumn(9);
+    		move.setRow(9);
+    		board.setCell(Board.PLAYER.PLAYER1, move);
+    		fail("Out of bound index, cannot place cell");
+    }catch (IndexOutOfBoundsException e)
+    {
+    	assertEquals("9", e.getMessage());
+    	
+    }
     }
 
     @Test
