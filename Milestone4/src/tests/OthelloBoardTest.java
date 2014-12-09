@@ -83,10 +83,19 @@ public class OthelloBoardTest {
         move.setRow(3);
         assertFalse(board.attemptMove(move));
         
-        //Test if out of bound is prohibited
-        move.setColumn(9);
-        move.setRow(9);
-        assertFalse(board.attemptMove(move));
+    
+       //Test if out of bound is prohibited
+        try
+        {
+        	move.setColumn(9);
+        	move.setRow(9);
+        	assertFalse(board.attemptMove(move));
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+        	assertEquals("9", e.getMessage());
+        	
+        }
         
         //test attempt Integer[] return false because player Integer[] to wrong tile
         //in this test, we assume PLAYER 1 and PLAYER 2 has been played like
@@ -204,6 +213,19 @@ public class OthelloBoardTest {
         move.setColumn(3);
         move.setRow(2);
         board.setCell(PLAYER.PLAYER2, move);
+        //Test if out of bound is prohibited
+        try
+        {
+        	move.setColumn(9);
+        	move.setRow(9);
+        	 board.setCell(PLAYER.PLAYER1, move);
+        	 fail("Index out of bound");
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+        	assertEquals("9", e.getMessage());
+        	
+        }
         move.setColumn(3);
         move.setRow(3);
         board.setCell(PLAYER.PLAYER2, move);
