@@ -1,4 +1,4 @@
-package tests;
+package Testing;
 
 
 import static org.junit.Assert.*;
@@ -7,6 +7,7 @@ import org.junit.*;
 
 import Boards.Board;
 import GUI.OthelloController;
+import Games.Othello;
 import PlayerTypes.HumanPlayerType;
 
 import java.io.ByteArrayInputStream;
@@ -68,7 +69,8 @@ public class OthelloControllerTest {
 	@Test
 	public void getMoveTest()
 	{
-		assertNull(OC.getMove(null));
+		Othello Oth = new Othello();
+		assertNull(OC.getMove(Oth));
 		
 	}
 	
