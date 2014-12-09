@@ -36,11 +36,19 @@ public class CheckersRandomPlayer {
 	}
 	//Testing the board for win based on the moves made 
 	@Test
-	public void test1() {
-		checkers.play();
+	public void constructorTest()
+	{
+		assertNotNull(checkers);
+		assertNotNull(checkers.getBoard());
+		assertNotNull(checkers.getPlayers());
+		
+	}
+	
+	@Test
+	public void test() {
 		Board board = checkers.getBoard();
-
-		assertFalse(!(board.getCurrentState() == GAME_STATE.PLAYER2_WON || board.getCurrentState() == GAME_STATE.PLAYER1_WON));
+		
+		assertTrue(!(board.getCurrentState() == GAME_STATE.PLAYER2_WON || board.getCurrentState() == GAME_STATE.PLAYER1_WON));
 
 	}
 }
