@@ -17,6 +17,16 @@ Undo Redo Design Decision...
 
 
 Save Load Design Decision...
+the save and load features in the project were done by making the some of the classes serializable such as Boards ,Game, and PlayerType so the object of that class can be stored as sequence of bytes with their information 
+to save the file, it must be serialaized to a file by using ObjectOutputStream method that is provided by importing seralizable class in the project. In our project serializeToFile method was 
+created in Util class and it uses writeObject to write the object to output file. 
+to load a file, the saved file must be deserialiazed by calling ObjectInputStream which has a method called readObject that will read the desired information from the file. This is implemented in Util class as well in 
+the deserializeFromFile method and it reads the file name. 
+-When any of the games is executed, the options are 1-New Game 2-Load Game. To load a game, a file must existed before and if  there is a file, the program is going to ask for the file bath and it can be entered as follows:
+C://User/Documents/Game/saved.txt 
+Then the game will start from the saved point. Every time the player makes a move, a number of options will appear along with the available moves. If save was enter, then the program will ask for the path of the file, an example is:
+C://User/Documents/Game/save.txt 
+and the game will continue running. 
 
 
 JUnit Design Decision...
