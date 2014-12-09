@@ -46,6 +46,33 @@ public class TicTacToeBoardTest {
 	{
 		TicTacToeBoard b = new TicTacToeBoard();
 		Move move = new Move();
+		//Test if out of bound is prohibited
+        try
+        {
+        	move.setColumn(9);
+        	move.setRow(9);
+        	b.attemptMove(move);
+        	fail("Index out of bound");
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+        	assertEquals("9", e.getMessage());
+        	
+        }
+        
+      //Test if out of bound is prohibited
+        try
+        {
+        	move.setColumn(4);
+        	move.setRow(3);
+        	b.attemptMove(move);
+        	fail("Index out of bound");
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+        	assertEquals("3", e.getMessage());
+        	
+        }
 		//Making different moves by setting different values to rows and columns 
 		
 		move.setColumn(0);
@@ -102,6 +129,21 @@ public class TicTacToeBoardTest {
 	{
 		TicTacToeBoard b = new TicTacToeBoard();
 		Move move = new Move();
+		
+		/Test if out of bound is prohibited
+		 try
+		 {
+        		move.setColumn(6);
+        		move.setRow(3);
+        		b.attemptMove(move);
+        		fail("Index out of bound");
+        	}
+        	catch (IndexOutOfBoundsException e)
+        	{
+        		assertEquals("3", e.getMessage());
+        	}
+        
+        
 		b.setcurrentPlayer(PLAYER.PLAYER1);
 		//Test 1 - horizontal
 		move.setColumn(0);
