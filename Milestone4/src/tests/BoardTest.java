@@ -30,6 +30,7 @@ public class BoardTest {
 	 private Board board;
 	 private Move move;
 
+	 //setting uo the Board for testing 
 	 	@Before
 	    public void setUp() {
 		    board = new Board(4) {
@@ -61,6 +62,7 @@ public class BoardTest {
 	 
 	 }
 	 
+	 	//test if the board has a proper dimensions and palyers
 	 	@Test
 	    public void testProperties() {
 	 		assertEquals(4, board.DIMENSIONS);
@@ -104,6 +106,7 @@ public class BoardTest {
 //	        }
 //	    }
 
+	 	// testing set/get methods in the board 
 	    @Test
 	    public void testGetSetMethod() {
 	        // test set/get current player
@@ -126,6 +129,7 @@ public class BoardTest {
 	        assertEquals(Board.PLAYER.PLAYER2, board.getCell(move));
 	    }
 	    
+	    //testing that there are not any moves out of the board size 
 	    @Test
 	    public void testIsWithInBounds() {
 	        // test return false 1
@@ -185,7 +189,8 @@ public class BoardTest {
 //	        assertEquals(Board.PLAYER.EMPTY, board.getEnemy());
 //		 
 //	 }
-	 
+	    
+	 //Testing the updateGame by getting the current state of the board 
 	 @Test
 	    public void testUpdateGame() {
 	        // test game is running

@@ -19,10 +19,11 @@ public class CheckersGameTest {
 	
 	Checkers checkers;
 	
+	// Test for CheckersGame class 
 	@Before
     public void setUp() throws UnsupportedEncodingException {
 		
-		
+		// to simulate players moves 
 		InputStream old = System.in;
 		try {
 			String data = "2\r\n2";
@@ -38,7 +39,7 @@ public class CheckersGameTest {
 		}
 		
     }
-
+	//testing the number of players and making Random palyer 
 	@Test
 	public void test() {
 		 assertEquals(2, checkers.getPlayers().length);

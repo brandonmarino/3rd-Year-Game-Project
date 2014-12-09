@@ -32,12 +32,14 @@ public class OthelloBoardTest {
     private Board board;
     private Move move;
 
+    //Setting up the Othello Board for testing 
     @Before
     public void setUp() {
         board = new OthelloBoard();
         move = new Move();
     }
 
+  //test if the board has a proper dimensions and palyers by making some moves and check the value of the move 
     @Test
     public void testProperties() {
         assertEquals(4, board.DIMENSIONS);

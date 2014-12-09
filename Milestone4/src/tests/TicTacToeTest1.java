@@ -25,9 +25,12 @@ public class TicTacToeTest1 {
 	@Before
     public void setUp() throws UnsupportedEncodingException{
 		TicTacToe ticTacToe;
-		
+		//Testing tictactoe by simulating two players inputs and make them play
+		//then check for winning player 
 		InputStream old = System.in;
 		try {
+			//Testing tictactoe by simulating two players inputs and make them play
+			//then check for winning player 
 			String data = "1 John 1 Joe 1 2 3 4 5";
 			InputStream testInput = new ByteArrayInputStream(data.getBytes("UTF-8"));
 		

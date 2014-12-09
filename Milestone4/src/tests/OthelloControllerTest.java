@@ -1,4 +1,4 @@
-package Testing;
+package tests;
 
 
 import static org.junit.Assert.*;
@@ -26,7 +26,7 @@ public class OthelloControllerTest {
 	private OthelloController OC;
 	//private OthelloButton OB;
 	
-	
+	//Setting up the OthelloController for testing 
 	@Before
 	public void setUp()
 	{
@@ -47,7 +47,7 @@ public class OthelloControllerTest {
 		
 		
 	}
-	
+	//testing the constructor by comparing to null  
 	@Test
 	public void ConstructorTest()
 	{
@@ -66,6 +66,7 @@ public class OthelloControllerTest {
 		
 	}*/
 	
+	//Testing getMove from Othello 
 	@Test
 	public void getMoveTest()
 	{

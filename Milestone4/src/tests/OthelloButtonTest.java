@@ -18,7 +18,7 @@ public class OthelloButtonTest {
 	private PLAYER player;
 	private Color c;
 	
-	
+	//Testing the OthelloButton 
 	
 	@Before
 	public void setUp()
@@ -29,14 +29,14 @@ public class OthelloButtonTest {
 		
 	}
 	
+	//Testing that the button is not null 
 	@Test
 	public void ConstructorTest()
 	{
-		
-		
 		assertNotNull(OB);
 	}
 	
+	//Testing the setIcon by assigning buttons to each player 
 	@Test
 	public void setIconTest()
 	{
@@ -45,12 +45,13 @@ public class OthelloButtonTest {
 		
 		OB.setIcon(PLAYER.PLAYER1);
 		assertEquals(PLAYER.PLAYER1, OB.getPlayer());
-		
+		//test case where player is EMPTY
 		OB.setIcon(PLAYER.EMPTY);
 		assertEquals(PLAYER.EMPTY, OB.getPlayer());
 
 	}
 	
+	//Test if the players were assigned correctly 
 	@Test
 	public void getPlayerTest()
 	{
@@ -76,6 +77,7 @@ public class OthelloButtonTest {
 
 	}
 	
+	//Testing the flipIcon method where they will get each others icons 
 	@Test
 	public void flipIconTest()
 	{
@@ -91,7 +93,7 @@ public class OthelloButtonTest {
 		
 		
 	}
-	
+	//The following test is for getting the X dimension 
 	@Test
 	public void getXTest()
 	{
@@ -99,7 +101,7 @@ public class OthelloButtonTest {
 		assertNotEquals(-1, OB.getX());
 		
 	}
-	
+	//The following test is for getting the Y dimension
 	@Test
 	public void getYTest()
 	{
@@ -107,7 +109,7 @@ public class OthelloButtonTest {
 		assertNotEquals(-1, OB.getY());
 		
 	}
-	
+	//Testing toSring method
 	@Test
 	public void toStringTest()
 	{

@@ -22,7 +22,7 @@ public class CheckersRandomPlayer {
 
 	@Before
     public void setUp() throws UnsupportedEncodingException{
-		
+		// to simulate players moves
 		InputStream old = System.in;
 		try {
 			String data = "2 3";
@@ -34,7 +34,7 @@ public class CheckersRandomPlayer {
 			System.setIn(old);
 		}
 	}
-	
+	//Testing the board for win based on the moves made 
 	@Test
 	public void test1() {
 		checkers.play();

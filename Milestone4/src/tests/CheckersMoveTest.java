@@ -9,6 +9,7 @@ import common.Move;
 
 public class CheckersMoveTest {
 	
+	// Testing the move of checkers by making a move then comparing to a CheckersMove 
 	@Test
 	public void ConstructorTest() {
 		Move move = new Move(3, 3);

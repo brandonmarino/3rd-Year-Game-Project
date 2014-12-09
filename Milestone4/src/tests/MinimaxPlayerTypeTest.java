@@ -19,7 +19,7 @@ public class MinimaxPlayerTypeTest {
 	private MinimaxPlayerType MPT;
 	private PlayerType PT;
 	private Board board;
-	
+	//Setting up the MinimaxPlayerType test 
 	@Before
 	public void setUp()
 	{
@@ -37,6 +37,7 @@ public class MinimaxPlayerTypeTest {
 		}
 	}
 	
+	//testing the constructor by comparing to null  
 	@Test
 	public void constructorTest()
 	{
@@ -44,6 +45,7 @@ public class MinimaxPlayerTypeTest {
 		assertNotNull(PT);	
 	}
 	
+	//Creating Othello game and getting a Minimax Move from it  
 	@Test
 	public void  getMoveTest()
 	{

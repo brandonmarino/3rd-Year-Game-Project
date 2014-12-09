@@ -19,11 +19,11 @@ import PlayerTypes.RandomPlayerType;
 public class OthelloGameTest {
 	
 	Othello othello;
-	
+	// Test for CheckersGame class 
 	@Before
     public void setUp() throws UnsupportedEncodingException {
 		
-		
+		// to simulate players moves
 		InputStream old = System.in;
 		try {
 			String data = "2\r\n2";
@@ -39,7 +39,7 @@ public class OthelloGameTest {
 		}
 		
     }
-
+	//testing the number of players and making Random player 
 	@Test
 	public void test() {
 		 assertEquals(2, othello.getPlayers().length);

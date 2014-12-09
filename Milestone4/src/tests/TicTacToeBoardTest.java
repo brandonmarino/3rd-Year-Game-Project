@@ -19,7 +19,8 @@ import common.Move;
 */
 
 public class TicTacToeBoardTest {
-			
+	
+	//Testing the Constructor of the TicTacToe board 		
 	@Test
 	public void ConstructorTest() {
 		TicTacToeBoard b = new TicTacToeBoard();
@@ -27,7 +28,7 @@ public class TicTacToeBoardTest {
 		assertEquals(Board.PLAYER.PLAYER1,b.getCurrentPlayer());
 	}
 	
-	
+	//Setting players on the board 
 	@Test
 	public void BasicSetterTesting()
 	{
@@ -39,12 +40,13 @@ public class TicTacToeBoardTest {
 		assertNotEquals(GAME_STATE.PLAYER1_WON,b.getCurrentState());
 	}
 	
-	
+	//Making some moves and testing attemptMove
 	@Test
 	public void TicTacToeBoardTestAndDraw()
 	{
 		TicTacToeBoard b = new TicTacToeBoard();
 		Move move = new Move();
+		//Making different moves by setting different values to rows and columns 
 		
 		move.setColumn(0);
         move.setRow(0);

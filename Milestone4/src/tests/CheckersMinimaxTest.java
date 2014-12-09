@@ -28,7 +28,7 @@ public class CheckersMinimaxTest {
 	private  MinimaxPlayerType MPT;
 	private CheckersMinimax CMT;
 	
-	
+	//Setting up the checkers class to test the minimax by making a human player and minimax player 
 	@Before
 	public void setUp()
 	{
@@ -48,6 +48,7 @@ public class CheckersMinimaxTest {
 		
 	}
 	
+	//testing the constructor by comparing to null  
 	@Test
 	public void constructorTest()
 	{

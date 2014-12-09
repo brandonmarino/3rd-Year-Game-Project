@@ -25,7 +25,7 @@ public class TicTacToeMinimaxTest {
 	private MinimaxPlayerType MPT;
 	private PlayerType PT;
 	private Board board;
-	
+	//Setting up the checkers class to test the minimax by making a human player and minimax player 
 	@Before
 	public void setUp()
 	{
@@ -43,7 +43,7 @@ public class TicTacToeMinimaxTest {
 			e.printStackTrace();
 		}
 	}
-	
+	//testing the constructor by comparing to null 
 	@Test
 	public void constructorTest()
 	{

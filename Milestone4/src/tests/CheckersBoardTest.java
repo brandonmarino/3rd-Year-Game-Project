@@ -15,6 +15,7 @@ import Boards.Board.PLAYER;
 
 public class CheckersBoardTest {
 	
+	//Testing the Constructor of the CheckersBoard 
 	@Test
 	public void ConstructorTest() {
 		CheckersBoard b = new CheckersBoard();
@@ -22,6 +23,7 @@ public class CheckersBoardTest {
 		assertEquals(Board.PLAYER.PLAYER1, b.getCurrentPlayer());
 	}
 
+	//Testing setting the two players on the CheckersBoard and setting the game state to DRAW 
 	@Test
 	public void BasicSetterTesting() {
 		CheckersBoard b = new CheckersBoard();
@@ -32,6 +34,7 @@ public class CheckersBoardTest {
 		
 	}
 	
+	//A test for counting the spaces for each player then moving the player to test the attempt move 
 	@Test
 	public void countSpacesTestAndAtamptMove() {
 		CheckersBoard b = new CheckersBoard();
