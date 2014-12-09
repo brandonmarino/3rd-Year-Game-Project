@@ -1,8 +1,61 @@
 
 Phoenix
-Milestone 3
+Milestone 4
 Project Authors: Lina El Sadek, Brandon Marino, Martin Massie, Osama BuHamad
 =======
+==============================================================================================================================
+                                                  Milestone 4
+==============================================================================================================================
+
+Overview on MileStone 4...
+We have created several features to our Othello game. Those features include: Save, load, undo, and redo. In addition to that,
+we have created tests classes for everything that was missing testing. Finally, we attempted the bonus which is porting to an
+Android App.
+
+
+Undo Redo Design Decision...
+
+
+Save Load Design Decision...
+
+
+JUnit Design Decision...
+Used Black Box technique as well as rigorous testing cases to ensure our program behaved the way it is supposed to. Moreover, invalid
+test cases were included.
+Also, we have included error handling especially to our board classes as they are more error prone to out of bound indexing issues.
+
+
+Improvements Made Since Milestone 3...
+- Fixed ReadMe file
+- Fixed UML Diagrams - Added additional classes
+- JUnit testing includes error handling
+- Added missing tests
+- Added comments as to what each test does
+- Removed duplicate code between Minimax and MinimaxPlayerType
+
+Reasons Why some issues were not resolved...
+- Cannot remove current player and game state from Board Class as it requires changing all classes and tests. This was supposed to be
+mentioned earlier.
+- Some inherited methods were not tested as they were tested in main Class
+
+
+Team Members Responsible for Deliverables....
+1) JUnit ....... Lina
+2) Save/Load  ....... Osama
+3) Undo/Redo  ...... Brandon 
+4) JUnit ..... Martin
+5) UML Diagrams .... Osama
+
+TO RUN
+  Either open a command window, cd into the folder holding the respective .jar file (they are available in the
+  main 'phoenix' folder), once in the folder, simply execute the command 'java -jar PhoenixMileStone3.jar' or 'java -jar Checkers.jar'
+  or 'java -jar Othello.jar' or 'java -jar OthelloGui.jar' or 'java -jar TicTacToe.jar'.  The other option is to create a new project in 
+  eclipse with the packages 'Boards', 'Games', 'minimax', 'PlayerTypes', and 'common', 'strategies', ' alternative', and 'GUI'  then create 
+  empty classes with the names of each class found in each package and copy paste the code into those classes and run the project.
+
+Diagrams
+  All UML diagrams can be found in the respective project root folder.
+  ie: Phoenix-master.zip/phoenix-master/MileStone3UML
 ==============================================================================================================================
                                                   Milestone 3
 ==============================================================================================================================
