@@ -1,4 +1,4 @@
-package tests;
+package Testing;
 
 import static org.junit.Assert.*;
 
@@ -9,21 +9,29 @@ import java.util.Scanner;
 
 
 
+
+
 import org.junit.Before;
 import org.junit.Test;
 
 import Games.Checkers;
+import PlayerTypes.HumanPlayerType;
+import PlayerTypes.PlayerType;
 import PlayerTypes.RandomPlayerType;
 
+/**
+ * 
+ * @Edited by Lina El Sadek
+ *
+ */
 public class CheckersGameTest {
 	
 	Checkers checkers;
 	
-	// Test for CheckersGame class 
 	@Before
     public void setUp() throws UnsupportedEncodingException {
 		
-		// to simulate players moves 
+		
 		InputStream old = System.in;
 		try {
 			String data = "2\r\n2";
@@ -39,12 +47,14 @@ public class CheckersGameTest {
 		}
 		
     }
-	//testing the number of players and making Random palyer 
+	
+
 	@Test
 	public void test() {
 		 assertEquals(2, checkers.getPlayers().length);
-		 for (int i = 0; i < checkers.getPlayers().length; i++) {
-			 assertEquals(checkers.getPlayers()[0] instanceof RandomPlayerType, true);
+		 PlayerType[] p = checkers.getPlayers();
+		 for (int i = 0; i < p.length; i++) {
+			 assertEquals(checkers.getPlayers()[i] instanceof RandomPlayerType, false);
 		 }
 	}
 
