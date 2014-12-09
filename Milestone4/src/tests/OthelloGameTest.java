@@ -9,24 +9,30 @@ import java.util.Scanner;
 
 //import jdk.nashorn.internal.objects.annotations.Setter;
 
+
 import org.junit.Before;
 import org.junit.Test;
 
-
+import Boards.OthelloBoard;
 import Games.Othello;
 import PlayerTypes.RandomPlayerType;
 
+/**
+ * 
+ * @Edited by Lina El Sadek
+ *
+ */
 public class OthelloGameTest {
 	
 	Othello othello;
-	// Test for CheckersGame class 
+	
 	@Before
     public void setUp() throws UnsupportedEncodingException {
 		
-		// to simulate players moves
+		
 		InputStream old = System.in;
 		try {
-			String data = "2\r\n2";
+			String data = "1 John 2";
 			InputStream testInput = new ByteArrayInputStream(data.getBytes("UTF-8"));
 		
 			System.setIn(testInput);
@@ -39,12 +45,20 @@ public class OthelloGameTest {
 		}
 		
     }
-	//testing the number of players and making Random player 
+	
+	@Test
+	public void constructorTest()
+	{
+		assertNotNull(othello);
+		
+	}
+
 	@Test
 	public void test() {
 		 assertEquals(2, othello.getPlayers().length);
+		 System.out.println(othello.getPlayers()[0]);
 		 for (int i = 0; i < othello.getPlayers().length; i++) {
-			 assertEquals(othello.getPlayers()[0] instanceof RandomPlayerType, true);
+			 assertEquals(false, othello.getPlayers()[0] instanceof RandomPlayerType);
 		 }
 	}
 
