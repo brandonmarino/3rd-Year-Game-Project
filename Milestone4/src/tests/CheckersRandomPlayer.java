@@ -1,8 +1,5 @@
 package tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -16,6 +13,8 @@ import Boards.OthelloBoard;
 import Games.Checkers;
 import Games.Othello;
 import Games.TicTacToe;
+
+import static org.junit.Assert.*;
 
 public class CheckersRandomPlayer {
 	Checkers checkers;
@@ -38,8 +37,9 @@ public class CheckersRandomPlayer {
 	@Test
 	public void constructorTest()
 	{
+
 		assertNotNull(checkers);
-		assertNotNull(checkers.getBoard());
+        assertNotNull(checkers.getBoard());
 		assertNotNull(checkers.getPlayers());
 		
 	}
@@ -47,7 +47,6 @@ public class CheckersRandomPlayer {
 	@Test
 	public void test() {
 		Board board = checkers.getBoard();
-		
 		assertTrue(!(board.getCurrentState() == GAME_STATE.PLAYER2_WON || board.getCurrentState() == GAME_STATE.PLAYER1_WON));
 
 	}

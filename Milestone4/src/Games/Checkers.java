@@ -11,8 +11,10 @@ import Strategies.Minimax.MinimaxPlayerType;
 public class Checkers extends Game {
 	
 	public static void main(String[] args) {
-        Checkers game = new Checkers();
-        game.play();
+        for(int i = 0; i < 10; i++ ) {
+            Checkers game = new Checkers();
+            game.play();
+        }
     }
 	
 	public Checkers()

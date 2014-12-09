@@ -22,9 +22,9 @@ import Games.Othello;
 import Games.TicTacToe;
 
 public class TicTacToeTest1 {
-	@Before
+    TicTacToe ticTacToe;
+    @Before
     public void setUp() throws UnsupportedEncodingException{
-		TicTacToe ticTacToe;
 		//Testing tictactoe by simulating two players inputs and make them play
 		//then check for winning player 
 		InputStream old = System.in;

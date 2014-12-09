@@ -7,6 +7,7 @@ import Strategies.Minimax.MinimaxPlayerType;
 import common.GameInputException;
 import common.GameTerminatedException;
 import common.Move;
+import common.PlayerRequest;
 
 import java.util.Observable;
 import java.util.Scanner;
@@ -62,40 +63,15 @@ public abstract class Game extends Observable implements java.io.Serializable {
             
         }
     }
+
     /**
-     * Prompt user for the player info, names and the player type be-it human or computer
+     * Partially factored it out but due to the inheritance, the entire thing could not be removed
      */
     protected void getPlayerInfo(){
-        int choice;
-      
-        for(int playernum = 0; playernum < players.length; playernum++){
-            System.out.println("\nPlayers types:\n1: Human\n2: Computer- Random\n3: Computer- MiniMax\n4: Computer- Obstruction");
-            for(int i = 0; i < 100; i++){
-                try{
-                    Scanner user_input  = new Scanner(System.in);
-                    System.out.println("Please choose a player type from the options for Player "+ (playernum+1) + " by number:");
-                    choice = user_input.nextInt();
-                    if (choice == 1)
-                        players[playernum] = new HumanPlayerType(boardGame,playernum+1);
-                    else if (choice == 2)
-                        players[playernum] = new RandomPlayerType(boardGame,playernum+1);
-                    else if ( choice == 3 )
-                        players[playernum] = new MinimaxPlayerType(boardGame,playernum+1);  //change this to MinMaxMove!
-                    else if ( choice == 4 )
-                        players[playernum] = new ObstructPlayerType(boardGame,playernum+1);  //change this to MinMaxMove!
-                    else
-                        throw new GameInputException("Sorry, that is not an option!"); //This should be changed to a custom Exception!
-                    break;
-                }catch(GameInputException e){
-                    System.out.println(e.getMessage());
-                }
-            }
-            if(players[0] instanceof HumanPlayerType && players[1] instanceof HumanPlayerType) {
-                ((HumanPlayerType)players[0]).canUndo(false);
-                ((HumanPlayerType)players[1]).canUndo(false);
-            }
-        }
+        PlayerRequest request = new PlayerRequest();
+        players = request.getPlayerInfo(getBoard());
     }
+
     /**
      * Take a turn
      * @return if a turn was successfully completed
@@ -207,7 +183,8 @@ public abstract class Game extends Observable implements java.io.Serializable {
             System.out.println("Please enter your choice:");
             int choice = sc.nextInt();
             if(choice==1){
-                getPlayerInfo();
+                PlayerRequest request = new PlayerRequest();
+                players = request.getPlayerInfo(boardGame);
             }else if(choice==2){
                 success = deserializeFromFile(sc);
             }else {

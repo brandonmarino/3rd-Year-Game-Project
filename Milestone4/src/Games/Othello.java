@@ -28,8 +28,10 @@ public class Othello extends Game
      * Main run function
      */
     public static void main(String[] args) {
-        Othello game = new Othello();
-        game.play();
+        for(int i = 0; i < 10; i++ ) {
+            Othello game = new Othello();
+            game.play();
+        }
     }
 
     /**

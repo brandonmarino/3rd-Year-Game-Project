@@ -23,8 +23,10 @@ import Strategies.Minimax.TicTacToeMinimax;
 public class TicTacToe extends Game{
 
     public static void main(String[] args) {
-        TicTacToe game = new TicTacToe();
-        game.play();
+        for(int i = 0; i < 10; i++ ) {
+            TicTacToe game = new TicTacToe();
+            game.play();
+        }
     }
 
     /**
