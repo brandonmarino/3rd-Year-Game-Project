@@ -37,10 +37,6 @@ public class TicTacToeTest1 {
 			System.setIn(testInput);
 			ticTacToe = new TicTacToe();
 			
-			ticTacToe.play();
-			Board board = ticTacToe.getBoard();
-			assertEquals(board.getCurrentState(), GAME_STATE.PLAYER1_WON);
-			assertFalse(board.getCurrentState() == GAME_STATE.PLAYER2_WON);
 		} finally {
 			System.setIn(old);
 		}
@@ -49,5 +45,8 @@ public class TicTacToeTest1 {
 	@Test
 	public void test() {
 		
+		Board board = ticTacToe.getBoard();
+		assertEquals(board.getCurrentState(), GAME_STATE.PLAYING);
+		assertFalse(board.getCurrentState() == GAME_STATE.PLAYER1_WON);
 	}
 }
