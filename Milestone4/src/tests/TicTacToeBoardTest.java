@@ -130,7 +130,7 @@ public class TicTacToeBoardTest {
 		TicTacToeBoard b = new TicTacToeBoard();
 		Move move = new Move();
 		
-		/Test if out of bound is prohibited
+		//Test if out of bound is prohibited
 		 try
 		 {
         		move.setColumn(6);

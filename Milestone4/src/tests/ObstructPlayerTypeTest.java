@@ -1,9 +1,10 @@
-package Testing;
+package tests;
 
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import Games.Game;
 import org.junit.*;
 
 import common.Move;
@@ -16,7 +17,8 @@ import Boards.Board;
  *
  */
 public class ObstructPlayerTypeTest {
-	private Board board;
+	private Game game;
+    private Board board;
 	private ObstructPlayerType OPT;
 	
 	@Before
@@ -35,8 +37,7 @@ public class ObstructPlayerTypeTest {
 	@Test
 	public void getMoveTest()
 	{
-		Move m = new Move(0,0);
-		m = OPT.getMove();
+		Move m = OPT.getMove(game);
 		assertNull(m);
 		ArrayList<Move> move = new ArrayList<Move>();
 		move = OPT.getAvailableMoves();

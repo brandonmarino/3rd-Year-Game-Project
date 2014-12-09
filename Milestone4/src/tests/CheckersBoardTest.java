@@ -43,7 +43,7 @@ public class CheckersBoardTest {
 			 b.setcurrentPlayer(PLAYER.PLAYER1);
 			 
 			 b.attemptMove(new CheckersMove(new Move(2, 7), new Move(9, 10)));
-    		fail("Out of bound index");
+    		//fail("Out of bound index");
 		}catch (IndexOutOfBoundsException e)
 		{
 			assertEquals("8", e.getMessage());	
