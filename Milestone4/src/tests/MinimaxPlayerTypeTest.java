@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import org.junit.*;
 
 import Boards.Board;
+import Games.Othello;
 import PlayerTypes.HumanPlayerType;
 import PlayerTypes.PlayerType;
 import Strategies.Minimax.MinimaxPlayerType;
@@ -46,7 +47,8 @@ public class MinimaxPlayerTypeTest {
 	@Test
 	public void  getMoveTest()
 	{
-		assertNull(MPT.getMove(null));
+		Othello Oth = new Othello();
+		assertNull(MPT.getMove(Oth));
 	}
 
 }
