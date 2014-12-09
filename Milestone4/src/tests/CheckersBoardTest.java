@@ -39,6 +39,15 @@ public class CheckersBoardTest {
 	public void countSpacesTestAndAtamptMove() {
 		CheckersBoard b = new CheckersBoard();
 		assertEquals(b.countSpaces(PLAYER.PLAYER2), b.countSpaces(PLAYER.PLAYER1));
+		try{
+			 b.setcurrentPlayer(PLAYER.PLAYER1);
+			 
+			 b.attemptMove(new CheckersMove(new Move(2, 7), new Move(9, 10)));
+    		fail("Out of bound index");
+		}catch (IndexOutOfBoundsException e)
+		{
+			assertEquals("8", e.getMessage());	
+		}
 		b.setcurrentPlayer(PLAYER.PLAYER1);
 		b.attemptMove(new CheckersMove(new Move(2, 5), new Move(2, 7)));
 		assertTrue(b.countSpaces(PLAYER.PLAYER1) != b.countSpaces(PLAYER.PLAYER2));
